@@ -1,0 +1,1525 @@
+{
+  "id": "exp4-support_century_ride_proven_theme-ours_noneg",
+  "title": "Supporting Case: Century-Ride Proven Theme - Ours (NoNeg)",
+  "tagline": "Compare how negative pruning firmly adheres to a sparse theme and explicitly outscores unconstrained search via long 16-leg sweeps.",
+  "theme_tags": [
+    "exp2-supporting",
+    "exp2",
+    "century-ride",
+    "support_case"
+  ],
+  "start_stop": "豊浜団地／西鉄バス",
+  "start_time": "14:00",
+  "total_ride_minutes": 195,
+  "total_distance_km": 32.6,
+  "transfers": 25,
+  "wards": [
+    "福岡市内"
+  ],
+  "badges": [
+    "exp4"
+  ],
+  "legs": [
+    {
+      "sequence": 1,
+      "line_label": "44",
+      "line_name": "西鉄バス・３０１・普通・天神－住吉・博多駅行",
+      "line_id": "44",
+      "trip_id": "44-Up-862",
+      "from_stop": "豊浜団地／西鉄バス",
+      "to_stop": "天神ワンビル前／西鉄バス",
+      "from_code": "676888",
+      "to_code": "677774",
+      "departure": "14:22",
+      "arrival": "14:48",
+      "ride_minutes": 26,
+      "distance_km": 5.76,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.339602,
+            33.584185
+          ],
+          [
+            130.401708,
+            33.5875
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.584185,
+          "lon": 130.339602
+        },
+        {
+          "lat": 33.5875,
+          "lon": 130.401708
+        }
+      ],
+      "from_coord": {
+        "lat": 33.584185,
+        "lon": 130.339602
+      },
+      "to_coord": {
+        "lat": 33.5875,
+        "lon": 130.401708
+      }
+    },
+    {
+      "sequence": 2,
+      "line_label": "191",
+      "line_name": "西鉄バス・７・普通・姪浜駅南口行",
+      "line_id": "191",
+      "trip_id": "191-Down-892",
+      "from_stop": "天神ワンビル前／西鉄バス",
+      "to_stop": "六本松(福銀前)／西鉄バス",
+      "from_code": "677774",
+      "to_code": "676061",
+      "departure": "14:52",
+      "arrival": "15:07",
+      "ride_minutes": 15,
+      "distance_km": 2.5,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.401708,
+            33.5875
+          ],
+          [
+            130.379827,
+            33.574377
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.5875,
+          "lon": 130.401708
+        },
+        {
+          "lat": 33.574377,
+          "lon": 130.379827
+        }
+      ],
+      "from_coord": {
+        "lat": 33.5875,
+        "lon": 130.401708
+      },
+      "to_coord": {
+        "lat": 33.574377,
+        "lon": 130.379827
+      }
+    },
+    {
+      "sequence": 3,
+      "line_label": "1100",
+      "line_name": "西鉄バス・８・普通・博多駅行",
+      "line_id": "1100",
+      "trip_id": "1100-Down-912",
+      "from_stop": "六本松(福銀前)／西鉄バス",
+      "to_stop": "別府橋／西鉄バス",
+      "from_code": "676061",
+      "to_code": "675511",
+      "departure": "15:12",
+      "arrival": "15:13",
+      "ride_minutes": 1,
+      "distance_km": 0.25,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.379827,
+            33.574377
+          ],
+          [
+            130.377411,
+            33.573305
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.574377,
+          "lon": 130.379827
+        },
+        {
+          "lat": 33.573305,
+          "lon": 130.377411
+        }
+      ],
+      "from_coord": {
+        "lat": 33.574377,
+        "lon": 130.379827
+      },
+      "to_coord": {
+        "lat": 33.573305,
+        "lon": 130.377411
+      }
+    },
+    {
+      "sequence": 4,
+      "line_label": "124",
+      "line_name": "西鉄バス・６・普通・鳥飼－西新四－博物館南口・福岡タワー行",
+      "line_id": "124",
+      "trip_id": "124-Down-922",
+      "from_stop": "別府橋／西鉄バス",
+      "to_stop": "警固町／西鉄バス",
+      "from_code": "675511",
+      "to_code": "675325",
+      "departure": "15:22",
+      "arrival": "15:30",
+      "ride_minutes": 8,
+      "distance_km": 1.81,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.377411,
+            33.573305
+          ],
+          [
+            130.393994,
+            33.581908
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.573305,
+          "lon": 130.377411
+        },
+        {
+          "lat": 33.581908,
+          "lon": 130.393994
+        }
+      ],
+      "from_coord": {
+        "lat": 33.573305,
+        "lon": 130.377411
+      },
+      "to_coord": {
+        "lat": 33.581908,
+        "lon": 130.393994
+      }
+    },
+    {
+      "sequence": 5,
+      "line_label": "1231",
+      "line_name": "西鉄バス・１２・普通・六本松－赤坂門－天神・博多駅行",
+      "line_id": "1231",
+      "trip_id": "1231-Down-939",
+      "from_stop": "警固町／西鉄バス",
+      "to_stop": "駅前一丁目／西鉄バス",
+      "from_code": "675325",
+      "to_code": "675161",
+      "departure": "15:39",
+      "arrival": "16:03",
+      "ride_minutes": 24,
+      "distance_km": 2.45,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.393994,
+            33.581908
+          ],
+          [
+            130.418996,
+            33.589113
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.581908,
+          "lon": 130.393994
+        },
+        {
+          "lat": 33.589113,
+          "lon": 130.418996
+        }
+      ],
+      "from_coord": {
+        "lat": 33.581908,
+        "lon": 130.393994
+      },
+      "to_coord": {
+        "lat": 33.589113,
+        "lon": 130.418996
+      }
+    },
+    {
+      "sequence": 6,
+      "line_label": "3610",
+      "line_name": "西鉄バス・２０５・普通・福重－中村－拾六町団地・野方行",
+      "line_id": "3610",
+      "trip_id": "3610-Up-969",
+      "from_stop": "駅前一丁目／西鉄バス",
+      "to_stop": "中洲・南新地／西鉄バス",
+      "from_code": "675161",
+      "to_code": "675162",
+      "departure": "16:09",
+      "arrival": "16:15",
+      "ride_minutes": 6,
+      "distance_km": 0.69,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.418996,
+            33.589113
+          ],
+          [
+            130.411644,
+            33.588177
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.589113,
+          "lon": 130.418996
+        },
+        {
+          "lat": 33.588177,
+          "lon": 130.411644
+        }
+      ],
+      "from_coord": {
+        "lat": 33.589113,
+        "lon": 130.418996
+      },
+      "to_coord": {
+        "lat": 33.588177,
+        "lon": 130.411644
+      }
+    },
+    {
+      "sequence": 7,
+      "line_label": "117",
+      "line_name": "西鉄バス・６－１・普通・キャナル博多・博多駅行",
+      "line_id": "117",
+      "trip_id": "117-Down-992",
+      "from_stop": "中洲・南新地／西鉄バス",
+      "to_stop": "駅前三丁目／西鉄バス",
+      "from_code": "675162",
+      "to_code": "675150",
+      "departure": "16:32",
+      "arrival": "16:35",
+      "ride_minutes": 3,
+      "distance_km": 0.41,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.411644,
+            33.588177
+          ],
+          [
+            130.415827,
+            33.586944
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.588177,
+          "lon": 130.411644
+        },
+        {
+          "lat": 33.586944,
+          "lon": 130.415827
+        }
+      ],
+      "from_coord": {
+        "lat": 33.588177,
+        "lon": 130.411644
+      },
+      "to_coord": {
+        "lat": 33.586944,
+        "lon": 130.415827
+      }
+    },
+    {
+      "sequence": 8,
+      "line_label": "3536",
+      "line_name": "西鉄バス・９０・普通・博多埠頭行",
+      "line_id": "3536",
+      "trip_id": "3536-Up-1012",
+      "from_stop": "駅前三丁目／西鉄バス",
+      "to_stop": "駅南二丁目／西鉄バス",
+      "from_code": "675150",
+      "to_code": "675152",
+      "departure": "16:52",
+      "arrival": "17:05",
+      "ride_minutes": 13,
+      "distance_km": 1.17,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415827,
+            33.586944
+          ],
+          [
+            130.424242,
+            33.579099
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.586944,
+          "lon": 130.415827
+        },
+        {
+          "lat": 33.579099,
+          "lon": 130.424242
+        }
+      ],
+      "from_coord": {
+        "lat": 33.586944,
+        "lon": 130.415827
+      },
+      "to_coord": {
+        "lat": 33.579099,
+        "lon": 130.424242
+      }
+    },
+    {
+      "sequence": 9,
+      "line_label": "2920",
+      "line_name": "西鉄バス・４６・普通・宮竹・福岡徳洲会病院行",
+      "line_id": "2920",
+      "trip_id": "2920-Up-1050",
+      "from_stop": "駅南二丁目／西鉄バス",
+      "to_stop": "春住町／西鉄バス",
+      "from_code": "675152",
+      "to_code": "675153",
+      "departure": "17:30",
+      "arrival": "17:33",
+      "ride_minutes": 3,
+      "distance_km": 0.57,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.424242,
+            33.579099
+          ],
+          [
+            130.427849,
+            33.574997
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.579099,
+          "lon": 130.424242
+        },
+        {
+          "lat": 33.574997,
+          "lon": 130.427849
+        }
+      ],
+      "from_coord": {
+        "lat": 33.579099,
+        "lon": 130.424242
+      },
+      "to_coord": {
+        "lat": 33.574997,
+        "lon": 130.427849
+      }
+    },
+    {
+      "sequence": 10,
+      "line_label": "2920",
+      "line_name": "西鉄バス・４６・普通・宮竹・福岡徳洲会病院行",
+      "line_id": "2920",
+      "trip_id": "2920-Up-1073",
+      "from_stop": "春住町／西鉄バス",
+      "to_stop": "榊田町／西鉄バス",
+      "from_code": "675153",
+      "to_code": "675154",
+      "departure": "17:53",
+      "arrival": "17:55",
+      "ride_minutes": 2,
+      "distance_km": 0.34,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.427849,
+            33.574997
+          ],
+          [
+            130.430299,
+            33.572778
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.574997,
+          "lon": 130.427849
+        },
+        {
+          "lat": 33.572778,
+          "lon": 130.430299
+        }
+      ],
+      "from_coord": {
+        "lat": 33.574997,
+        "lon": 130.427849
+      },
+      "to_coord": {
+        "lat": 33.572778,
+        "lon": 130.430299
+      }
+    },
+    {
+      "sequence": 11,
+      "line_label": "2920",
+      "line_name": "西鉄バス・４６・普通・宮竹・福岡徳洲会病院行",
+      "line_id": "2920",
+      "trip_id": "2920-Up-1090",
+      "from_stop": "榊田町／西鉄バス",
+      "to_stop": "アサヒビール前／西鉄バス",
+      "from_code": "675154",
+      "to_code": "675155",
+      "departure": "18:10",
+      "arrival": "18:12",
+      "ride_minutes": 2,
+      "distance_km": 0.46,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.430299,
+            33.572778
+          ],
+          [
+            130.431824,
+            33.568813
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.572778,
+          "lon": 130.430299
+        },
+        {
+          "lat": 33.568813,
+          "lon": 130.431824
+        }
+      ],
+      "from_coord": {
+        "lat": 33.572778,
+        "lon": 130.430299
+      },
+      "to_coord": {
+        "lat": 33.568813,
+        "lon": 130.431824
+      }
+    },
+    {
+      "sequence": 12,
+      "line_label": "2920",
+      "line_name": "西鉄バス・４６・普通・宮竹・福岡徳洲会病院行",
+      "line_id": "2920",
+      "trip_id": "2920-Up-1104",
+      "from_stop": "アサヒビール前／西鉄バス",
+      "to_stop": "竹下／西鉄バス",
+      "from_code": "675155",
+      "to_code": "675156",
+      "departure": "18:24",
+      "arrival": "18:26",
+      "ride_minutes": 2,
+      "distance_km": 0.44,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.431824,
+            33.568813
+          ],
+          [
+            130.434408,
+            33.565497
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.568813,
+          "lon": 130.431824
+        },
+        {
+          "lat": 33.565497,
+          "lon": 130.434408
+        }
+      ],
+      "from_coord": {
+        "lat": 33.568813,
+        "lon": 130.431824
+      },
+      "to_coord": {
+        "lat": 33.565497,
+        "lon": 130.434408
+      }
+    },
+    {
+      "sequence": 13,
+      "line_label": "3537",
+      "line_name": "西鉄バス・４６Ｌ・普通・ららぽーと福岡行",
+      "line_id": "3537",
+      "trip_id": "3537-Up-1118",
+      "from_stop": "竹下／西鉄バス",
+      "to_stop": "ららぽーと福岡／西鉄バス",
+      "from_code": "675156",
+      "to_code": "678224",
+      "departure": "18:38",
+      "arrival": "18:42",
+      "ride_minutes": 4,
+      "distance_km": 0.78,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.434408,
+            33.565497
+          ],
+          [
+            130.442133,
+            33.562669
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.565497,
+          "lon": 130.434408
+        },
+        {
+          "lat": 33.562669,
+          "lon": 130.442133
+        }
+      ],
+      "from_coord": {
+        "lat": 33.565497,
+        "lon": 130.434408
+      },
+      "to_coord": {
+        "lat": 33.562669,
+        "lon": 130.442133
+      }
+    },
+    {
+      "sequence": 14,
+      "line_label": "3483",
+      "line_name": "西鉄バス・Ｌ・普通・山王・ららぽーと福岡行",
+      "line_id": "3483",
+      "trip_id": "3483-Down-1150",
+      "from_stop": "ららぽーと福岡／西鉄バス",
+      "to_stop": "山王一丁目／西鉄バス",
+      "from_code": "678224",
+      "to_code": "675734",
+      "departure": "19:10",
+      "arrival": "19:19",
+      "ride_minutes": 9,
+      "distance_km": 1.73,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.442133,
+            33.562669
+          ],
+          [
+            130.434327,
+            33.576799
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.562669,
+          "lon": 130.442133
+        },
+        {
+          "lat": 33.576799,
+          "lon": 130.434327
+        }
+      ],
+      "from_coord": {
+        "lat": 33.562669,
+        "lon": 130.442133
+      },
+      "to_coord": {
+        "lat": 33.576799,
+        "lon": 130.434327
+      }
+    },
+    {
+      "sequence": 15,
+      "line_label": "27",
+      "line_name": "西鉄バス・４０・普通・弥生小前・板付七行",
+      "line_id": "27",
+      "trip_id": "27-Up-1167",
+      "from_stop": "山王一丁目／西鉄バス",
+      "to_stop": "博多バスターミナル／西鉄バス",
+      "from_code": "675734",
+      "to_code": "677763",
+      "departure": "19:27",
+      "arrival": "19:39",
+      "ride_minutes": 12,
+      "distance_km": 1.71,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.434327,
+            33.576799
+          ],
+          [
+            130.422208,
+            33.588433
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.576799,
+          "lon": 130.434327
+        },
+        {
+          "lat": 33.588433,
+          "lon": 130.422208
+        }
+      ],
+      "from_coord": {
+        "lat": 33.576799,
+        "lon": 130.434327
+      },
+      "to_coord": {
+        "lat": 33.588433,
+        "lon": 130.422208
+      }
+    },
+    {
+      "sequence": 16,
+      "line_label": "2547",
+      "line_name": "西鉄バス・３・普通・西油山Ｈ行",
+      "line_id": "2547",
+      "trip_id": "2547-Up-1190",
+      "from_stop": "博多バスターミナル／西鉄バス",
+      "to_stop": "天神協和ビル前・新天町入口／西鉄バス",
+      "from_code": "677763",
+      "to_code": "677792",
+      "departure": "19:50",
+      "arrival": "20:09",
+      "ride_minutes": 19,
+      "distance_km": 2.08,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.422208,
+            33.588433
+          ],
+          [
+            130.399749,
+            33.587644
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.588433,
+          "lon": 130.422208
+        },
+        {
+          "lat": 33.587644,
+          "lon": 130.399749
+        }
+      ],
+      "from_coord": {
+        "lat": 33.588433,
+        "lon": 130.422208
+      },
+      "to_coord": {
+        "lat": 33.587644,
+        "lon": 130.399749
+      }
+    },
+    {
+      "sequence": 17,
+      "line_label": "504",
+      "line_name": "西鉄バス・５６・普通・動物園前－小笹・柏原営行",
+      "line_id": "504",
+      "trip_id": "504-Down-1214",
+      "from_stop": "天神協和ビル前・新天町入口／西鉄バス",
+      "to_stop": "薬院大通り／西鉄バス",
+      "from_code": "677792",
+      "to_code": "676895",
+      "departure": "20:14",
+      "arrival": "20:27",
+      "ride_minutes": 13,
+      "distance_km": 1.09,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.399749,
+            33.587644
+          ],
+          [
+            130.400527,
+            33.577828
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.587644,
+          "lon": 130.399749
+        },
+        {
+          "lat": 33.577828,
+          "lon": 130.400527
+        }
+      ],
+      "from_coord": {
+        "lat": 33.587644,
+        "lon": 130.399749
+      },
+      "to_coord": {
+        "lat": 33.577828,
+        "lon": 130.400527
+      }
+    },
+    {
+      "sequence": 18,
+      "line_label": "2488",
+      "line_name": "西鉄バス・２０・普通・六本松－薬院－天神－石城町・西鉄貝塚駅行",
+      "line_id": "2488",
+      "trip_id": "2488-Down-1233",
+      "from_stop": "薬院大通り／西鉄バス",
+      "to_stop": "六本松(こんどう美容室)／西鉄バス",
+      "from_code": "676895",
+      "to_code": "676894",
+      "departure": "20:33",
+      "arrival": "20:41",
+      "ride_minutes": 8,
+      "distance_km": 1.93,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.400527,
+            33.577828
+          ],
+          [
+            130.379993,
+            33.574908
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.577828,
+          "lon": 130.400527
+        },
+        {
+          "lat": 33.574908,
+          "lon": 130.379993
+        }
+      ],
+      "from_coord": {
+        "lat": 33.577828,
+        "lon": 130.400527
+      },
+      "to_coord": {
+        "lat": 33.574908,
+        "lon": 130.379993
+      }
+    },
+    {
+      "sequence": 19,
+      "line_label": "327",
+      "line_name": "西鉄バス・１７・普通・城南－渡辺通一・博多駅行",
+      "line_id": "327",
+      "trip_id": "327-Down-1251",
+      "from_stop": "六本松(こんどう美容室)／西鉄バス",
+      "to_stop": "六本松三丁目／西鉄バス",
+      "from_code": "676894",
+      "to_code": "676802",
+      "departure": "20:51",
+      "arrival": "20:53",
+      "ride_minutes": 2,
+      "distance_km": 0.24,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.379993,
+            33.574908
+          ],
+          [
+            130.382563,
+            33.574774
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.574908,
+          "lon": 130.379993
+        },
+        {
+          "lat": 33.574774,
+          "lon": 130.382563
+        }
+      ],
+      "from_coord": {
+        "lat": 33.574908,
+        "lon": 130.379993
+      },
+      "to_coord": {
+        "lat": 33.574774,
+        "lon": 130.382563
+      }
+    },
+    {
+      "sequence": 20,
+      "line_label": "430",
+      "line_name": "西鉄バス・１６・普通・城南－渡辺通一・博多駅行",
+      "line_id": "430",
+      "trip_id": "430-Down-1256",
+      "from_stop": "六本松三丁目／西鉄バス",
+      "to_stop": "六本松(福銀前)／西鉄バス",
+      "from_code": "676802",
+      "to_code": "676061",
+      "departure": "20:56",
+      "arrival": "20:58",
+      "ride_minutes": 2,
+      "distance_km": 0.26,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.382563,
+            33.574774
+          ],
+          [
+            130.379827,
+            33.574377
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.574774,
+          "lon": 130.382563
+        },
+        {
+          "lat": 33.574377,
+          "lon": 130.379827
+        }
+      ],
+      "from_coord": {
+        "lat": 33.574774,
+        "lon": 130.382563
+      },
+      "to_coord": {
+        "lat": 33.574377,
+        "lon": 130.379827
+      }
+    },
+    {
+      "sequence": 21,
+      "line_label": "2533",
+      "line_name": "西鉄バス・１９・普通・四箇田団地行",
+      "line_id": "2533",
+      "trip_id": "2533-Down-1261",
+      "from_stop": "六本松(福銀前)／西鉄バス",
+      "to_stop": "別府駅前／西鉄バス",
+      "from_code": "676061",
+      "to_code": "675510",
+      "departure": "21:01",
+      "arrival": "21:04",
+      "ride_minutes": 3,
+      "distance_km": 0.82,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.379827,
+            33.574377
+          ],
+          [
+            130.372027,
+            33.570964
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.574377,
+          "lon": 130.379827
+        },
+        {
+          "lat": 33.570964,
+          "lon": 130.372027
+        }
+      ],
+      "from_coord": {
+        "lat": 33.574377,
+        "lon": 130.379827
+      },
+      "to_coord": {
+        "lat": 33.570964,
+        "lon": 130.372027
+      }
+    },
+    {
+      "sequence": 22,
+      "line_label": "2818",
+      "line_name": "西鉄バス・１４０・普通・福大病院行",
+      "line_id": "2818",
+      "trip_id": "2818-Up-1270",
+      "from_stop": "別府駅前／西鉄バス",
+      "to_stop": "六本松大通り／西鉄バス",
+      "from_code": "675510",
+      "to_code": "676022",
+      "departure": "21:10",
+      "arrival": "21:13",
+      "ride_minutes": 3,
+      "distance_km": 1.04,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.372027,
+            33.570964
+          ],
+          [
+            130.38188,
+            33.575433
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.570964,
+          "lon": 130.372027
+        },
+        {
+          "lat": 33.575433,
+          "lon": 130.38188
+        }
+      ],
+      "from_coord": {
+        "lat": 33.570964,
+        "lon": 130.372027
+      },
+      "to_coord": {
+        "lat": 33.575433,
+        "lon": 130.38188
+      }
+    },
+    {
+      "sequence": 23,
+      "line_label": "520",
+      "line_name": "西鉄バス・１３・普通・六本松－観光道路・桧原営行",
+      "line_id": "520",
+      "trip_id": "520-Up-1276",
+      "from_stop": "六本松大通り／西鉄バス",
+      "to_stop": "六本松(福銀前)／西鉄バス",
+      "from_code": "676022",
+      "to_code": "676061",
+      "departure": "21:16",
+      "arrival": "21:18",
+      "ride_minutes": 2,
+      "distance_km": 0.22,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.38188,
+            33.575433
+          ],
+          [
+            130.379827,
+            33.574377
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.575433,
+          "lon": 130.38188
+        },
+        {
+          "lat": 33.574377,
+          "lon": 130.379827
+        }
+      ],
+      "from_coord": {
+        "lat": 33.575433,
+        "lon": 130.38188
+      },
+      "to_coord": {
+        "lat": 33.574377,
+        "lon": 130.379827
+      }
+    },
+    {
+      "sequence": 24,
+      "line_label": "1128",
+      "line_name": "西鉄バス・２０１・普通・田隈新町－六本松－国体道路・天神・博多駅行",
+      "line_id": "1128",
+      "trip_id": "1128-Down-1287",
+      "from_stop": "六本松(福銀前)／西鉄バス",
+      "to_stop": "赤坂二丁目／西鉄バス",
+      "from_code": "676061",
+      "to_code": "676025",
+      "departure": "21:27",
+      "arrival": "21:31",
+      "ride_minutes": 4,
+      "distance_km": 1.22,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.379827,
+            33.574377
+          ],
+          [
+            130.390538,
+            33.580761
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.574377,
+          "lon": 130.379827
+        },
+        {
+          "lat": 33.580761,
+          "lon": 130.390538
+        }
+      ],
+      "from_coord": {
+        "lat": 33.574377,
+        "lon": 130.379827
+      },
+      "to_coord": {
+        "lat": 33.580761,
+        "lon": 130.390538
+      }
+    },
+    {
+      "sequence": 25,
+      "line_label": "545",
+      "line_name": "西鉄バス・１１３・普通・油山－観光道路－六本松－国体道路・博多駅行",
+      "line_id": "545",
+      "trip_id": "545-Down-1303",
+      "from_stop": "赤坂二丁目／西鉄バス",
+      "to_stop": "六本松大通り／西鉄バス",
+      "from_code": "676025",
+      "to_code": "676022",
+      "departure": "21:43",
+      "arrival": "21:46",
+      "ride_minutes": 3,
+      "distance_km": 1.0,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.390538,
+            33.580761
+          ],
+          [
+            130.38188,
+            33.575433
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580761,
+          "lon": 130.390538
+        },
+        {
+          "lat": 33.575433,
+          "lon": 130.38188
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580761,
+        "lon": 130.390538
+      },
+      "to_coord": {
+        "lat": 33.575433,
+        "lon": 130.38188
+      }
+    },
+    {
+      "sequence": 26,
+      "line_label": "196",
+      "line_name": "西鉄バス・２０３・普通・室住団地－原－六本松－国体道路・天神・博多駅行",
+      "line_id": "196",
+      "trip_id": "196-Down-1309",
+      "from_stop": "六本松大通り／西鉄バス",
+      "to_stop": "警固一丁目／西鉄バス",
+      "from_code": "676022",
+      "to_code": "675512",
+      "departure": "21:49",
+      "arrival": "21:55",
+      "ride_minutes": 6,
+      "distance_km": 1.6,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.38188,
+            33.575433
+          ],
+          [
+            130.397108,
+            33.582272
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.575433,
+          "lon": 130.38188
+        },
+        {
+          "lat": 33.582272,
+          "lon": 130.397108
+        }
+      ],
+      "from_coord": {
+        "lat": 33.575433,
+        "lon": 130.38188
+      },
+      "to_coord": {
+        "lat": 33.582272,
+        "lon": 130.397108
+      }
+    }
+  ],
+  "rest_stops": [
+    {
+      "at": "中洲・南新地／西鉄バス",
+      "minutes": 17,
+      "suggestion": "🍵 午後のティータイム！CoCo壱番屋（徒歩153m）",
+      "nearby_pois": [
+        {
+          "name": "CoCo壱番屋",
+          "type": "restaurant",
+          "brand": "CoCo壱番屋",
+          "distance_m": 153
+        },
+        {
+          "name": "Hakata Fukuoka Svan Café",
+          "type": "cafe",
+          "brand": "",
+          "distance_m": 153
+        },
+        {
+          "name": "スターバックス",
+          "type": "cafe",
+          "brand": "スターバックス",
+          "distance_m": 159
+        }
+      ],
+      "meal_break": null,
+      "time_period": "afternoon",
+      "time": "16:15",
+      "end_time": "16:32",
+      "after_leg": 6
+    },
+    {
+      "at": "駅南二丁目／西鉄バス",
+      "minutes": 25,
+      "suggestion": "🍽️ ディナータイム！重慶で夕食（徒歩202m、25分の休憩）",
+      "nearby_pois": [
+        {
+          "name": "重慶",
+          "type": "restaurant",
+          "brand": "",
+          "distance_m": 202
+        },
+        {
+          "name": "Volks",
+          "type": "restaurant",
+          "brand": "",
+          "distance_m": 215
+        },
+        {
+          "name": "Unknown restaurant",
+          "type": "restaurant",
+          "brand": "",
+          "distance_m": 282
+        }
+      ],
+      "meal_break": "dinner",
+      "time_period": "dinner",
+      "time": "17:05",
+      "end_time": "17:30",
+      "after_leg": 8
+    }
+  ],
+  "statistics": {
+    "total_unique_stops": 24,
+    "total_stops": 27,
+    "total_unique_lines": 23,
+    "avg_leg_distance_km": 1.25,
+    "max_leg_distance_km": 5.76,
+    "min_leg_distance_km": 0.22,
+    "avg_leg_minutes": 7.5,
+    "max_leg_minutes": 26,
+    "min_leg_minutes": 1,
+    "repeated_stop_count": 3,
+    "unique_lines": 23,
+    "primary_metric_name": "ride_minutes",
+    "primary_metric_label": "RideMinutes",
+    "primary_metric_value": 453.0,
+    "elapsed_ms": 10743.234,
+    "stop_score_total": 0.0,
+    "score_per_hour": 0.0,
+    "effective_time_minutes": 0.0,
+    "scored_stop_count": 0.0
+  },
+  "exp4": {
+    "case_id": "support_century_ride_proven_theme",
+    "case_title": "Supporting Case: Century-Ride Proven Theme",
+    "source_experiment": "exp2",
+    "scenario": "century-ride",
+    "paper_role": "support_case",
+    "paper_group": "appendix",
+    "algorithm_key": "no_neg",
+    "algorithm_name": "Ours (NoNeg)",
+    "origin_name": "豊浜団地／西鉄バス",
+    "origin_code": "676888",
+    "depart_time_minutes": 840,
+    "depart_time_hhmm": "14:00",
+    "budget_minutes": 480,
+    "score_seed": 0,
+    "seed": 2,
+    "selection_reason": "Selected from formal supporting results as a century-ride case where Full solidly outscores NoNeg in ride-minutes without degenerate back-tracking.",
+    "qualitative_focus": "Compare how negative pruning firmly adheres to a sparse theme and explicitly outscores unconstrained search via long 16-leg sweeps.",
+    "selection_evidence": {},
+    "metrics": {
+      "ride_minutes": 195,
+      "distance_km": 32.57,
+      "unique_stops": 24,
+      "legs": 26,
+      "hull_area": 15.5952,
+      "quadrant_coverage": 4,
+      "total_time_minutes": 453,
+      "theme_hit_ratio": 0.230769,
+      "theme_score_total": 6.0,
+      "theme_satisfied": false,
+      "off_theme_score_share": 0.769231,
+      "elapsed_ms": 10743.234,
+      "labels": 153236,
+      "termination_reason": "completed",
+      "theme_name": "century-ride",
+      "pressure_name": "default"
+    }
+  },
+  "exp2_supporting": {
+    "theme_name": "century-ride",
+    "pressure_name": "default",
+    "reference_row": {
+      "algorithm": "Ours (NoNeg)",
+      "origin": "豊浜団地／西鉄バス",
+      "origin_code": "676888",
+      "depart_time": 840,
+      "budget_minutes": 480,
+      "seed": 2,
+      "score_seed": 0,
+      "score_min": 1,
+      "score_max": 100,
+      "dwell_minutes": 0,
+      "objective_mode": "project_theme_first",
+      "pressure_name": "default",
+      "beam_width": 50,
+      "candidate_cap_short": 30,
+      "candidate_cap_long": 20,
+      "elapsed_ms": 7717.393,
+      "feasible": true,
+      "structural_feasible": true,
+      "effective_budget_feasible": true,
+      "violation_reason": "",
+      "stop_score_total": 452.0,
+      "scored_stop_count": 16,
+      "dwell_minutes_total": 0,
+      "effective_time_minutes": 452.0,
+      "effective_budget_overrun_minutes": 0.0,
+      "score_per_hour": 0.265487,
+      "theme_name": "century-ride",
+      "theme_target_size": 68,
+      "theme_stop_count": 0,
+      "theme_score_total": 2.0,
+      "theme_hit_ratio": 0.111111,
+      "theme_score_share": 0.111111,
+      "theme_satisfied": false,
+      "off_theme_stop_count": 0,
+      "off_theme_score_total": 16.0,
+      "off_theme_score_share": 0.888889,
+      "waiting_ratio": 0.365044,
+      "revisit_ratio": 0.105263,
+      "backtrack_count": 0,
+      "route_hash": "da76e3dc8717",
+      "labels": 139206,
+      "scored_labels": 139206,
+      "negative_repeat_hits": 0,
+      "negative_ratio_hits": 0,
+      "negative_theme_hits": 0,
+      "negative_theme_line_hits": 0,
+      "negative_total_hits": 0,
+      "beam_trim_events": 0,
+      "beam_trimmed_labels": 0,
+      "candidate_trim_events": 0,
+      "candidate_trimmed_edges": 0,
+      "termination_reason": "completed",
+      "resource_cap_hit": false,
+      "timeout_seconds": 60.0,
+      "theme_required_ratio": 0.0,
+      "theme_min_stops_apply": 10,
+      "theme_density": 0.099561,
+      "theme_score_mass_share_all": 0.111111,
+      "top20_theme_share": 0.111111,
+      "top10_theme_score_mean": 2.0,
+      "top10_non_theme_score_mean": 0.0,
+      "score_conflict_gap": 0.0,
+      "theme_required_share_gap": 0.0,
+      "theme_top_share_gap": 0.0,
+      "theme_conflict_index": 0.900439,
+      "budget_tightness": 0.1875,
+      "budget_label": "8h",
+      "theme_kind": "route",
+      "project_scoring_type": "theme_route_triple_digit",
+      "project_target": 10,
+      "start_mode": "mixed_route_start",
+      "theme_leg_count": 2,
+      "off_theme_leg_count": 16,
+      "primary_objective_name": "ride_minutes",
+      "effective_min_minutes": 45,
+      "effective_min_legs": 3,
+      "experiment": "negative_project_theme_alignment",
+      "algo_key": "no_neg"
+    },
+    "theme_metrics": {
+      "theme_kind": "route",
+      "project_scoring_type": "theme_route_triple_digit",
+      "project_target": 10,
+      "start_mode": "mixed_route_start",
+      "theme_target_size": 68,
+      "theme_stop_count": 0,
+      "theme_leg_count": 6,
+      "theme_hit_ratio": 0.230769,
+      "theme_score_total": 6.0,
+      "theme_score_share": 0.230769,
+      "off_theme_stop_count": 0,
+      "off_theme_leg_count": 20,
+      "off_theme_score_share": 0.769231,
+      "theme_satisfied": false,
+      "primary_objective_total": 453.0,
+      "primary_objective_name": "ride_minutes",
+      "score_per_hour": 0.794702,
+      "target_density": 0.099561,
+      "effective_min_minutes": 45,
+      "effective_min_legs": 3
+    }
+  }
+}

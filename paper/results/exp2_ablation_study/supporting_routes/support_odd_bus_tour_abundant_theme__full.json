@@ -1,0 +1,925 @@
+{
+  "id": "exp4-support_odd_bus_tour_abundant_theme-ours_full",
+  "title": "Supporting Case: Odd-Bus-Tour Abundant Theme - Ours (Full)",
+  "tagline": "Compare how negative pruning cleanly adheres to an abundant theme (odd lines) while maintaining a sprawled city-wide route.",
+  "theme_tags": [
+    "exp2-supporting",
+    "exp2",
+    "odd-bus-tour",
+    "support_case"
+  ],
+  "start_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+  "start_time": "14:00",
+  "total_ride_minutes": 32,
+  "total_distance_km": 4.1,
+  "transfers": 13,
+  "wards": [
+    "福岡市内"
+  ],
+  "badges": [
+    "exp4"
+  ],
+  "legs": [
+    {
+      "sequence": 1,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Up-869",
+      "from_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "to_stop": "アイランドアイ前／西鉄バス",
+      "from_code": "678130",
+      "to_code": "678230",
+      "departure": "14:29",
+      "arrival": "14:30",
+      "ride_minutes": 1,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.414961,
+            33.664947
+          ],
+          [
+            130.416352,
+            33.66258
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        },
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        }
+      ],
+      "from_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      },
+      "to_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      }
+    },
+    {
+      "sequence": 2,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Down-885",
+      "from_stop": "アイランドアイ前／西鉄バス",
+      "to_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "from_code": "678230",
+      "to_code": "678130",
+      "departure": "14:45",
+      "arrival": "14:46",
+      "ride_minutes": 1,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.416352,
+            33.66258
+          ],
+          [
+            130.414961,
+            33.664947
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        },
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        }
+      ],
+      "from_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      },
+      "to_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      }
+    },
+    {
+      "sequence": 3,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Up-889",
+      "from_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "to_stop": "アイランドアイ前／西鉄バス",
+      "from_code": "678130",
+      "to_code": "678230",
+      "departure": "14:49",
+      "arrival": "14:50",
+      "ride_minutes": 1,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.414961,
+            33.664947
+          ],
+          [
+            130.416352,
+            33.66258
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        },
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        }
+      ],
+      "from_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      },
+      "to_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      }
+    },
+    {
+      "sequence": 4,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Down-925",
+      "from_stop": "アイランドアイ前／西鉄バス",
+      "to_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "from_code": "678230",
+      "to_code": "678130",
+      "departure": "15:25",
+      "arrival": "15:26",
+      "ride_minutes": 1,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.416352,
+            33.66258
+          ],
+          [
+            130.414961,
+            33.664947
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        },
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        }
+      ],
+      "from_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      },
+      "to_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      }
+    },
+    {
+      "sequence": 5,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Up-929",
+      "from_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "to_stop": "アイランドアイ前／西鉄バス",
+      "from_code": "678130",
+      "to_code": "678230",
+      "departure": "15:29",
+      "arrival": "15:30",
+      "ride_minutes": 1,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.414961,
+            33.664947
+          ],
+          [
+            130.416352,
+            33.66258
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        },
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        }
+      ],
+      "from_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      },
+      "to_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      }
+    },
+    {
+      "sequence": 6,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Down-945",
+      "from_stop": "アイランドアイ前／西鉄バス",
+      "to_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "from_code": "678230",
+      "to_code": "678130",
+      "departure": "15:45",
+      "arrival": "15:46",
+      "ride_minutes": 1,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.416352,
+            33.66258
+          ],
+          [
+            130.414961,
+            33.664947
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        },
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        }
+      ],
+      "from_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      },
+      "to_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      }
+    },
+    {
+      "sequence": 7,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Up-949",
+      "from_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "to_stop": "アイランドアイ前／西鉄バス",
+      "from_code": "678130",
+      "to_code": "678230",
+      "departure": "15:49",
+      "arrival": "15:50",
+      "ride_minutes": 1,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.414961,
+            33.664947
+          ],
+          [
+            130.416352,
+            33.66258
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        },
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        }
+      ],
+      "from_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      },
+      "to_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      }
+    },
+    {
+      "sequence": 8,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Down-1005",
+      "from_stop": "アイランドアイ前／西鉄バス",
+      "to_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "from_code": "678230",
+      "to_code": "678130",
+      "departure": "16:45",
+      "arrival": "16:46",
+      "ride_minutes": 1,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.416352,
+            33.66258
+          ],
+          [
+            130.414961,
+            33.664947
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        },
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        }
+      ],
+      "from_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      },
+      "to_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      }
+    },
+    {
+      "sequence": 9,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Up-1079",
+      "from_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "to_stop": "アイランドアイ前／西鉄バス",
+      "from_code": "678130",
+      "to_code": "678230",
+      "departure": "17:59",
+      "arrival": "18:06",
+      "ride_minutes": 7,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.414961,
+            33.664947
+          ],
+          [
+            130.416352,
+            33.66258
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        },
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        }
+      ],
+      "from_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      },
+      "to_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      }
+    },
+    {
+      "sequence": 10,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Down-1105",
+      "from_stop": "アイランドアイ前／西鉄バス",
+      "to_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "from_code": "678230",
+      "to_code": "678130",
+      "departure": "18:25",
+      "arrival": "18:26",
+      "ride_minutes": 1,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.416352,
+            33.66258
+          ],
+          [
+            130.414961,
+            33.664947
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        },
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        }
+      ],
+      "from_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      },
+      "to_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      }
+    },
+    {
+      "sequence": 11,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Up-1110",
+      "from_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "to_stop": "アイランドアイ前／西鉄バス",
+      "from_code": "678130",
+      "to_code": "678230",
+      "departure": "18:30",
+      "arrival": "18:37",
+      "ride_minutes": 7,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.414961,
+            33.664947
+          ],
+          [
+            130.416352,
+            33.66258
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        },
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        }
+      ],
+      "from_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      },
+      "to_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      }
+    },
+    {
+      "sequence": 12,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Down-1125",
+      "from_stop": "アイランドアイ前／西鉄バス",
+      "to_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "from_code": "678230",
+      "to_code": "678130",
+      "departure": "18:45",
+      "arrival": "18:46",
+      "ride_minutes": 1,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.416352,
+            33.66258
+          ],
+          [
+            130.414961,
+            33.664947
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        },
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        }
+      ],
+      "from_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      },
+      "to_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      }
+    },
+    {
+      "sequence": 13,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Up-1131",
+      "from_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "to_stop": "アイランドアイ前／西鉄バス",
+      "from_code": "678130",
+      "to_code": "678230",
+      "departure": "18:51",
+      "arrival": "18:58",
+      "ride_minutes": 7,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.414961,
+            33.664947
+          ],
+          [
+            130.416352,
+            33.66258
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        },
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        }
+      ],
+      "from_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      },
+      "to_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      }
+    },
+    {
+      "sequence": 14,
+      "line_label": "3530",
+      "line_name": "西鉄バス・１－２・普通・みなと香椎－こども病院－御幸町・千早駅行",
+      "line_id": "3530",
+      "trip_id": "3530-Down-1145",
+      "from_stop": "アイランドアイ前／西鉄バス",
+      "to_stop": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "from_code": "678230",
+      "to_code": "678130",
+      "departure": "19:05",
+      "arrival": "19:06",
+      "ride_minutes": 1,
+      "distance_km": 0.29,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.416352,
+            33.66258
+          ],
+          [
+            130.414961,
+            33.664947
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.66258,
+          "lon": 130.416352
+        },
+        {
+          "lat": 33.664947,
+          "lon": 130.414961
+        }
+      ],
+      "from_coord": {
+        "lat": 33.66258,
+        "lon": 130.416352
+      },
+      "to_coord": {
+        "lat": 33.664947,
+        "lon": 130.414961
+      }
+    }
+  ],
+  "rest_stops": [
+    {
+      "at": "アイランドアイ前／西鉄バス",
+      "minutes": 15,
+      "suggestion": "🍵 午後のティータイム！Unknown toilets（徒歩481m）",
+      "nearby_pois": [
+        {
+          "name": "Unknown toilets",
+          "type": "toilets",
+          "brand": "",
+          "distance_m": 481
+        },
+        {
+          "name": "Unknown toilets",
+          "type": "toilets",
+          "brand": "",
+          "distance_m": 486
+        }
+      ],
+      "meal_break": null,
+      "time_period": "afternoon",
+      "time": "14:30",
+      "end_time": "14:45",
+      "after_leg": 1
+    },
+    {
+      "at": "アイランドアイ前／西鉄バス",
+      "minutes": 19,
+      "suggestion": "🍽️ ディナータイム！Unknown toiletsで夕食（徒歩481m、19分の休憩）",
+      "nearby_pois": [
+        {
+          "name": "Unknown toilets",
+          "type": "toilets",
+          "brand": "",
+          "distance_m": 481
+        },
+        {
+          "name": "Unknown toilets",
+          "type": "toilets",
+          "brand": "",
+          "distance_m": 486
+        }
+      ],
+      "meal_break": "dinner",
+      "time_period": "dinner",
+      "time": "18:06",
+      "end_time": "18:25",
+      "after_leg": 9
+    }
+  ],
+  "statistics": {
+    "total_unique_stops": 2,
+    "total_stops": 15,
+    "total_unique_lines": 1,
+    "avg_leg_distance_km": 0.29,
+    "max_leg_distance_km": 0.29,
+    "min_leg_distance_km": 0.29,
+    "avg_leg_minutes": 2.3,
+    "max_leg_minutes": 7,
+    "min_leg_minutes": 1,
+    "repeated_stop_count": 13,
+    "unique_lines": 1,
+    "primary_metric_name": "ride_minutes",
+    "primary_metric_label": "RideMinutes",
+    "primary_metric_value": 277.0,
+    "elapsed_ms": 15747.902,
+    "stop_score_total": 0.0,
+    "score_per_hour": 0.0,
+    "effective_time_minutes": 0.0,
+    "scored_stop_count": 0.0
+  },
+  "exp4": {
+    "case_id": "support_odd_bus_tour_abundant_theme",
+    "case_title": "Supporting Case: Odd-Bus-Tour Abundant Theme",
+    "source_experiment": "exp2",
+    "scenario": "odd-bus-tour",
+    "paper_role": "support_case",
+    "paper_group": "appendix",
+    "algorithm_key": "full",
+    "algorithm_name": "Ours (Full)",
+    "origin_name": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+    "origin_code": "678130",
+    "depart_time_minutes": 840,
+    "depart_time_hhmm": "14:00",
+    "budget_minutes": 480,
+    "score_seed": 0,
+    "seed": 0,
+    "selection_reason": "Selected from formal supporting results as an odd-bus-tour case where Full maintains a long 20-leg trajectory natively on-theme.",
+    "qualitative_focus": "Compare how negative pruning cleanly adheres to an abundant theme (odd lines) while maintaining a sprawled city-wide route.",
+    "selection_evidence": {},
+    "metrics": {
+      "ride_minutes": 32,
+      "distance_km": 4.1,
+      "unique_stops": 2,
+      "legs": 14,
+      "hull_area": 0.0,
+      "quadrant_coverage": 2,
+      "total_time_minutes": 277,
+      "theme_hit_ratio": 1.0,
+      "theme_score_total": 14.0,
+      "theme_satisfied": true,
+      "off_theme_score_share": 0.0,
+      "elapsed_ms": 15747.902,
+      "labels": 219295,
+      "termination_reason": "completed",
+      "theme_name": "odd-bus-tour",
+      "pressure_name": "default"
+    }
+  },
+  "exp2_supporting": {
+    "theme_name": "odd-bus-tour",
+    "pressure_name": "default",
+    "reference_row": {
+      "algorithm": "Ours (Full)",
+      "origin": "ベジフルスタジアム前(新青果市場)／西鉄バス",
+      "origin_code": "678130",
+      "depart_time": 840,
+      "budget_minutes": 480,
+      "seed": 0,
+      "score_seed": 0,
+      "score_min": 1,
+      "score_max": 100,
+      "dwell_minutes": 0,
+      "objective_mode": "project_theme_first",
+      "pressure_name": "default",
+      "beam_width": 50,
+      "candidate_cap_short": 30,
+      "candidate_cap_long": 20,
+      "elapsed_ms": 33195.808,
+      "feasible": true,
+      "structural_feasible": true,
+      "effective_budget_feasible": true,
+      "violation_reason": "",
+      "stop_score_total": 277.0,
+      "scored_stop_count": 2,
+      "dwell_minutes_total": 0,
+      "effective_time_minutes": 277.0,
+      "effective_budget_overrun_minutes": 0.0,
+      "score_per_hour": 3.032491,
+      "theme_name": "odd-bus-tour",
+      "theme_target_size": 303,
+      "theme_stop_count": 0,
+      "theme_score_total": 14.0,
+      "theme_hit_ratio": 1.0,
+      "theme_score_share": 1.0,
+      "theme_satisfied": true,
+      "off_theme_stop_count": 0,
+      "off_theme_score_total": 0.0,
+      "off_theme_score_share": 0.0,
+      "waiting_ratio": 0.884477,
+      "revisit_ratio": 0.866667,
+      "backtrack_count": 13,
+      "route_hash": "1969f758ed9b",
+      "labels": 221752,
+      "scored_labels": 221752,
+      "negative_repeat_hits": 0,
+      "negative_ratio_hits": 0,
+      "negative_theme_hits": 0,
+      "negative_theme_line_hits": 0,
+      "negative_total_hits": 0,
+      "beam_trim_events": 0,
+      "beam_trimmed_labels": 0,
+      "candidate_trim_events": 0,
+      "candidate_trimmed_edges": 0,
+      "termination_reason": "completed",
+      "resource_cap_hit": false,
+      "timeout_seconds": 60.0,
+      "theme_required_ratio": 0.0,
+      "theme_min_stops_apply": 8,
+      "theme_density": 0.443631,
+      "theme_score_mass_share_all": 1.0,
+      "top20_theme_share": 1.0,
+      "top10_theme_score_mean": 14.0,
+      "top10_non_theme_score_mean": 0.0,
+      "score_conflict_gap": 0.0,
+      "theme_required_share_gap": 0.0,
+      "theme_top_share_gap": 0.0,
+      "theme_conflict_index": 0.556369,
+      "budget_tightness": 0.125,
+      "budget_label": "8h",
+      "theme_kind": "route",
+      "project_scoring_type": "theme_route_id_odd",
+      "project_target": 8,
+      "start_mode": "mixed_route_start",
+      "theme_leg_count": 14,
+      "off_theme_leg_count": 0,
+      "primary_objective_name": "ride_minutes",
+      "effective_min_minutes": 30,
+      "effective_min_legs": 2,
+      "experiment": "negative_project_theme_alignment",
+      "algo_key": "full"
+    },
+    "theme_metrics": {
+      "theme_kind": "route",
+      "project_scoring_type": "theme_route_id_odd",
+      "project_target": 8,
+      "start_mode": "mixed_route_start",
+      "theme_target_size": 303,
+      "theme_stop_count": 0,
+      "theme_leg_count": 14,
+      "theme_hit_ratio": 1.0,
+      "theme_score_total": 14.0,
+      "theme_score_share": 1.0,
+      "off_theme_stop_count": 0,
+      "off_theme_leg_count": 0,
+      "off_theme_score_share": 0.0,
+      "theme_satisfied": true,
+      "primary_objective_total": 277.0,
+      "primary_objective_name": "ride_minutes",
+      "score_per_hour": 3.032491,
+      "target_density": 0.443631,
+      "effective_min_minutes": 30,
+      "effective_min_legs": 2
+    }
+  }
+}

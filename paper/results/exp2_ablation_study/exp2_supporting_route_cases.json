@@ -1,0 +1,90 @@
+{
+  "experiment": "exp2_supporting_route_cases",
+  "source_results": "D:\\reroute_fukuoka\\paper\\results\\exp2_ablation_study\\exp2_supporting_results.json",
+  "cases": [
+    {
+      "id": "support_single_digit_primary_and_theme",
+      "title": "Supporting Case: Single-Digit Theme Preservation",
+      "theme_name": "single-digit",
+      "origin_code": "676517",
+      "origin_name": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "depart_time": 840,
+      "budget_minutes": 480,
+      "seed": 1,
+      "pressure_name": "default",
+      "selection_reason": "Selected from formal supporting results as a single-digit case where Full solidly outscores NoNeg while maintaining 100% theme adherence.",
+      "qualitative_focus": "Compare how negative pruning prevents the route from drifting toward non-single-digit lines while maintaining high efficiency.",
+      "artifacts": [
+        {
+          "algorithm_key": "full",
+          "algorithm_name": "Ours (Full)",
+          "route_json_path": "D:\\reroute_fukuoka\\paper\\results\\exp2_ablation_study\\supporting_routes\\support_single_digit_primary_and_theme__full.json",
+          "elapsed_ms": 28145.187,
+          "feasible": true,
+          "violation_reason": "",
+          "theme_hit_ratio": 1.0,
+          "theme_satisfied": true,
+          "ride_minutes": 444.0,
+          "labels": 438698,
+          "termination_reason": "completed"
+        },
+        {
+          "algorithm_key": "no_neg",
+          "algorithm_name": "Ours (NoNeg)",
+          "route_json_path": "D:\\reroute_fukuoka\\paper\\results\\exp2_ablation_study\\supporting_routes\\support_single_digit_primary_and_theme__no_neg.json",
+          "elapsed_ms": 8011.18,
+          "feasible": true,
+          "violation_reason": "",
+          "theme_hit_ratio": 0.176471,
+          "theme_satisfied": false,
+          "ride_minutes": 405.0,
+          "labels": 143226,
+          "termination_reason": "completed"
+        }
+      ],
+      "panel_path": "D:\\reroute_fukuoka\\paper\\figures\\exp2\\exp2_supporting_support_single_digit_primary_and_theme_panel.png"
+    },
+    {
+      "id": "support_century_ride_sparse_theme",
+      "title": "Supporting Case: Century-Ride Sparse Theme",
+      "theme_name": "century-ride",
+      "origin_code": "676740",
+      "origin_name": "早良妙見西口／西鉄バス",
+      "depart_time": 600,
+      "budget_minutes": 480,
+      "seed": 0,
+      "pressure_name": "default",
+      "selection_reason": "Selected from formal supporting results as a century-ride case where Full outscores NoNeg in ride-minutes without any back-tracking.",
+      "qualitative_focus": "Inspect a sparse route-theme query where negative pruning keeps the route on 100-series lines and finds a more efficient long-distance path than unconstrained search.",
+      "artifacts": [
+        {
+          "algorithm_key": "full",
+          "algorithm_name": "Ours (Full)",
+          "route_json_path": "D:\\reroute_fukuoka\\paper\\results\\exp2_ablation_study\\supporting_routes\\support_century_ride_sparse_theme__full.json",
+          "elapsed_ms": 60736.109,
+          "feasible": true,
+          "violation_reason": "",
+          "theme_hit_ratio": 1.0,
+          "theme_satisfied": true,
+          "ride_minutes": 462.0,
+          "labels": 767345,
+          "termination_reason": "timeout"
+        },
+        {
+          "algorithm_key": "no_neg",
+          "algorithm_name": "Ours (NoNeg)",
+          "route_json_path": "D:\\reroute_fukuoka\\paper\\results\\exp2_ablation_study\\supporting_routes\\support_century_ride_sparse_theme__no_neg.json",
+          "elapsed_ms": 11778.099,
+          "feasible": true,
+          "violation_reason": "",
+          "theme_hit_ratio": 0.277778,
+          "theme_satisfied": false,
+          "ride_minutes": 446.0,
+          "labels": 177865,
+          "termination_reason": "completed"
+        }
+      ],
+      "panel_path": "D:\\reroute_fukuoka\\paper\\figures\\exp2\\exp2_supporting_support_century_ride_sparse_theme_panel.png"
+    }
+  ]
+}

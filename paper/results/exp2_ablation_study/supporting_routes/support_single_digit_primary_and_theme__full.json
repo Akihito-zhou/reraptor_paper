@@ -1,0 +1,1623 @@
+{
+  "id": "exp4-support_single_digit_primary_and_theme-ours_full",
+  "title": "Supporting Case: Single-Digit Theme Preservation - Ours (Full)",
+  "tagline": "Compare how negative pruning prevents the route from drifting toward non-single-digit lines while maintaining high efficiency.",
+  "theme_tags": [
+    "exp2-supporting",
+    "exp2",
+    "single-digit",
+    "support_case"
+  ],
+  "start_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+  "start_time": "14:00",
+  "total_ride_minutes": 129,
+  "total_distance_km": 20.0,
+  "transfers": 27,
+  "wards": [
+    "福岡市内"
+  ],
+  "badges": [
+    "exp4"
+  ],
+  "legs": [
+    {
+      "sequence": 1,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-843",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "14:03",
+      "arrival": "14:08",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 2,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-958",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "15:58",
+      "arrival": "16:03",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 3,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-969",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "16:09",
+      "arrival": "16:14",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 4,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-978",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "16:18",
+      "arrival": "16:23",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 5,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-993",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "16:33",
+      "arrival": "16:38",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 6,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-1008",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "16:48",
+      "arrival": "16:53",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 7,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-1019",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "16:59",
+      "arrival": "17:04",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 8,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-1035",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "17:15",
+      "arrival": "17:20",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 9,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-1045",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "17:25",
+      "arrival": "17:30",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 10,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-1053",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "17:33",
+      "arrival": "17:38",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 11,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-1066",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "17:46",
+      "arrival": "17:51",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 12,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-1078",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "17:58",
+      "arrival": "18:03",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 13,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-1087",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "18:07",
+      "arrival": "18:12",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 14,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-1096",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "18:16",
+      "arrival": "18:21",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 15,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-1112",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "18:32",
+      "arrival": "18:37",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 16,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-1121",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "18:41",
+      "arrival": "18:46",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 17,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-1132",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "18:52",
+      "arrival": "18:56",
+      "ride_minutes": 4,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 18,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-1152",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "19:12",
+      "arrival": "19:17",
+      "ride_minutes": 5,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 19,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-1164",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "19:24",
+      "arrival": "19:28",
+      "ride_minutes": 4,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 20,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-1174",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "19:34",
+      "arrival": "19:38",
+      "ride_minutes": 4,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 21,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-1190",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "19:50",
+      "arrival": "19:54",
+      "ride_minutes": 4,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 22,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-1205",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "20:05",
+      "arrival": "20:09",
+      "ride_minutes": 4,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 23,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-1217",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "20:17",
+      "arrival": "20:21",
+      "ride_minutes": 4,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 24,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-1233",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "20:33",
+      "arrival": "20:37",
+      "ride_minutes": 4,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 25,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-1240",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "20:40",
+      "arrival": "20:44",
+      "ride_minutes": 4,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 26,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-1258",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "20:58",
+      "arrival": "21:02",
+      "ride_minutes": 4,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    },
+    {
+      "sequence": 27,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Up-1265",
+      "from_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "to_stop": "住吉(福岡市)／西鉄バス",
+      "from_code": "676517",
+      "to_code": "676808",
+      "departure": "21:05",
+      "arrival": "21:09",
+      "ride_minutes": 4,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.407771,
+            33.580127
+          ],
+          [
+            130.415435,
+            33.580914
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        },
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      },
+      "to_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      }
+    },
+    {
+      "sequence": 28,
+      "line_label": "53",
+      "line_name": "西鉄バス・５・普通・住吉・博多駅行",
+      "line_id": "53",
+      "trip_id": "53-Down-1283",
+      "from_stop": "住吉(福岡市)／西鉄バス",
+      "to_stop": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "from_code": "676808",
+      "to_code": "676517",
+      "departure": "21:23",
+      "arrival": "21:27",
+      "ride_minutes": 4,
+      "distance_km": 0.72,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.415435,
+            33.580914
+          ],
+          [
+            130.407771,
+            33.580127
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.580914,
+          "lon": 130.415435
+        },
+        {
+          "lat": 33.580127,
+          "lon": 130.407771
+        }
+      ],
+      "from_coord": {
+        "lat": 33.580914,
+        "lon": 130.415435
+      },
+      "to_coord": {
+        "lat": 33.580127,
+        "lon": 130.407771
+      }
+    }
+  ],
+  "rest_stops": [
+    {
+      "at": "住吉(福岡市)／西鉄バス",
+      "minutes": 110,
+      "suggestion": "🍵 午後のティータイム！Bravo（徒歩44m）",
+      "nearby_pois": [
+        {
+          "name": "Bravo",
+          "type": "restaurant",
+          "brand": "Bravo",
+          "distance_m": 44
+        },
+        {
+          "name": "長浜ラーメン",
+          "type": "restaurant",
+          "brand": "",
+          "distance_m": 161
+        },
+        {
+          "name": "かどや食堂",
+          "type": "restaurant",
+          "brand": "",
+          "distance_m": 177
+        }
+      ],
+      "meal_break": null,
+      "time_period": "afternoon",
+      "time": "14:08",
+      "end_time": "15:58",
+      "after_leg": 1
+    },
+    {
+      "at": "住吉(福岡市)／西鉄バス",
+      "minutes": 11,
+      "suggestion": "🍽️ ディナータイム！Bravoで夕食（徒歩44m、11分の休憩）",
+      "nearby_pois": [
+        {
+          "name": "Bravo",
+          "type": "restaurant",
+          "brand": "Bravo",
+          "distance_m": 44
+        },
+        {
+          "name": "長浜ラーメン",
+          "type": "restaurant",
+          "brand": "",
+          "distance_m": 161
+        },
+        {
+          "name": "かどや食堂",
+          "type": "restaurant",
+          "brand": "",
+          "distance_m": 177
+        }
+      ],
+      "meal_break": "dinner",
+      "time_period": "dinner",
+      "time": "17:04",
+      "end_time": "17:15",
+      "after_leg": 7
+    }
+  ],
+  "statistics": {
+    "total_unique_stops": 2,
+    "total_stops": 29,
+    "total_unique_lines": 1,
+    "avg_leg_distance_km": 0.72,
+    "max_leg_distance_km": 0.72,
+    "min_leg_distance_km": 0.72,
+    "avg_leg_minutes": 4.6,
+    "max_leg_minutes": 5,
+    "min_leg_minutes": 4,
+    "repeated_stop_count": 27,
+    "unique_lines": 1,
+    "primary_metric_name": "ride_minutes",
+    "primary_metric_label": "RideMinutes",
+    "primary_metric_value": 444.0,
+    "elapsed_ms": 28145.187,
+    "stop_score_total": 0.0,
+    "score_per_hour": 0.0,
+    "effective_time_minutes": 0.0,
+    "scored_stop_count": 0.0
+  },
+  "exp4": {
+    "case_id": "support_single_digit_primary_and_theme",
+    "case_title": "Supporting Case: Single-Digit Theme Preservation",
+    "source_experiment": "exp2",
+    "scenario": "single-digit",
+    "paper_role": "support_case",
+    "paper_group": "appendix",
+    "algorithm_key": "full",
+    "algorithm_name": "Ours (Full)",
+    "origin_name": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+    "origin_code": "676517",
+    "depart_time_minutes": 840,
+    "depart_time_hhmm": "14:00",
+    "budget_minutes": 480,
+    "score_seed": 0,
+    "seed": 1,
+    "selection_reason": "Selected from formal supporting results as a single-digit case where Full solidly outscores NoNeg while maintaining 100% theme adherence.",
+    "qualitative_focus": "Compare how negative pruning prevents the route from drifting toward non-single-digit lines while maintaining high efficiency.",
+    "selection_evidence": {},
+    "metrics": {
+      "ride_minutes": 129,
+      "distance_km": 20.03,
+      "unique_stops": 2,
+      "legs": 28,
+      "hull_area": 0.0,
+      "quadrant_coverage": 2,
+      "total_time_minutes": 444,
+      "theme_hit_ratio": 1.0,
+      "theme_score_total": 28.0,
+      "theme_satisfied": true,
+      "off_theme_score_share": 0.0,
+      "elapsed_ms": 28145.187,
+      "labels": 438698,
+      "termination_reason": "completed",
+      "theme_name": "single-digit",
+      "pressure_name": "default"
+    }
+  },
+  "exp2_supporting": {
+    "theme_name": "single-digit",
+    "pressure_name": "default",
+    "reference_row": {
+      "algorithm": "Ours (Full)",
+      "origin": "渡辺通一丁目電気ビル共創館前／西鉄バス",
+      "origin_code": "676517",
+      "depart_time": 840,
+      "budget_minutes": 480,
+      "seed": 1,
+      "score_seed": 0,
+      "score_min": 1,
+      "score_max": 100,
+      "dwell_minutes": 0,
+      "objective_mode": "project_theme_first",
+      "pressure_name": "default",
+      "beam_width": 50,
+      "candidate_cap_short": 30,
+      "candidate_cap_long": 20,
+      "elapsed_ms": 28776.916,
+      "feasible": true,
+      "structural_feasible": true,
+      "effective_budget_feasible": true,
+      "violation_reason": "",
+      "stop_score_total": 444.0,
+      "scored_stop_count": 2,
+      "dwell_minutes_total": 0,
+      "effective_time_minutes": 444.0,
+      "effective_budget_overrun_minutes": 0.0,
+      "score_per_hour": 3.783784,
+      "theme_name": "single-digit",
+      "theme_target_size": 179,
+      "theme_stop_count": 0,
+      "theme_score_total": 28.0,
+      "theme_hit_ratio": 1.0,
+      "theme_score_share": 1.0,
+      "theme_satisfied": true,
+      "off_theme_stop_count": 0,
+      "off_theme_score_total": 0.0,
+      "off_theme_score_share": 0.0,
+      "waiting_ratio": 0.709459,
+      "revisit_ratio": 0.931034,
+      "backtrack_count": 27,
+      "route_hash": "6db1fdb85425",
+      "labels": 432417,
+      "scored_labels": 432417,
+      "negative_repeat_hits": 0,
+      "negative_ratio_hits": 0,
+      "negative_theme_hits": 0,
+      "negative_theme_line_hits": 0,
+      "negative_total_hits": 0,
+      "beam_trim_events": 0,
+      "beam_trimmed_labels": 0,
+      "candidate_trim_events": 0,
+      "candidate_trimmed_edges": 0,
+      "termination_reason": "completed",
+      "resource_cap_hit": false,
+      "timeout_seconds": 60.0,
+      "theme_required_ratio": 0.0,
+      "theme_min_stops_apply": 6,
+      "theme_density": 0.262079,
+      "theme_score_mass_share_all": 1.0,
+      "top20_theme_share": 1.0,
+      "top10_theme_score_mean": 28.0,
+      "top10_non_theme_score_mean": 0.0,
+      "score_conflict_gap": 0.0,
+      "theme_required_share_gap": 0.0,
+      "theme_top_share_gap": 0.0,
+      "theme_conflict_index": 0.737921,
+      "budget_tightness": 0.125,
+      "budget_label": "8h",
+      "theme_kind": "route",
+      "project_scoring_type": "theme_route_single_digit",
+      "project_target": 6,
+      "start_mode": "mixed_route_start",
+      "theme_leg_count": 28,
+      "off_theme_leg_count": 0,
+      "primary_objective_name": "ride_minutes",
+      "effective_min_minutes": 30,
+      "effective_min_legs": 2,
+      "experiment": "negative_project_theme_alignment",
+      "algo_key": "full"
+    },
+    "theme_metrics": {
+      "theme_kind": "route",
+      "project_scoring_type": "theme_route_single_digit",
+      "project_target": 6,
+      "start_mode": "mixed_route_start",
+      "theme_target_size": 179,
+      "theme_stop_count": 0,
+      "theme_leg_count": 28,
+      "theme_hit_ratio": 1.0,
+      "theme_score_total": 28.0,
+      "theme_score_share": 1.0,
+      "off_theme_stop_count": 0,
+      "off_theme_leg_count": 0,
+      "off_theme_score_share": 0.0,
+      "theme_satisfied": true,
+      "primary_objective_total": 444.0,
+      "primary_objective_name": "ride_minutes",
+      "score_per_hour": 3.783784,
+      "target_density": 0.262079,
+      "effective_min_minutes": 30,
+      "effective_min_legs": 2
+    }
+  }
+}
