@@ -23,6 +23,7 @@ from paper.experiments.exp3_parameter_sensitivity.exp3_balance_common import (
     DEFAULT_EXP1_RESULTS,
     DEFAULT_EXP3_RESULTS,
     DEFAULT_EXP3_RESULTS_QUICK,
+    EXP3_RESULTS_DIR,
     EXP3_TARGET_BUDGETS,
     filter_exp1_scope,
     load_exp1_frame,
@@ -35,6 +36,13 @@ from paper.experiments.exp3_parameter_sensitivity.exp3_balance_common import (
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build Exp3 quality-speed balance rows from Exp1 results.")
     parser.add_argument("--quick", action="store_true", help="Use a small subset for smoke testing.")
+    parser.add_argument(
+        "--preset",
+        type=str,
+        default="none",
+        choices=["none", "recent2_adapted"],
+        help="Convenience preset for algorithm scope and output naming.",
+    )
     parser.add_argument("--input", type=Path, default=DEFAULT_EXP1_RESULTS, help="Path to the Exp1 results JSON.")
     parser.add_argument("--output", type=Path, default=None, help="Optional explicit output path.")
     parser.add_argument("--origins", type=str, default="", help="Optional comma-separated origin names.")
@@ -45,8 +53,17 @@ def main() -> None:
     parser.add_argument("--max-origins", type=int, default=0, help="Limit to the first N origins when no --origins is given.")
     args = parser.parse_args()
 
+    if args.preset == "recent2_adapted" and not args.algorithms:
+        args.algorithms = "Ours (Full),ZhouWang2025-ALNS (adapted),Zhang2025-DynPref (adapted)"
+
     input_path = args.input.resolve()
-    output_path = args.output.resolve() if args.output else (DEFAULT_EXP3_RESULTS_QUICK if args.quick else DEFAULT_EXP3_RESULTS)
+    if args.output:
+        output_path = args.output.resolve()
+    elif args.preset != "none":
+        suffix = "_quick" if args.quick else ""
+        output_path = (EXP3_RESULTS_DIR / f"exp3_results_{args.preset}{suffix}.json").resolve()
+    else:
+        output_path = (DEFAULT_EXP3_RESULTS_QUICK if args.quick else DEFAULT_EXP3_RESULTS).resolve()
 
     metadata, exp1_df = load_exp1_frame(input_path)
     filtered_df, scope = filter_exp1_scope(
@@ -77,6 +94,7 @@ def main() -> None:
         "source_primary_metric": metadata.get("primary_metric"),
         "source_objective_mode": metadata.get("objective_mode"),
         "source_score_seed_count": metadata.get("score_seed_count"),
+        "preset": args.preset,
     }
     save_results(task_df.to_dict(orient="records"), output_path, metadata=out_metadata)
 

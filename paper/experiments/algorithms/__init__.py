@@ -14,8 +14,30 @@ from .ils_2opt import ILS2Opt
 from .vns import VNS
 from .nsga2 import NSGA2
 from .sa import SimulatedAnnealing
+from .zhang2025_dynamic_pref_adapted import Zhang2025DynamicPrefAdapted
+from .li_kim_2024_rtdrt_adapted import LiKim2024HeuristicAStarAdapted
+from .zhou_wang_2025_alns_adapted import ZhouWang2025ALNSAdapted
 
-def build_all_algorithms(*, objective=None) -> list:
+def _norm_algo_name(value: str) -> str:
+    return "".join(ch.lower() for ch in str(value) if ch.isalnum())
+
+
+def _keep_algorithm(algo_name: str, requested_norm: set[str]) -> bool:
+    if not requested_norm:
+        return True
+    name_norm = _norm_algo_name(algo_name)
+    for token in requested_norm:
+        if token == name_norm or token in name_norm:
+            return True
+    return False
+
+
+def build_all_algorithms(
+    *,
+    objective=None,
+    include_recent_adapted: bool = False,
+    algorithm_filter: list[str] | None = None,
+) -> list:
     """
     Build a fresh algorithm set for one experiment session.
 
@@ -32,6 +54,19 @@ def build_all_algorithms(*, objective=None) -> list:
         PureRaptor(),
         GreedyLookahead(),
     ]
+    if include_recent_adapted:
+        algorithms.extend(
+            [
+                Zhang2025DynamicPrefAdapted(),
+                LiKim2024HeuristicAStarAdapted(),
+                ZhouWang2025ALNSAdapted(),
+            ]
+        )
+
+    requested_norm = {_norm_algo_name(x) for x in (algorithm_filter or []) if str(x).strip()}
+    if requested_norm:
+        algorithms = [algo for algo in algorithms if _keep_algorithm(algo.name, requested_norm)]
+
     if objective is not None:
         for algo in algorithms:
             algo.objective = objective

@@ -1,0 +1,672 @@
+{
+  "metadata": {
+    "timestamp": "2026-03-23T18:36:09.120721",
+    "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "num_results": 8,
+    "experiment": "exp1_algorithm_comparison",
+    "quick_mode": true,
+    "primary_metric": "stop_score_total",
+    "primary_metric_label": "Stop Score",
+    "stop_score_seed": 20260323,
+    "stop_score_min": 1,
+    "stop_score_max": 100,
+    "dwell_minutes": 10,
+    "results_file": "paper\\results\\exp1_algorithm_comparison\\exp1_results_quick.json"
+  },
+  "planner_stats": {},
+  "config": {
+    "origins": [
+      "677805"
+    ],
+    "depart_times": [
+      420
+    ],
+    "budgets": [
+      240
+    ],
+    "num_repeats": 1,
+    "random_seeds": [
+      0
+    ],
+    "total_expected_runs": 1
+  },
+  "algorithms": [
+    "Greedy (L=3)",
+    "ILS+2opt",
+    "McRAPTOR",
+    "NSGA-II",
+    "Ours (Full)",
+    "Pure RAPTOR",
+    "SA",
+    "VNS"
+  ],
+  "algo_run_summary": [
+    {
+      "algorithm": "NSGA-II",
+      "n": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 45091.9,
+      "elapsed_median": 45091.9,
+      "elapsed_std": null,
+      "composite_mean": 0.372524,
+      "primary_mean": 1668.0,
+      "composite_std": null,
+      "ride_mean": 109.0,
+      "stops_mean": 21.0,
+      "hull_mean": 13.3451,
+      "score_per_hour_mean": 236.037736,
+      "total_time_mean": 224.0,
+      "elapsed_p95": 45091.9
+    },
+    {
+      "algorithm": "Ours (Full)",
+      "n": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 17369.53,
+      "elapsed_median": 17369.53,
+      "elapsed_std": null,
+      "composite_mean": 0.29777,
+      "primary_mean": 1440.0,
+      "composite_std": null,
+      "ride_mean": 67.0,
+      "stops_mean": 20.0,
+      "hull_mean": 14.7184,
+      "score_per_hour_mean": 251.895044,
+      "total_time_mean": 153.0,
+      "elapsed_p95": 17369.53
+    },
+    {
+      "algorithm": "ILS+2opt",
+      "n": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 251.68,
+      "elapsed_median": 251.68,
+      "elapsed_std": null,
+      "composite_mean": 0.355844,
+      "primary_mean": 1285.0,
+      "composite_std": null,
+      "ride_mean": 111.0,
+      "stops_mean": 17.0,
+      "hull_mean": 14.1719,
+      "score_per_hour_mean": 200.78125,
+      "total_time_mean": 224.0,
+      "elapsed_p95": 251.68
+    },
+    {
+      "algorithm": "SA",
+      "n": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 143.33,
+      "elapsed_median": 143.33,
+      "elapsed_std": null,
+      "composite_mean": 0.323513,
+      "primary_mean": 1214.0,
+      "composite_std": null,
+      "ride_mean": 93.0,
+      "stops_mean": 18.0,
+      "hull_mean": 21.7564,
+      "score_per_hour_mean": 183.939394,
+      "total_time_mean": 226.0,
+      "elapsed_p95": 143.33
+    },
+    {
+      "algorithm": "Greedy (L=3)",
+      "n": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 5.05,
+      "elapsed_median": 5.05,
+      "elapsed_std": null,
+      "composite_mean": 0.307019,
+      "primary_mean": 1162.0,
+      "composite_std": null,
+      "ride_mean": 94.0,
+      "stops_mean": 15.0,
+      "hull_mean": 20.5927,
+      "score_per_hour_mean": 187.924528,
+      "total_time_mean": 231.0,
+      "elapsed_p95": 5.05
+    },
+    {
+      "algorithm": "VNS",
+      "n": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 45.6,
+      "elapsed_median": 45.6,
+      "elapsed_std": null,
+      "composite_mean": 0.297697,
+      "primary_mean": 1091.0,
+      "composite_std": null,
+      "ride_mean": 103.0,
+      "stops_mean": 15.0,
+      "hull_mean": 12.1819,
+      "score_per_hour_mean": 179.835165,
+      "total_time_mean": 224.0,
+      "elapsed_p95": 45.6
+    },
+    {
+      "algorithm": "McRAPTOR",
+      "n": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 8938.81,
+      "elapsed_median": 8938.81,
+      "elapsed_std": null,
+      "composite_mean": 0.228333,
+      "primary_mean": 792.0,
+      "composite_std": null,
+      "ride_mean": 47.0,
+      "stops_mean": 13.0,
+      "hull_mean": 5.833,
+      "score_per_hour_mean": 146.215385,
+      "total_time_mean": 205.0,
+      "elapsed_p95": 8938.81
+    },
+    {
+      "algorithm": "Pure RAPTOR",
+      "n": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 61751.43,
+      "elapsed_median": 61751.43,
+      "elapsed_std": null,
+      "composite_mean": 0.195268,
+      "primary_mean": 274.0,
+      "composite_std": null,
+      "ride_mean": 26.0,
+      "stops_mean": 4.0,
+      "hull_mean": 1.8009,
+      "score_per_hour_mean": 260.952381,
+      "total_time_mean": 33.0,
+      "elapsed_p95": 61751.43
+    }
+  ],
+  "algo_query_summary": [
+    {
+      "algorithm": "NSGA-II",
+      "n_queries": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 45091.9,
+      "composite_mean": 0.372524,
+      "primary_mean": 1668.0,
+      "ride_mean": 109.0,
+      "stops_mean": 21.0,
+      "hull_mean": 13.3451,
+      "score_per_hour_mean": 236.037736,
+      "total_time_mean": 224.0
+    },
+    {
+      "algorithm": "Ours (Full)",
+      "n_queries": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 17369.53,
+      "composite_mean": 0.29777,
+      "primary_mean": 1440.0,
+      "ride_mean": 67.0,
+      "stops_mean": 20.0,
+      "hull_mean": 14.7184,
+      "score_per_hour_mean": 251.895044,
+      "total_time_mean": 153.0
+    },
+    {
+      "algorithm": "ILS+2opt",
+      "n_queries": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 251.68,
+      "composite_mean": 0.355844,
+      "primary_mean": 1285.0,
+      "ride_mean": 111.0,
+      "stops_mean": 17.0,
+      "hull_mean": 14.1719,
+      "score_per_hour_mean": 200.78125,
+      "total_time_mean": 224.0
+    },
+    {
+      "algorithm": "SA",
+      "n_queries": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 143.33,
+      "composite_mean": 0.323513,
+      "primary_mean": 1214.0,
+      "ride_mean": 93.0,
+      "stops_mean": 18.0,
+      "hull_mean": 21.7564,
+      "score_per_hour_mean": 183.939394,
+      "total_time_mean": 226.0
+    },
+    {
+      "algorithm": "Greedy (L=3)",
+      "n_queries": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 5.05,
+      "composite_mean": 0.307019,
+      "primary_mean": 1162.0,
+      "ride_mean": 94.0,
+      "stops_mean": 15.0,
+      "hull_mean": 20.5927,
+      "score_per_hour_mean": 187.924528,
+      "total_time_mean": 231.0
+    },
+    {
+      "algorithm": "VNS",
+      "n_queries": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 45.6,
+      "composite_mean": 0.297697,
+      "primary_mean": 1091.0,
+      "ride_mean": 103.0,
+      "stops_mean": 15.0,
+      "hull_mean": 12.1819,
+      "score_per_hour_mean": 179.835165,
+      "total_time_mean": 224.0
+    },
+    {
+      "algorithm": "McRAPTOR",
+      "n_queries": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 8938.81,
+      "composite_mean": 0.228333,
+      "primary_mean": 792.0,
+      "ride_mean": 47.0,
+      "stops_mean": 13.0,
+      "hull_mean": 5.833,
+      "score_per_hour_mean": 146.215385,
+      "total_time_mean": 205.0
+    },
+    {
+      "algorithm": "Pure RAPTOR",
+      "n_queries": 1,
+      "feasible_rate": 1.0,
+      "elapsed_mean": 61751.43,
+      "composite_mean": 0.195268,
+      "primary_mean": 274.0,
+      "ride_mean": 26.0,
+      "stops_mean": 4.0,
+      "hull_mean": 1.8009,
+      "score_per_hour_mean": 260.952381,
+      "total_time_mean": 33.0
+    }
+  ],
+  "algo_run_summary_by_budget": {
+    "240": [
+      {
+        "algorithm": "NSGA-II",
+        "n": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 45091.9,
+        "elapsed_median": 45091.9,
+        "elapsed_std": null,
+        "composite_mean": 0.372524,
+        "primary_mean": 1668.0,
+        "composite_std": null,
+        "ride_mean": 109.0,
+        "stops_mean": 21.0,
+        "hull_mean": 13.3451,
+        "score_per_hour_mean": 236.037736,
+        "total_time_mean": 224.0,
+        "elapsed_p95": 45091.9
+      },
+      {
+        "algorithm": "Ours (Full)",
+        "n": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 17369.53,
+        "elapsed_median": 17369.53,
+        "elapsed_std": null,
+        "composite_mean": 0.29777,
+        "primary_mean": 1440.0,
+        "composite_std": null,
+        "ride_mean": 67.0,
+        "stops_mean": 20.0,
+        "hull_mean": 14.7184,
+        "score_per_hour_mean": 251.895044,
+        "total_time_mean": 153.0,
+        "elapsed_p95": 17369.53
+      },
+      {
+        "algorithm": "ILS+2opt",
+        "n": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 251.68,
+        "elapsed_median": 251.68,
+        "elapsed_std": null,
+        "composite_mean": 0.355844,
+        "primary_mean": 1285.0,
+        "composite_std": null,
+        "ride_mean": 111.0,
+        "stops_mean": 17.0,
+        "hull_mean": 14.1719,
+        "score_per_hour_mean": 200.78125,
+        "total_time_mean": 224.0,
+        "elapsed_p95": 251.68
+      },
+      {
+        "algorithm": "SA",
+        "n": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 143.33,
+        "elapsed_median": 143.33,
+        "elapsed_std": null,
+        "composite_mean": 0.323513,
+        "primary_mean": 1214.0,
+        "composite_std": null,
+        "ride_mean": 93.0,
+        "stops_mean": 18.0,
+        "hull_mean": 21.7564,
+        "score_per_hour_mean": 183.939394,
+        "total_time_mean": 226.0,
+        "elapsed_p95": 143.33
+      },
+      {
+        "algorithm": "Greedy (L=3)",
+        "n": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 5.05,
+        "elapsed_median": 5.05,
+        "elapsed_std": null,
+        "composite_mean": 0.307019,
+        "primary_mean": 1162.0,
+        "composite_std": null,
+        "ride_mean": 94.0,
+        "stops_mean": 15.0,
+        "hull_mean": 20.5927,
+        "score_per_hour_mean": 187.924528,
+        "total_time_mean": 231.0,
+        "elapsed_p95": 5.05
+      },
+      {
+        "algorithm": "VNS",
+        "n": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 45.6,
+        "elapsed_median": 45.6,
+        "elapsed_std": null,
+        "composite_mean": 0.297697,
+        "primary_mean": 1091.0,
+        "composite_std": null,
+        "ride_mean": 103.0,
+        "stops_mean": 15.0,
+        "hull_mean": 12.1819,
+        "score_per_hour_mean": 179.835165,
+        "total_time_mean": 224.0,
+        "elapsed_p95": 45.6
+      },
+      {
+        "algorithm": "McRAPTOR",
+        "n": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 8938.81,
+        "elapsed_median": 8938.81,
+        "elapsed_std": null,
+        "composite_mean": 0.228333,
+        "primary_mean": 792.0,
+        "composite_std": null,
+        "ride_mean": 47.0,
+        "stops_mean": 13.0,
+        "hull_mean": 5.833,
+        "score_per_hour_mean": 146.215385,
+        "total_time_mean": 205.0,
+        "elapsed_p95": 8938.81
+      },
+      {
+        "algorithm": "Pure RAPTOR",
+        "n": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 61751.43,
+        "elapsed_median": 61751.43,
+        "elapsed_std": null,
+        "composite_mean": 0.195268,
+        "primary_mean": 274.0,
+        "composite_std": null,
+        "ride_mean": 26.0,
+        "stops_mean": 4.0,
+        "hull_mean": 1.8009,
+        "score_per_hour_mean": 260.952381,
+        "total_time_mean": 33.0,
+        "elapsed_p95": 61751.43
+      }
+    ]
+  },
+  "algo_query_summary_by_budget": {
+    "240": [
+      {
+        "algorithm": "NSGA-II",
+        "n_queries": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 45091.9,
+        "composite_mean": 0.372524,
+        "primary_mean": 1668.0,
+        "ride_mean": 109.0,
+        "stops_mean": 21.0,
+        "hull_mean": 13.3451,
+        "score_per_hour_mean": 236.037736,
+        "total_time_mean": 224.0
+      },
+      {
+        "algorithm": "Ours (Full)",
+        "n_queries": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 17369.53,
+        "composite_mean": 0.29777,
+        "primary_mean": 1440.0,
+        "ride_mean": 67.0,
+        "stops_mean": 20.0,
+        "hull_mean": 14.7184,
+        "score_per_hour_mean": 251.895044,
+        "total_time_mean": 153.0
+      },
+      {
+        "algorithm": "ILS+2opt",
+        "n_queries": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 251.68,
+        "composite_mean": 0.355844,
+        "primary_mean": 1285.0,
+        "ride_mean": 111.0,
+        "stops_mean": 17.0,
+        "hull_mean": 14.1719,
+        "score_per_hour_mean": 200.78125,
+        "total_time_mean": 224.0
+      },
+      {
+        "algorithm": "SA",
+        "n_queries": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 143.33,
+        "composite_mean": 0.323513,
+        "primary_mean": 1214.0,
+        "ride_mean": 93.0,
+        "stops_mean": 18.0,
+        "hull_mean": 21.7564,
+        "score_per_hour_mean": 183.939394,
+        "total_time_mean": 226.0
+      },
+      {
+        "algorithm": "Greedy (L=3)",
+        "n_queries": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 5.05,
+        "composite_mean": 0.307019,
+        "primary_mean": 1162.0,
+        "ride_mean": 94.0,
+        "stops_mean": 15.0,
+        "hull_mean": 20.5927,
+        "score_per_hour_mean": 187.924528,
+        "total_time_mean": 231.0
+      },
+      {
+        "algorithm": "VNS",
+        "n_queries": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 45.6,
+        "composite_mean": 0.297697,
+        "primary_mean": 1091.0,
+        "ride_mean": 103.0,
+        "stops_mean": 15.0,
+        "hull_mean": 12.1819,
+        "score_per_hour_mean": 179.835165,
+        "total_time_mean": 224.0
+      },
+      {
+        "algorithm": "McRAPTOR",
+        "n_queries": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 8938.81,
+        "composite_mean": 0.228333,
+        "primary_mean": 792.0,
+        "ride_mean": 47.0,
+        "stops_mean": 13.0,
+        "hull_mean": 5.833,
+        "score_per_hour_mean": 146.215385,
+        "total_time_mean": 205.0
+      },
+      {
+        "algorithm": "Pure RAPTOR",
+        "n_queries": 1,
+        "feasible_rate": 1.0,
+        "elapsed_mean": 61751.43,
+        "composite_mean": 0.195268,
+        "primary_mean": 274.0,
+        "ride_mean": 26.0,
+        "stops_mean": 4.0,
+        "hull_mean": 1.8009,
+        "score_per_hour_mean": 260.952381,
+        "total_time_mean": 33.0
+      }
+    ]
+  },
+  "seed_level_composite_wins": {
+    "NSGA-II": 1
+  },
+  "query_level_composite_wins": {
+    "NSGA-II": 1
+  },
+  "seed_level_wins_by_budget": {
+    "240": {
+      "NSGA-II": 1
+    }
+  },
+  "seed_level_wins_by_depart": {
+    "420": {
+      "NSGA-II": 1
+    }
+  },
+  "query_level_wins_by_budget": {
+    "240": {
+      "NSGA-II": 1
+    }
+  },
+  "query_level_wins_by_depart": {
+    "420": {
+      "NSGA-II": 1
+    }
+  },
+  "metric_wins_seed_level": {
+    "stop_score_total": {
+      "NSGA-II": 1
+    },
+    "unique_stops": {
+      "NSGA-II": 1
+    },
+    "score_per_hour": {
+      "Pure RAPTOR": 1
+    },
+    "hull_area": {
+      "SA": 1
+    },
+    "elapsed_ms": {
+      "Greedy (L=3)": 1
+    }
+  },
+  "wilcoxon_query_level": [
+    {
+      "algorithm": "Greedy (L=3)",
+      "N": 1
+    },
+    {
+      "algorithm": "ILS+2opt",
+      "N": 1
+    },
+    {
+      "algorithm": "McRAPTOR",
+      "N": 1
+    },
+    {
+      "algorithm": "NSGA-II",
+      "N": 1
+    },
+    {
+      "algorithm": "Pure RAPTOR",
+      "N": 1
+    },
+    {
+      "algorithm": "SA",
+      "N": 1
+    },
+    {
+      "algorithm": "VNS",
+      "N": 1
+    }
+  ],
+  "wilcoxon_query_level_by_budget": {
+    "240": [
+      {
+        "algorithm": "Greedy (L=3)",
+        "N": 1
+      },
+      {
+        "algorithm": "ILS+2opt",
+        "N": 1
+      },
+      {
+        "algorithm": "McRAPTOR",
+        "N": 1
+      },
+      {
+        "algorithm": "NSGA-II",
+        "N": 1
+      },
+      {
+        "algorithm": "Pure RAPTOR",
+        "N": 1
+      },
+      {
+        "algorithm": "SA",
+        "N": 1
+      },
+      {
+        "algorithm": "VNS",
+        "N": 1
+      }
+    ]
+  },
+  "stability_mean_std_by_seed": {
+    "Greedy (L=3)": 0.0,
+    "ILS+2opt": 0.0,
+    "McRAPTOR": 0.0,
+    "NSGA-II": 0.0,
+    "Ours (Full)": 0.0,
+    "Pure RAPTOR": 0.0,
+    "SA": 0.0,
+    "VNS": 0.0
+  },
+  "ours_unique_counts_across_5_seeds": {
+    "1": 1
+  },
+  "infeasible_count": 0,
+  "violation_counts": {},
+  "relative_vs_nsga": {
+    "primary_pct": -13.66906474820144,
+    "elapsed_faster_pct": 61.47971143376083,
+    "stops_pct": -4.761904761904762,
+    "hull_pct": 10.290668485061936,
+    "score_rate_pct": 6.718124088429664
+  },
+  "relative_vs_nsga_by_budget": {
+    "240": {
+      "primary_pct": -13.66906474820144,
+      "elapsed_faster_pct": 61.47971143376083,
+      "stops_pct": -4.761904761904762,
+      "hull_pct": 10.290668485061936,
+      "score_rate_pct": 6.718124088429664
+    }
+  }
+}

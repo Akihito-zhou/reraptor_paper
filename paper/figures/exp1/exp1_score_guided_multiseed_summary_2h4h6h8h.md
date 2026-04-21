@@ -8,6 +8,6 @@
 
 ## Figure Files
 
-- `exp1_score_guided_multiseed_overview__2h4h6h8h.png`
-- `exp1_score_guided_multiseed_budget__2h4h6h8h.png`
-- `exp1_score_guided_multiseed_seed_stability__2h4h6h8h.png`
+- `exp1_score_guided_multiseed_overview_2h4h6h8h.png`
+- `exp1_score_guided_multiseed_budget_2h4h6h8h.png`
+- `exp1_score_guided_multiseed_seed_stability_2h4h6h8h.png`

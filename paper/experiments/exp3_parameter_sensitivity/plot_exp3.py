@@ -34,6 +34,7 @@ from paper.experiments.exp3_parameter_sensitivity.exp3_balance_common import (
     build_query_level_frame,
     df_markdown,
     load_task_frame,
+    parse_csv_tokens,
     present_algorithm_summary,
     present_budget_summary,
     summarize_tradeoff_by_budget,
@@ -168,18 +169,42 @@ def _write_tradeoff_summary(task_df: pd.DataFrame, query_df: pd.DataFrame, out_d
     _save_markdown(out_dir / f"exp3_tradeoff_summary{suffix}.md", "Exp3 Balance Summary (Supplement to Exp1)", sections)
 
 
-def _write_head_to_head(task_df: pd.DataFrame, query_df: pd.DataFrame, out_dir: Path, *, suffix: str) -> None:
+def _pick_reference(task_df: pd.DataFrame, *, left_algo: str, right_algo: str) -> str:
+    if task_df.empty:
+        return right_algo
+    algos = [str(x) for x in task_df["algorithm"].dropna().astype(str).unique().tolist()]
+    if right_algo in algos:
+        return right_algo
+    for candidate in algos:
+        if candidate != left_algo:
+            return candidate
+    return right_algo
+
+
+def _write_head_to_head(
+    task_df: pd.DataFrame,
+    query_df: pd.DataFrame,
+    out_dir: Path,
+    *,
+    left_algo: str,
+    right_algo: str,
+    suffix: str,
+) -> None:
     task_detail = build_head_to_head_detail(
         task_df,
+        left_algo=left_algo,
+        right_algo=right_algo,
         group_cols=["origin_name", "depart_time", "budget_minutes", "score_seed"],
     )
     query_detail = build_head_to_head_detail(
         query_df,
+        left_algo=left_algo,
+        right_algo=right_algo,
         group_cols=["origin_name", "depart_time", "budget_minutes"],
     )
 
     sections = [
-        f"## {OURS_NAME} vs {REFERENCE_NAME} Task-Level",
+        f"## {left_algo} vs {right_algo} Task-Level",
         "",
         df_markdown(summarize_tradeoff_counts(task_detail)),
         "",
@@ -196,18 +221,32 @@ def _write_head_to_head(task_df: pd.DataFrame, query_df: pd.DataFrame, out_dir: 
         df_markdown(summarize_tradeoff_by_budget(query_detail)),
         "",
     ]
-    _save_markdown(out_dir / f"exp3_ours_vs_nsga_tradeoff{suffix}.md", "Exp3 Ours vs NSGA-II Tradeoff", sections)
+    _save_markdown(out_dir / f"exp3_head_to_head_tradeoff{suffix}.md", "Exp3 Head-to-Head Tradeoff", sections)
+    if left_algo == OURS_NAME and right_algo == REFERENCE_NAME:
+        _save_markdown(out_dir / f"exp3_ours_vs_nsga_tradeoff{suffix}.md", "Exp3 Ours vs NSGA-II Tradeoff", sections)
 
 
-def _write_overview(task_df: pd.DataFrame, query_df: pd.DataFrame, out_dir: Path, *, suffix: str) -> None:
+def _write_overview(
+    task_df: pd.DataFrame,
+    query_df: pd.DataFrame,
+    out_dir: Path,
+    *,
+    left_algo: str,
+    right_algo: str,
+    suffix: str,
+) -> None:
     task_summary = build_algorithm_summary(task_df, count_label="task_count")
     query_summary = build_algorithm_summary(query_df, count_label="query_count")
     task_detail = build_head_to_head_detail(
         task_df,
+        left_algo=left_algo,
+        right_algo=right_algo,
         group_cols=["origin_name", "depart_time", "budget_minutes", "score_seed"],
     )
     query_detail = build_head_to_head_detail(
         query_df,
+        left_algo=left_algo,
+        right_algo=right_algo,
         group_cols=["origin_name", "depart_time", "budget_minutes"],
     )
     task_counts = summarize_tradeoff_counts(task_detail).set_index("tradeoff_category") if not task_detail.empty else pd.DataFrame()
@@ -230,14 +269,14 @@ def _write_overview(task_df: pd.DataFrame, query_df: pd.DataFrame, out_dir: Path
         )
         if not task_counts.empty:
             sections.append(
-                f"- `{OURS_NAME}` vs `{REFERENCE_NAME}` on task-level: "
+                f"- `{left_algo}` vs `{right_algo}` on task-level: "
                 f"`{int(task_counts.loc['higher score + faster', 'count'])}` higher-score-and-faster tasks, "
                 f"`{int(task_counts.loc['higher score + slower', 'count'])}` higher-score-but-slower tasks, "
                 f"`{int(task_counts.loc['lower score + faster', 'count'])}` lower-score-but-faster tasks."
             )
         if not query_counts.empty:
             sections.append(
-                f"- Query-level summary: `{OURS_NAME}` has "
+                f"- Query-level summary: `{left_algo}` has "
                 f"`{int(query_counts.loc['higher score + faster', 'count'])}` higher-score-and-faster queries."
             )
         sections.append("")
@@ -250,6 +289,14 @@ def main() -> None:
     parser.add_argument("--quick", action="store_true", help="Use exp3_results_quick.json.")
     parser.add_argument("--input", type=Path, default=None, help="Optional explicit task-level input path.")
     parser.add_argument("--figures-dir", type=Path, default=EXP3_FIGURES_DIR, help="Output directory.")
+    parser.add_argument("--left-algo", type=str, default=OURS_NAME, help="Left algorithm for head-to-head tradeoff.")
+    parser.add_argument("--right-algo", type=str, default=REFERENCE_NAME, help="Right algorithm for head-to-head tradeoff.")
+    parser.add_argument(
+        "--name-tag",
+        type=str,
+        default="",
+        help="Optional output filename tag (e.g., recent2).",
+    )
     args = parser.parse_args()
 
     input_path = args.input.resolve() if args.input else (DEFAULT_EXP3_RESULTS_QUICK if args.quick else DEFAULT_EXP3_RESULTS)
@@ -260,12 +307,16 @@ def main() -> None:
     out_dir = args.figures_dir.resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
     suffix = _suffix(args.quick)
+    tag = "_".join(parse_csv_tokens(args.name_tag.replace("-", "_").replace("|", "_")))
+    if tag:
+        suffix = f"{suffix}_{tag}"
+    right_algo = _pick_reference(task_df, left_algo=args.left_algo, right_algo=args.right_algo)
 
     _plot_quality_speed_scatter(query_df, out_dir, suffix=suffix)
     _plot_ideal_distance(task_df, out_dir, suffix=suffix)
     _write_tradeoff_summary(task_df, query_df, out_dir, suffix=suffix)
-    _write_head_to_head(task_df, query_df, out_dir, suffix=suffix)
-    _write_overview(task_df, query_df, out_dir, suffix=suffix)
+    _write_head_to_head(task_df, query_df, out_dir, left_algo=args.left_algo, right_algo=right_algo, suffix=suffix)
+    _write_overview(task_df, query_df, out_dir, left_algo=args.left_algo, right_algo=right_algo, suffix=suffix)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,12 @@
+{
+  "penalty": 0.25,
+  "bonus": 0.6,
+  "min_ratio": 0.7,
+  "themes": 8,
+  "mean_d_theme_comp": 0.005805166666666667,
+  "pos_themecomp_rate": 0.625,
+  "mean_d_comp": -0.00733008333333332,
+  "mean_d_sat": 0.125,
+  "mean_d_hit": 0.05254058333333335,
+  "mean_runtime_ratio_full_vs_noneg": 1.3508279223124957
+}

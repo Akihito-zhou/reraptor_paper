@@ -31,13 +31,19 @@ from common.io_utils import load_results
 
 OURS_NAME = "Ours (Full)"
 NSGA_NAME = "NSGA-II"
-TOP_FOCUS_ALGOS = [OURS_NAME, NSGA_NAME, "ILS+2opt", "VNS", "McRAPTOR"]
+ALGO_DISPLAY_NAME_MAP = {
+    "ZhouWang2025-ALNS (adapted)": "ALNS (adapted)",
+    "Zhang2025-DynPref (adapted)": "DynPref (adapted)",
+}
+TOP_FOCUS_ALGOS = [OURS_NAME, NSGA_NAME, "ILS+2opt", "VNS", "McRAPTOR", "ALNS (adapted)", "DynPref (adapted)"]
 PALETTE = {
     OURS_NAME: "#c44536",
     NSGA_NAME: "#355c7d",
     "ILS+2opt": "#2a9d8f",
     "VNS": "#e9c46a",
     "McRAPTOR": "#6c757d",
+    "ALNS (adapted)": "#3a86ff",
+    "DynPref (adapted)": "#ff6b6b",
     "SA": "#8d99ae",
     "Pure RAPTOR": "#b56576",
     "Greedy (L=3)": "#adb5bd",
@@ -63,6 +69,8 @@ def _short_algo(name: str) -> str:
         "ILS+2opt": "ILS+2opt",
         "VNS": "VNS",
         "McRAPTOR": "McRAPTOR",
+        "ALNS (adapted)": "ALNS",
+        "DynPref (adapted)": "DynPref",
         "SA": "SA",
         "Pure RAPTOR": "Pure RAPTOR",
         "Greedy (L=3)": "Greedy",
@@ -132,7 +140,7 @@ def _load_run_df(results_path: Path) -> tuple[dict[str, Any], pd.DataFrame]:
         run_df["effective_budget_feasible"] = run_df.get("feasible", True)
         run_df["effective_budget_feasible"] = run_df["effective_budget_feasible"].fillna(False).astype(bool)
 
-    run_df["algorithm"] = run_df["algorithm"].astype(str)
+    run_df["algorithm"] = run_df["algorithm"].astype(str).map(lambda x: ALGO_DISPLAY_NAME_MAP.get(x, x))
     run_df["origin_name"] = run_df["origin_name"].astype(str)
     run_df["origin"] = run_df.get("origin", run_df["origin_name"]).astype(str)
     run_df["budget_hours"] = run_df["budget_minutes"] / 60.0
@@ -358,6 +366,8 @@ def plot_overview(algo_task_df: pd.DataFrame, output_path: Path) -> None:
     fig.suptitle("Experiment 1 Multi-Seed Overview", fontsize=18, y=0.99)
     fig.tight_layout()
     fig.savefig(output_path, dpi=320, bbox_inches="tight")
+    if output_path.suffix.lower() == ".png":
+        fig.savefig(output_path.with_suffix(".pdf"), dpi=320, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -442,6 +452,8 @@ def plot_budget_breakdown(task_df: pd.DataFrame, head_df: pd.DataFrame, output_p
     fig.suptitle("Experiment 1 Budget Breakdown", fontsize=18, y=0.99)
     fig.tight_layout()
     fig.savefig(output_path, dpi=320, bbox_inches="tight")
+    if output_path.suffix.lower() == ".png":
+        fig.savefig(output_path.with_suffix(".pdf"), dpi=320, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -520,6 +532,8 @@ def plot_seed_stability(
     fig.suptitle("Experiment 1 Score-Seed Stability", fontsize=18, y=0.99)
     fig.tight_layout()
     fig.savefig(output_path, dpi=320, bbox_inches="tight")
+    if output_path.suffix.lower() == ".png":
+        fig.savefig(output_path.with_suffix(".pdf"), dpi=320, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -753,7 +767,7 @@ def main() -> None:
     parser.add_argument(
         "--input",
         type=Path,
-        default=RESULTS_BASE_DIR / "exp1_algorithm_comparison" / "exp1_results_full_score_guided_20260401.json",
+        default=RESULTS_BASE_DIR / "exp1_algorithm_comparison" / "exp1_results_recent_baselines_2h4h6h8h.json",
         help="Path to the Exp1 result JSON file",
     )
     parser.add_argument(

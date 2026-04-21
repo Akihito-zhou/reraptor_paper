@@ -13,7 +13,7 @@ from paper.experiments.common.io_utils import load_results
 
 EXP3_RESULTS_DIR = RESULTS_BASE_DIR / "exp3_parameter_sensitivity"
 EXP3_FIGURES_DIR = FIGURES_BASE_DIR / "exp3"
-DEFAULT_EXP1_RESULTS = RESULTS_BASE_DIR / "exp1_algorithm_comparison" / "exp1_final_dataset_2h4h6h8h.json"
+DEFAULT_EXP1_RESULTS = RESULTS_BASE_DIR / "exp1_algorithm_comparison" / "exp1_results_recent_baselines_2h4h6h8h.json"
 DEFAULT_EXP3_RESULTS = EXP3_RESULTS_DIR / "exp3_results.json"
 DEFAULT_EXP3_RESULTS_QUICK = EXP3_RESULTS_DIR / "exp3_results_quick.json"
 EXP3_TARGET_BUDGETS = [2 * 60, 4 * 60, 6 * 60, 8 * 60]
@@ -24,6 +24,8 @@ REFERENCE_NAME = "NSGA-II"
 ALGORITHM_ORDER = [
     "Ours (Full)",
     "NSGA-II",
+    "ZhouWang2025-ALNS (adapted)",
+    "Zhang2025-DynPref (adapted)",
     "ILS+2opt",
     "VNS",
     "SA",

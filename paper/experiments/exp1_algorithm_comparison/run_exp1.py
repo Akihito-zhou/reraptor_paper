@@ -178,6 +178,8 @@ def build_experiment_metadata(
     algorithms: list,
     total_runs: int,
     output_tag: str | None,
+    include_recent_adapted_baselines: bool = False,
+    algorithms_override: list[str] | None = None,
 ) -> dict:
     metadata = {
         "experiment": "exp1_algorithm_comparison",
@@ -204,6 +206,8 @@ def build_experiment_metadata(
         },
         "total_runs": total_runs,
         "output_tag": output_tag,
+        "include_recent_adapted_baselines": bool(include_recent_adapted_baselines),
+        "algorithms_override": list(algorithms_override or []),
     }
     if len(score_seeds) == 1:
         metadata["stop_score_seed"] = int(score_seeds[0])
@@ -227,6 +231,8 @@ def run_experiment(
     output_tag: str | None = None,
     repeat_deterministic_seeds: bool = False,
     objective_mode: str = "score_guided",
+    include_recent_adapted_baselines: bool = False,
+    algorithms_override: list[str] | None = None,
 ) -> None:
     print(f"============================================================")
     print(f" STARTING EXPERIMENT 1: Algorithm Comparison")
@@ -261,7 +267,12 @@ def run_experiment(
     else:
         repeats = QUICK_NUM_REPEATS if quick_mode else NUM_REPEATS
         seeds = RANDOM_SEEDS[:repeats]
-    algorithms = build_all_algorithms()
+    algorithms = build_all_algorithms(
+        include_recent_adapted=include_recent_adapted_baselines,
+        algorithm_filter=algorithms_override,
+    )
+    if not algorithms:
+        raise ValueError("No algorithms selected. Check --algorithms filter.")
     algorithm_seeds = {
         algo.name: seeds_for_algorithm(algo, seeds, repeat_deterministic_seeds=repeat_deterministic_seeds)
         for algo in algorithms
@@ -319,6 +330,8 @@ def run_experiment(
         algorithms=algorithms,
         total_runs=total_runs,
         output_tag=output_tag,
+        include_recent_adapted_baselines=include_recent_adapted_baselines,
+        algorithms_override=algorithms_override,
     )
 
     print(f"Total Configurations to Evaluate: {total_runs}")
@@ -445,6 +458,17 @@ if __name__ == "__main__":
         action="store_true",
         help="Also repeat deterministic algorithms over all requested seeds",
     )
+    parser.add_argument(
+        "--include-recent-adapted-baselines",
+        action="store_true",
+        help="Include 2024+ adapted baselines in the algorithm pool",
+    )
+    parser.add_argument(
+        "--algorithms",
+        type=str,
+        default="",
+        help="Comma-separated algorithm name filters (case-insensitive token match)",
+    )
     args = parser.parse_args()
     
     run_experiment(
@@ -463,4 +487,6 @@ if __name__ == "__main__":
         output_tag=(args.output_tag.strip() or None),
         repeat_deterministic_seeds=args.repeat_deterministic_seeds,
         objective_mode=args.objective_mode,
+        include_recent_adapted_baselines=args.include_recent_adapted_baselines,
+        algorithms_override=parse_csv_tokens(args.algorithms),
     )

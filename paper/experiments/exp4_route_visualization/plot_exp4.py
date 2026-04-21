@@ -28,6 +28,7 @@ from paper.experiments.exp4_route_visualization.exp4_common import (
     load_manifest,
     save_json,
 )
+
 GEOJSON_PATH = PROJECT_ROOT / "apps" / "api" / "data" / "base" / "fukuoka_city.geojson"
 ROUTE_COLORS = ["#0b6e4f", "#ea7317", "#2b59c3", "#c3423f", "#8f2d56", "#3c6e71"]
 
@@ -137,6 +138,12 @@ class PaperEkispertShapeFetcher:
 
 def parse_csv_tokens(raw: str) -> list[str]:
     return [x.strip() for x in str(raw).split(",") if x.strip()]
+
+
+def _save_png_pdf(fig: plt.Figure, out_png_path: Path, *, dpi: int = 300) -> None:
+    out_png_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_png_path, dpi=dpi, bbox_inches="tight")
+    fig.savefig(out_png_path.with_suffix(".pdf"), bbox_inches="tight")
 
 
 def _load_geojson_segments() -> list[list[tuple[float, float]]]:
@@ -250,7 +257,7 @@ def render_route_png(
     fetcher: PaperEkispertShapeFetcher | None = None,
 ) -> dict[str, int]:
     payload = load_route_json(route_json_path)
-    fig, ax = plt.subplots(figsize=(7.0, 7.0))
+    fig, ax = plt.subplots(figsize=(7.6, 7.8))
 
     for segment in CITY_SEGMENTS:
         xs = [pt[0] for pt in segment]
@@ -316,23 +323,15 @@ def render_route_png(
     if all_lons and all_lats:
         ax.scatter(all_lons[0], all_lats[0], color="green", marker="D", s=80, zorder=5)
         ax.scatter(all_lons[-1], all_lats[-1], color="red", marker="X", s=80, zorder=5)
-        margin_x = max(0.01, (max(all_lons) - min(all_lons)) * 0.15)
-        margin_y = max(0.01, (max(all_lats) - min(all_lats)) * 0.15)
+        margin_x = max(0.02, (max(all_lons) - min(all_lons)) * 0.45)
+        margin_y = max(0.02, (max(all_lats) - min(all_lats)) * 0.45)
         ax.set_xlim(min(all_lons) - margin_x, max(all_lons) + margin_x)
         ax.set_ylim(min(all_lats) - margin_y, max(all_lats) + margin_y)
 
-    stats = payload.get("statistics", {})
-    ax.set_title(
-        f"{payload.get('title', 'Exp4 Route')}\n"
-        f"Stop Score {float(stats.get('stop_score_total', 0.0)):.1f} | "
-        f"Gen {float(stats.get('elapsed_ms', 0.0)):.1f} ms | "
-        f"Score/h {float(stats.get('score_per_hour', 0.0)):.1f}",
-        fontsize=11,
-    )
     ax.set_aspect("equal", adjustable="box")
     ax.axis("off")
-    output_png_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_png_path, dpi=220, bbox_inches="tight")
+    fig.subplots_adjust(top=0.99, bottom=0.01, left=0.01, right=0.99)
+    _save_png_pdf(fig, output_png_path, dpi=300)
     plt.close(fig)
     return {"fetched_legs": fetched_legs, "fallback_legs": fallback_legs}
 
@@ -360,7 +359,7 @@ def build_case_panel(
     if not route_png_paths:
         return ""
 
-    fig, axes = plt.subplots(1, len(route_png_paths), figsize=(6.5 * len(route_png_paths), 7.5))
+    fig, axes = plt.subplots(1, len(route_png_paths), figsize=(6.9 * len(route_png_paths), 7.6))
     if len(route_png_paths) == 1:
         axes = [axes]
 
@@ -370,23 +369,26 @@ def build_case_panel(
         ax.imshow(img)
         ax.set_title(
             f"{artifact['algorithm_name']}\n"
-            f"Score {float(sm['stop_score_total']):.1f} | Gen {float(artifact['elapsed_ms']):.1f} ms\n"
-            f"Score/h {float(sm['score_per_hour']):.1f} | Scored Stops {float(sm['scored_stop_count']):.0f}",
-            fontsize=10,
+            f"Score {float(sm['stop_score_total']):.1f} | Gen {float(artifact['elapsed_ms']):.1f} ms",
+            fontsize=24,
+            pad=24,
         )
         ax.axis("off")
 
     depart_time = int(case["depart_time"])
-    fig.suptitle(
-        f"{case['title']}\n"
+    fig.text(0.5, 0.98, f"{case['title']}", ha="center", va="top", fontsize=28)
+    fig.text(
+        0.5,
+        0.92,
         f"{case['origin_name']} | {depart_time // 60:02d}:{depart_time % 60:02d} | "
         f"{int(case['budget_minutes']) // 60}h | score_seed={case['score_seed']} | seed={case['seed']}",
-        fontsize=14,
+        ha="center",
+        va="top",
+        fontsize=26,
     )
-    fig.text(0.5, 0.02, case["selection_reason"], ha="center", fontsize=10)
+    fig.subplots_adjust(top=0.74, bottom=0.04, left=0.015, right=0.985, wspace=0.10)
     panel_path = EXP4_FIGURES_DIR / f"exp4_{case['id']}_panel.png"
-    panel_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(panel_path, dpi=220, bbox_inches="tight")
+    _save_png_pdf(fig, panel_path, dpi=300)
     plt.close(fig)
     if fetcher is not None:
         print(
@@ -401,19 +403,17 @@ def build_collection_panel(cases: list[dict], *, title: str, output_path: Path) 
     if not panel_cases:
         return ""
 
-    fig, axes = plt.subplots(len(panel_cases), 1, figsize=(16, 8 * len(panel_cases)))
+    fig, axes = plt.subplots(len(panel_cases), 1, figsize=(12.6, 5.8 * len(panel_cases)))
     if len(panel_cases) == 1:
         axes = [axes]
 
     for ax, case in zip(axes, panel_cases, strict=False):
         img = plt.imread(case["panel_path"])
         ax.imshow(img)
-        ax.set_title(case["title"], fontsize=13)
         ax.axis("off")
 
-    fig.suptitle(title, fontsize=16)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=220, bbox_inches="tight")
+    fig.subplots_adjust(top=0.995, bottom=0.01, left=0.01, right=0.99, hspace=0.01)
+    _save_png_pdf(fig, output_path, dpi=300)
     plt.close(fig)
     return str(output_path)
 
@@ -433,7 +433,12 @@ def write_summary_md(cases: list[dict], *, main_panel_path: str = "", appendix_p
             f.write(f"## {case['title']}\n\n")
             f.write(f"- Case id: `{case['id']}`\n")
             f.write(f"- Role: `{case['paper_role']}` / `{case['paper_group']}`\n")
-            f.write(f"- Query: `{case['origin_name']}`, `{int(case['depart_time']) // 60:02d}:{int(case['depart_time']) % 60:02d}`, `{int(case['budget_minutes']) // 60}h`, `score_seed={case['score_seed']}`, `seed={case['seed']}`\n")
+            f.write(
+                f"- Query: `{case['origin_name']}`, "
+                f"`{int(case['depart_time']) // 60:02d}:{int(case['depart_time']) % 60:02d}`, "
+                f"`{int(case['budget_minutes']) // 60}h`, "
+                f"`score_seed={case['score_seed']}`, `seed={case['seed']}`\n"
+            )
             f.write(f"- Focus: {case['qualitative_focus']}\n")
             f.write(f"- Selection: {case['selection_reason']}\n")
             panel_path = str(case.get("panel_path", "")).strip()
@@ -446,8 +451,10 @@ def write_summary_md(cases: list[dict], *, main_panel_path: str = "", appendix_p
             for artifact in case.get("artifacts", []):
                 sm = artifact["summary_metrics"]
                 f.write(
-                    f"| {artifact['algorithm_name']} | {float(sm['stop_score_total']):.1f} | {float(artifact['elapsed_ms']):.1f} | "
-                    f"{float(sm['score_per_hour']):.1f} | {float(sm['effective_time_minutes']):.1f} | {float(sm['scored_stop_count']):.0f} | {artifact['feasible']} |\n"
+                    f"| {artifact['algorithm_name']} | {float(sm['stop_score_total']):.1f} | "
+                    f"{float(artifact['elapsed_ms']):.1f} | {float(sm['score_per_hour']):.1f} | "
+                    f"{float(sm['effective_time_minutes']):.1f} | {float(sm['scored_stop_count']):.0f} | "
+                    f"{artifact['feasible']} |\n"
                 )
             f.write("\n")
 

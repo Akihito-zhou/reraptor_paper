@@ -121,15 +121,17 @@ grestore
     timetable-feasible routes that maximize itinerary value rather than merely
     minimize travel time. This paper studies time-budgeted value-maximizing
     transit itinerary planning on timetable-based transit schedules and proposes ReRAP\-TOR, a
-    reverse-objective RAPTOR-style label-setting method that preserves
+    reverse-objective RAPTOR (Round-based Public Transit Optimized Router)-style
+    label-setting method that preserves
     timetable-feasible expansion while ranking partial routes by a value-aware
     surrogate score. The framework supports pluggable objective modules and uses
     three pruning layers: Beam pruning for width control, Dominance pruning for
     local label filtering, and Negative pruning for suppressing semantically
-    weak partial routes. We evaluate the method on Ekispert-provided transit
-    schedule data for Fukuoka under a seeded stop-reward benchmark and compare
-    it with
-    NSGA-II, ILS+2opt, VNS, SA, McRAPTOR, Pure RAPTOR, and Greedy.
+    weak partial routes. We evaluate the method on transit schedule data for
+    Fukuoka provided by Ekispert API (\url{https://api-info.ekispert.com})
+    under a seeded stop-reward benchmark and compare it with
+    NSGA-II, ILS+2opt, VNS, SA, McRAPTOR, Pure RAPTOR, Greedy,
+    ALNS (adapted), and DynPref (adapted).
     ReRAPTOR achieves the
     highest overall average stop score (\(826.90\)), improving on
     NSGA-II by
@@ -169,7 +171,8 @@ rewards are incorporated, the number of plausible partial routes grows quickly.
 An overly aggressive compression strategy removes information needed for value
 maximization, whereas an unpruned search becomes computationally unstable.
 
-This paper addresses that gap with ReRAP\-TOR, a reverse-objective RAPTOR-style
+This paper addresses that gap with ReRAP\-TOR, a reverse-objective
+RAPTOR (Round-bAsed Public Transit Optimized Router)-style
 search over timetable-feasible transit stop schedules \cite{delling2015raptor,wessel2017retrospective,wong2013leveraginggtfs}.
 Instead of propagating labels to minimize arrival time, ReRAPTOR preserves the
 timetable-feasible expansion logic of RAPTOR while ranking partial routes by a
@@ -184,53 +187,31 @@ routes, shifting the goal from earliest-arrival routing to time-budgeted value
 collection.
 
 We evaluate the method on Ekispert-provided transit schedule data for Fukuoka
-through four experiment groups.
-Experiment~1 compares ReRAPTOR with NSGA-II~\cite{deb2002nsga2},
-ILS+2opt~\cite{lourenco2003ils}, VNS~\cite{mladenovic1997vns},
-SA~\cite{kirkpatrick1983sa}, McRAPTOR and Pure RAPTOR~\cite{delling2015raptor},
-and Greedy under a seeded stop-reward benchmark.
-ReRAPTOR achieves the highest overall average stop score (\(826.90\)) and is
-\(6.57\times\) faster than NSGA-II on average (\(4165.67\) ms vs
-\(27351.18\) ms).
-Experiment~2 shows that Beam and Dominance are the two core scalability layers:
-removing Dominance makes the method \(2.91\times\) slower, removing Beam makes
-it \(9.53\times\) slower, and removing both causes severe label explosion and
-cap hits.
-Experiment~3 provides an additional balance analysis showing that ReRAPTOR is the
-closest method to the score--time ideal point, with query-level ideal distance
-\(0.1672\) compared with \(0.6292\) for NSGA-II.
-Experiment~4 complements the aggregate numbers with route-level cases, including
-both strong success cases and an explicit counterexample.
+through four experiment groups. Experiment~1 compares ReRAPTOR with NSGA-II,
+ILS+2opt, VNS, SA, McRAPTOR, Pure RAPTOR, Greedy, and two adapted recent
+baselines (ALNS, DynPref) under a seeded stop-reward benchmark; ReRAPTOR reaches
+the best overall average stop score (\(826.90\)) and is \(6.57\times\) faster
+than NSGA-II on average (\(4165.67\) ms vs \(27351.18\) ms). Experiment~2
+isolates pruning effects and shows Beam and Dominance are the two core
+scalability layers. Experiment~3 adds quality--speed balance analysis and
+Experiment~4 provides route-level interpretability cases, including a
+counterexample.
 
-The contributions of this paper are fourfold.
-First, we formulate time-budgeted value-maximizing transit itinerary planning
-as a timetable-feasible search problem with pluggable objective and acceptance
-modules, so the same search backbone can support geometry-aware and seeded
-stop-reward tasks.
-Second, we propose ReRAP\-TOR, a reverse-objective RAPTOR-style label-setting
-algorithm that keeps route history, spatial coverage, and task-specific reward
-state inside timetable expansion rather than scoring routes only after
-construction.
-Third, we show that the proposed three-layer pruning design has distinct roles:
-Beam and Dominance act as the main search-space control layers, whereas
-Negative pruning mainly improves semantic alignment in constrained tasks.
-Fourth, experiments on Ekispert-provided Fukuoka transit schedules show that
-ReRAPTOR achieves the strongest overall quality--speed profile among the
-compared baselines while remaining explicit about failure cases.
+The contributions are fourfold:
+(1) a timetable-feasible formulation with pluggable objective/acceptance modules;
+(2) ReRAP\-TOR, which optimizes value during RAPTOR-style expansion rather than
+post-hoc route scoring; (3) a three-layer pruning analysis showing Beam and
+Dominance as core scalability controls and Negative pruning as semantic-alignment
+control; and (4) an empirical study on Ekispert-based Fukuoka schedules showing
+strong quality--speed balance while explicitly reporting failure cases.
 
-The remainder of the paper is organized as follows.
-Section 2 reviews related work on tourist trip design, public-transit routing,
-and multi-objective search.
-Section 3 formalizes the problem.
-Section 4 presents ReRAPTOR and its mathematical abstraction.
-Section 5 reports experimental results, including algorithm comparison, ablation, balance analysis,
-and a route case study.
-Finally, Sections 6 and 7 discuss implications and conclude the paper.
+The remainder of the paper reviews related work, formulates the problem,
+presents the method, and reports experiments, discussion, and conclusions.
 
 \section{Related Work}
-Timetable-based public-transit routing has been studied extensively, with RAPTOR
+Timetable-based public-transit routing has been studied extensively, with RAPTOR \cite{delling2015raptor}
 being a representative round-based framework for efficient earliest-arrival and
-Pareto-feasible journey search \cite{delling2015raptor}. Later work improves
+Pareto-feasible journey search. Later work improves
 transfer handling, bicriterion search, restricted Pareto sets, and acceleration
 through trip-based, transfer-aware, and partition-based methods
 \cite{abuaisha2024transferdb,agarwal2024bicriteriontb,delling2019restrictedpareto,delling2017hyperpartitioning,he2022paretojourneys,phan2019hublabeling}.
@@ -254,6 +235,16 @@ More generally, multi-objective route search and general-purpose optimizers such
 as NSGA-II, iterated local search, variable neighborhood search, and simulated
 annealing provide relevant baselines
 \cite{choachaicharoenkul2022tripplanning,deb2002nsga2,demeyer2013martins,kirkpatrick1983sa,lourenco2003ils,mladenovic1997vns}.
+Recent work also includes dynamic preference-based multimodal trip planning and
+demand-adaptive multi-route planning with ALNS-style search, as well as
+integrated intermodal timetabling and scheduling
+\cite{zhang2025dynamicmultimodal,zhou2025optimalroutingdas,xia2024integrated}.
+A recent review further summarizes metaheuristic trends in multimodal
+transport optimization \cite{chau2025multimodalslr}.
+Many recent systems assume online inputs (e.g., shared-mobility state or
+interactive preferences) outside our fixed timetable-only benchmark, so we
+compare directly compatible methods and include two recent \emph{adapted}
+baselines under matched constraints.
 Our contribution differs in that it embeds a pluggable value module directly
 inside timetable-feasible RAPTOR-style expansion instead of optimizing route
 value only after constructing complete itineraries.
@@ -264,9 +255,10 @@ We model the transit timetable as a temporal directed graph
 \(G=(\mathcal{S},\mathcal{E})\), where each stop \(s \in \mathcal{S}\) is a station
 identifier and each edge \(e \in \mathcal{E}\) is a feasible timetable segment
 \(e=(u,v,\tau^{\mathrm{dep}}(e),\tau^{\mathrm{arr}}(e),\ell(e),d(e))\).
-Here \(u\) and \(v\) are origin and destination stops,
-\(\tau^{\mathrm{dep}}\) and \(\tau^{\mathrm{arr}}\) are departure/arrival times,
-\(\ell(e)\) is the transit line ID, and \(d(e)\) is the segment distance.
+Here \(u,v\in\mathcal{S}\) are the origin and destination stop IDs of a segment,
+\(\tau^{\mathrm{dep}}\) and \(\tau^{\mathrm{arr}}\) are timetable departure/arrival timestamps,
+\(\ell(e)\) is the transit line identifier, and \(d(e)\) is the segment-distance
+attribute (also written as \(d_e\) in the extension equation).
 Given a query \(q=(o,t_0,B)\) with origin \(o\), departure time \(t_0\), and
 time budget \(B\), the task is to construct a timetable-feasible itinerary
 \(r=(e_1,\ldots,e_m)\) that maximizes route value.
@@ -339,6 +331,8 @@ The seeded stop-reward objective is then
 In other words, the main experiments no longer optimize hull area directly;
 they optimize collected stop reward under a fixed effective-time budget, while
 the same timetable-feasible search structure and pruning framework are retained.
+We use \(F_{\theta}(\cdot)\) for the final evaluated route objective and
+\(S_{\theta}(\cdot)\) only for ranking partial labels during search.
 
 \section{Proposed Method}
 \subsection{Overall Framework}
@@ -355,7 +349,7 @@ filter, and returns the highest-scored accepted route.
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.94\textwidth]{figures/method/ours_framework_flow_tikz.pdf}
+    \includegraphics[width=0.94\textwidth]{figures/method/ours_framework_flow.pdf}
     \caption{Overall framework of the proposed time-budgeted itinerary planner. The core search remains unchanged across experiments; only score weights or optional acceptance predicates are varied.}
     \label{fig:method_framework}
 \end{figure*}
@@ -462,6 +456,9 @@ which matches the seeded stop-reward evaluation protocol. The constants
 intended lexicographic priority ``reward \(\gg\) efficiency \(\gg\) time'';
 the factor 60 in \(\operatorname{SPH}\) is only a minute-to-hour unit
 conversion.
+For clarity, \(F_{\theta}\) in Eq.~\ref{eq:generic_objective} evaluates a
+complete route, while \(S_{\theta}\) in Eq.~\ref{eq:search_score} is a
+surrogate used to rank partial labels during search.
 
 After scoring, each candidate is filtered by two additional pruning stages.
 First, dominance pruning discards labels that are clearly weaker than an existing
@@ -476,6 +473,7 @@ In generic form,
     \iff
     D_{\theta}(\lambda^{a},\lambda^{b}) = 1.
 \end{equation}
+Here \(D_{\theta}(\cdot,\cdot)\) denotes the task-specific dominance predicate.
 For the geometry-aware default, dominance is decided heuristically from search
 score, ride time, and spatial coverage. For the stop-reward task, we use a
 tighter seeded stop-reward rule based on
@@ -505,11 +503,14 @@ Second, beam pruning keeps only the best \(W\) labels in each stop-round bucket:
         \Bigr).
     \end{split}
 \end{equation}
-Here \(D_{\theta}(\cdot,\cdot)\) denotes the task-specific dominance predicate,
-\(\operatorname{TopW}_{S_{\theta}}\) returns the highest-scored \(W\) labels
-under \(S_{\theta}\), and \(\operatorname{Next}(u,a_{\lambda})\) denotes the
-feasible outgoing timetable edges from stop \(u\) no earlier than arrival time
-\(a_{\lambda}\). In our experiments, \(W=50\) is the default setting; this is
+Here \(\operatorname{TopW}_{S_{\theta}}\) returns the highest-scored \(W\) labels
+under \(S_{\theta}\), i.e., candidates are scored by \(S_{\theta}\), sorted in
+descending order, and truncated to at most \(W\) labels (if fewer than \(W\)
+candidates exist, all are kept). \(\operatorname{Next}(u,a_{\lambda})\) denotes
+the feasible outgoing timetable edges from stop \(u\) no earlier than arrival
+time \(a_{\lambda}\). Here \(k\) is the round index and
+\(\mathcal{L}_{k}(v)\) is the label set stored at stop \(v\) after round \(k\).
+In our experiments, \(W=50\) is the default setting; this is
 a fixed practical beam-width preset rather than a value optimized in the paper.
 The route returned at the end of search is the highest-scored accepted label,
 where acceptance requires at least two legs and may optionally include an
@@ -525,7 +526,10 @@ tables because some \texttt{trip\_id} values are not globally unique in our
 dataset. It memoizes geometry tuples by label signature, uses a 120-minute
 lookahead window, and sets
 \(R=\min(220,\max(40,\lfloor B/2 \rfloor + 20))\) with timeout and label-cap
-guards as fixed practical defaults.
+guards as fixed practical defaults. Here \(R\) is the maximum number of search
+rounds (timetable-expansion iterations), and \(B\) is the query time budget in
+minutes. The inner term \(\lfloor B/2 \rfloor + 20\) scales search depth with
+budget length, while the outer min/max bounds keep \(R\) in \([40,220]\).
 
 \section{Experiments}
 \subsection{Experiment 1: Comprehensive Algorithm Comparison}
@@ -538,12 +542,19 @@ assigned a random score and the task is to maximize the collected stop score
 within a fixed time budget.
 The three evaluation questions are:
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{RQ1 (quality):} Does Ours improve the primary task metric, \texttt{stop\-\_score\-\_total}?
-    \item \textbf{RQ2 (efficiency):} Does Ours achieve high score while remaining fast on many queries?
+    \item \textbf{RQ1 (quality):} Does ReRAPTOR improve the primary task metric, \texttt{stop\-\_score\-\_total}?
+    \item \textbf{RQ2 (efficiency):} Does ReRAPTOR achieve high score while remaining fast on many queries?
     \item \textbf{RQ3 (robustness):} Are the gains stable across budgets and random stop-score seeds?
 \end{itemize}
 
 \subsubsection{Setup and Protocol}
+Baseline selection follows three criteria: task compatibility with timetable-feasible
+fixed-budget routing, reproducible implementation in our pipeline, and diversity
+across optimizer families. We therefore compare general-purpose metaheuristics,
+transit-routing baselines, and two recent adapted methods (ALNS, DynPref).
+Methods requiring external online signals unavailable in this benchmark are not
+used as direct one-to-one baselines.
+
 All compared methods share the same Fukuoka timetable dataset
 (304,344 timetable segments, 1,032 stops, and 302 lines), the same query grid
 of 10 origins \(\times\) 3 departure times (\texttt{07:00}, \texttt{10:00},
@@ -552,9 +563,17 @@ of 10 origins \(\times\) 3 departure times (\texttt{07:00}, \texttt{10:00},
 The comparison includes Ours, NSGA-II~\cite{deb2002nsga2},
 ILS+2opt~\cite{lourenco2003ils}, VNS~\cite{mladenovic1997vns},
 SA~\cite{kirkpatrick1983sa}, McRAPTOR~\cite{delling2015raptor},
-Pure RAPTOR~\cite{delling2015raptor}, and Greedy.
+Pure RAPTOR~\cite{delling2015raptor}, Greedy,
+ALNS (adapted)~\cite{zhou2025optimalroutingdas}, and
+DynPref (adapted)~\cite{zhang2025dynamicmultimodal}.
+For fairness, all methods (including adapted baselines) use the same timetable
+inputs, stop-score map, dwell-time rule, budget-feasibility check, and query
+protocol; adapted variants only replace incompatible components.
 This yields 600 task rows per algorithm and 120 query-level means after
 averaging over score seeds.
+For each task key
+\((\text{origin}\allowbreak,\text{depart\_time}\allowbreak,\text{budget}\allowbreak,\text{score\_seed})\),
+all methods are evaluated under the same stop-score map and dwell-time setting.
 
 \subsubsection{Main Results}
 Table~\ref{tab:exp1_overall} gives the overall (2h+4h+6h+8h) query-level means.
@@ -574,17 +593,26 @@ but more importantly that Ours achieves \emph{high score and fast response on ma
             \toprule
             Method       & Stop Score & Elapsed (ms) & Score / hour & Avg. rank \\
             \midrule
-            Ours (Full)  & 826.90     & 4165.67      & 193.02       & 1.94      \\
-            NSGA-II      & 760.66     & 27351.18     & 170.40       & 2.66      \\
-            ILS+2opt     & 697.46     & 518.79       & 157.10       & 3.33      \\
-            VNS          & 645.00     & 169.31       & 148.13       & 4.30      \\
-            McRAPTOR     & 546.70     & 3684.86      & 149.33       & 5.04      \\
-            SA           & 589.46     & 130.80       & 137.25       & 5.39      \\
-            Greedy (L=3) & 416.99     & 3.05         & 101.27       & 6.99      \\
-            Pure RAPTOR  & 320.31     & 56483.31     & 192.36       & 6.34      \\
+            Ours (Full)                    & 826.90 & 4165.67  & 193.02 & 2.12 \\
+            NSGA-II                        & 760.66 & 27351.18 & 170.40 & 2.94 \\
+            ILS+2opt                       & 697.46 & 518.79   & 157.10 & 3.53 \\
+            ALNS (adapted)                  & 657.76 & 62.83    & 150.96 & 4.55 \\
+            VNS                            & 645.00 & 169.31   & 148.13 & 4.88 \\
+            McRAPTOR                       & 546.70 & 3684.86  & 149.33 & 6.12 \\
+            SA                             & 589.46 & 130.80   & 137.25 & 6.38 \\
+            Pure RAPTOR                    & 320.31 & 56483.31 & 192.36 & 7.78 \\
+            DynPref (adapted)               & 443.70 & 10.91    & 111.16 & 8.03 \\
+            Greedy (L=3)                   & 416.99 & 3.05     & 101.27 & 8.66 \\
             \bottomrule
         \end{tabular}}
 \end{table}
+
+In Table~\ref{tab:exp1_overall}, \emph{Stop Score} is the query-level mean of
+\texttt{stop\_score\_total} (i.e., \(F_{\omega,\eta}(r)\) in
+Eq.~\ref{eq:objective_stop_reward}); \emph{Elapsed (ms)} is query-level mean
+wall-clock generation time; \emph{Score / hour} is
+\(\operatorname{SPH}=F_{\omega,\eta}(r)/(T_{\eta}(r)/60)\);
+and \emph{Avg. rank} orders methods by higher score then lower elapsed time.
 
 At the task level,
 Ours beats NSGA-II in \(368/600\) comparisons.
@@ -625,7 +653,12 @@ Figure~\ref{fig:exp1_budget_fig} visualizes this budget-sliced progression.
 The score gap stays positive for all tested seeds.
 Across the five seeds, the average Ours--NSGA-II gap ranges from \(+15.15\) to
 \(+107.43\), and the observed zero-score cases of Ours are
-\texttt{effective\_budget\_feasible = False} edge cases rather than valid-but-poor routes.
+\texttt{effective\_budget\_feasible = False} edge cases rather than
+valid-but-poor routes. Concretely, this means the effective-time constraint
+\(T_{\eta}(r)\le B\) is not satisfiable for that specific
+\((\text{origin}\allowbreak,\text{depart\_time}\allowbreak,\text{budget}\allowbreak,\text{score\_seed})\)
+task, so the case is treated as infeasible, not as a feasible task where Ours
+returns an abnormally weak route.
 
 \subsection{Experiment 2: Three-Layer Pruning Ablation and Supporting Evidence}
 \subsubsection{Objective and Research Questions}
@@ -655,7 +688,7 @@ The main metrics are stop score, runtime, label count, and cap-hit rate.
 
 \begin{table}[t]
     \centering
-    \caption{Main ablation summary of Experiment 2 (task-level means over 180 \((origin, depart\_time, budget, score\_seed)\) units).}
+    \caption{Main ablation summary of Experiment 2 (task-level means over 180 task units).}
     \label{tab:exp2_main_ablation}
     \resizebox{\linewidth}{!}{%
         \begin{tabular}{lrrrr}
@@ -776,7 +809,7 @@ success case and the balance case.
 \begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{figures/exp4/exp4_main_cases.pdf}
-    \caption{Route case study main panels. Top: Case A, where Ours clearly leads in both stop score and generation time. Bottom: Case B, where Ours is not the top scorer but achieves the best quality--speed balance.}
+    \caption{Route case study panels. Top (Case A): Ours is higher-score and faster. Bottom (Case B): Ours is not top score but has better quality--speed balance.}
     \label{fig:exp4_main}
 \end{figure}
 
@@ -797,35 +830,29 @@ while Case C improves credibility by showing a limitation.
 \section{Discussion}
 The experimental results support a more precise claim than simply
 ``ReRAPTOR obtains the best routes.''
-Under the current seeded stop-reward benchmark, the main advantage of
-ReRAPTOR is that it most consistently balances route quality and computation
-time.
-In Experiment~1, it achieves the highest overall average stop score and
-outperforms NSGA-II by \(+8.71\%\) on that metric while remaining
-\(6.57\times\) faster on average.
-Experiment~3 strengthens this interpretation: ReRAPTOR has the best
-query-level ideal distance (\(0.1672\)) and is simultaneously higher-score and
-faster than NSGA-II in \(82/120\) base queries.
-At the same time, the case study in Experiment~4 makes clear that the method is
-not universally dominant on every individual query, which is important for a
-credible evaluation.
+Under the seeded stop-reward benchmark, its key strength is the consistency of
+the quality--speed balance.
+In Experiment~1, ReRAPTOR achieves the highest average stop score, improves on
+NSGA-II by \(+8.71\%\), and remains \(6.57\times\) faster on average.
+Experiment~3 is consistent: ReRAPTOR has the best query-level ideal distance
+(\(0.1672\)) and is simultaneously higher-score and faster than NSGA-II in
+\(82/120\) base queries.
+Experiment~4 also shows that it does not win every individual query, improving
+the credibility of the evaluation.
 
 The ablation results also clarify how the proposed method should be understood.
-Beam pruning and Dominance pruning are not optional implementation details; they
-are the two main mechanisms that keep the label search computationally
-manageable.
-When Dominance is removed, runtime and label count increase substantially even
-though the search still finishes.
-When Beam is removed, the search becomes much more expensive, and the effect is
-especially severe for the 8-hour budget where cap hits occur in all tasks.
-When both are removed together, the search space grows too quickly and route
-quality also degrades.
-Negative pruning plays a different role: it does not provide the main speedup on
-the generic stop-reward benchmark, but it improves objective alignment in the
-theme-constrained study. The experiments are still limited to one city's
-Ekispert-provided schedule data and a seeded reward proxy rather than learned
-user preferences, so future work should study cross-city transfer, learned
-reward modules, and adaptive pruning policies.
+Beam and Dominance are the two core scalability controls for keeping label
+search tractable.
+Removing Dominance substantially increases runtime and label count; removing
+Beam is even more expensive, especially at the 8-hour budget where cap hits
+occur in all tasks.
+Removing both leads to rapid search-space growth and lower route quality.
+Negative pruning has a different role: it is not the main speedup factor on the
+generic stop-reward benchmark, but it improves objective alignment in the
+theme-constrained study.
+The evaluation is still limited to one city's Ekispert schedule data and a
+seeded reward proxy instead of learned user preferences; future work should
+study cross-city transfer, learned reward modules, and adaptive pruning.
 
 \section{Conclusion}
 This paper presented ReRAP\-TOR, a reverse-objective RAPTOR-style method for
@@ -846,11 +873,8 @@ improves semantic alignment in constrained theme tasks.
 The route case study further confirms both the strengths of the method and the
 fact that it does not win every query.
 
-Overall, the results indicate that ReRAPTOR is a practical approach for
-value-oriented transit itinerary planning when the goal is not only to obtain
-high-scoring routes, but to do so with stable and usable response times.
-This makes it a strong foundation for future work on preference-aware,
-theme-aware, and city-scale transit exploration systems.
+Overall, ReRAPTOR is a practical approach for value-oriented transit itinerary
+planning when the goal is high route value with stable response time.
 
 \section*{Acknowledgment}
 This study used transit schedule data for Fukuoka provided through Ekispert
@@ -858,7 +882,7 @@ services (\begin{CJK*}{UTF8}{min}Powered by Ekispert API\end{CJK*}).
 
 \section*{Supplementary Materials}
 Additional tables, source data files, and supplementary images will be released
-at \url{https://github.com/USER/REPO}.
+at \url{https://github.com/Akihito-zhou/reraptor_paper}.
 
 \bibliographystyle{spmpsci}
 \bibliography{references_draft}

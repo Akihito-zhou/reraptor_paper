@@ -31,6 +31,7 @@ from paper.experiments.exp3_parameter_sensitivity.exp3_balance_common import (
     build_query_level_frame,
     df_markdown,
     load_task_frame,
+    parse_csv_tokens,
     present_algorithm_summary,
     present_budget_summary,
     summarize_tradeoff_by_budget,
@@ -48,9 +49,22 @@ def _records(df: pd.DataFrame) -> list[dict[str, Any]]:
     return json.loads(df.to_json(orient="records"))
 
 
-def build_payload(metadata: dict[str, Any], task_df: pd.DataFrame) -> dict[str, Any]:
+def _pick_reference(task_df: pd.DataFrame, *, left_algo: str, right_algo: str) -> str:
+    if task_df.empty:
+        return right_algo
+    algos = [str(x) for x in task_df["algorithm"].dropna().astype(str).unique().tolist()]
+    if right_algo in algos:
+        return right_algo
+    for candidate in algos:
+        if candidate != left_algo:
+            return candidate
+    return right_algo
+
+
+def build_payload(metadata: dict[str, Any], task_df: pd.DataFrame, *, left_algo: str, right_algo: str) -> dict[str, Any]:
     task_df = add_tradeoff_metrics(task_df, group_cols=["origin_name", "depart_time", "budget_minutes", "score_seed"])
     query_df = build_query_level_frame(task_df)
+    resolved_right_algo = _pick_reference(task_df, left_algo=left_algo, right_algo=right_algo)
 
     task_summary = build_algorithm_summary(task_df, count_label="task_count")
     query_summary = build_algorithm_summary(query_df, count_label="query_count")
@@ -58,10 +72,14 @@ def build_payload(metadata: dict[str, Any], task_df: pd.DataFrame) -> dict[str, 
 
     task_detail = build_head_to_head_detail(
         task_df,
+        left_algo=left_algo,
+        right_algo=resolved_right_algo,
         group_cols=["origin_name", "depart_time", "budget_minutes", "score_seed"],
     )
     query_detail = build_head_to_head_detail(
         query_df,
+        left_algo=left_algo,
+        right_algo=resolved_right_algo,
         group_cols=["origin_name", "depart_time", "budget_minutes"],
     )
 
@@ -75,6 +93,8 @@ def build_payload(metadata: dict[str, Any], task_df: pd.DataFrame) -> dict[str, 
             "missing_target_budgets_minutes": metadata.get("missing_target_budgets_minutes", []),
             "task_rows": int(len(task_df)),
             "query_rows": int(len(query_df)),
+            "head_to_head_left_algo": left_algo,
+            "head_to_head_right_algo": resolved_right_algo,
         },
         "task_level": {
             "algorithm_summary": _records(task_summary),
@@ -119,6 +139,7 @@ def build_markdown(payload: dict[str, Any]) -> str:
     if payload["metadata"].get("missing_target_budgets_minutes"):
         lines.append(f"- Missing target budgets in current Exp1 source: `{payload['metadata'].get('missing_target_budgets_minutes', [])}`")
     lines.append(f"- Score seeds: `{scope.get('score_seeds', [])}`")
+    lines.append(f"- Head-to-head pair: `{payload['metadata'].get('head_to_head_left_algo', OURS_NAME)}` vs `{payload['metadata'].get('head_to_head_right_algo', REFERENCE_NAME)}`")
     lines.append("")
 
     task_summary = present_algorithm_summary(pd.DataFrame(payload["task_level"]["algorithm_summary"]), count_label="task_count")
@@ -155,14 +176,16 @@ def build_markdown(payload: dict[str, Any]) -> str:
     lines.append(df_markdown(budget_summary))
     lines.append("")
 
-    lines.append(f"## 4. {OURS_NAME} vs {REFERENCE_NAME}")
+    left_algo = str(payload["metadata"].get("head_to_head_left_algo", OURS_NAME))
+    right_algo = str(payload["metadata"].get("head_to_head_right_algo", REFERENCE_NAME))
+    lines.append(f"## 4. {left_algo} vs {right_algo}")
     lines.append("")
     if not task_tradeoff.empty:
         high_fast = int(task_tradeoff.set_index("tradeoff_category").loc["higher score + faster", "count"])
         high_slow = int(task_tradeoff.set_index("tradeoff_category").loc["higher score + slower", "count"])
         low_fast = int(task_tradeoff.set_index("tradeoff_category").loc["lower score + faster", "count"])
         lines.append(
-            f"- Task-level: `{OURS_NAME}` achieves `higher score + faster` on `{high_fast}` tasks, "
+            f"- Task-level: `{left_algo}` achieves `higher score + faster` on `{high_fast}` tasks, "
             f"`higher score + slower` on `{high_slow}` tasks, and `lower score + faster` on `{low_fast}` tasks."
         )
     lines.append("")
@@ -202,19 +225,29 @@ def main() -> None:
     parser.add_argument("--results", type=Path, default=DEFAULT_EXP3_RESULTS)
     parser.add_argument("--stats-out", type=Path, default=STATS_OUT_DEFAULT)
     parser.add_argument("--md-out", type=Path, default=MD_OUT_DEFAULT)
+    parser.add_argument("--left-algo", type=str, default=OURS_NAME)
+    parser.add_argument("--right-algo", type=str, default=REFERENCE_NAME)
+    parser.add_argument("--name-tag", type=str, default="", help="Optional filename tag suffix.")
     args = parser.parse_args()
 
+    tag = "_".join(parse_csv_tokens(args.name_tag.replace("-", "_").replace("|", "_")))
+    stats_out = args.stats_out.resolve()
+    md_out = args.md_out.resolve()
+    if tag:
+        stats_out = stats_out.with_name(f"{stats_out.stem}_{tag}{stats_out.suffix}")
+        md_out = md_out.with_name(f"{md_out.stem}_{tag}{md_out.suffix}")
+
     metadata, task_df = load_task_frame(args.results.resolve())
-    payload = build_payload(metadata, task_df)
+    payload = build_payload(metadata, task_df, left_algo=args.left_algo, right_algo=args.right_algo)
     markdown = build_markdown(payload)
 
-    args.stats_out.parent.mkdir(parents=True, exist_ok=True)
-    args.md_out.parent.mkdir(parents=True, exist_ok=True)
-    args.stats_out.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    args.md_out.write_text(markdown, encoding="utf-8")
+    stats_out.parent.mkdir(parents=True, exist_ok=True)
+    md_out.parent.mkdir(parents=True, exist_ok=True)
+    stats_out.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    md_out.write_text(markdown, encoding="utf-8")
 
-    print(f"[OK] stats json -> {args.stats_out}")
-    print(f"[OK] markdown -> {args.md_out}")
+    print(f"[OK] stats json -> {stats_out}")
+    print(f"[OK] markdown -> {md_out}")
 
 
 if __name__ == "__main__":
