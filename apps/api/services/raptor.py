@@ -122,11 +122,11 @@ def run_raptor_challenge(
             break
         next_marked: set[str] = set()
         routes_to_scan: set[str] = set()
-        for stop in marked_stops:
+        for stop in sorted(marked_stops):
             routes_to_scan.update(planner.routes_by_stop.get(stop, ()))
 
         # Iterate through all routes serving the marked stops
-        for route_id in routes_to_scan:
+        for route_id in sorted(routes_to_scan):
             route = planner.routes.get(route_id)
             if not route:
                 continue
@@ -514,7 +514,7 @@ def _label_metrics(planner: PlannerService, label: Label, config: ChallengeConfi
 
     visited_coords: list[tuple[float, float]] = []
     distances: list[float] = []
-    for code in label.visited:
+    for code in sorted(label.visited):
         station = planner.stations.get(code)
         if not station:
             continue
@@ -538,7 +538,7 @@ def _label_metrics(planner: PlannerService, label: Label, config: ChallengeConfi
 
     # Quadrant-based metrics
     max_radius_per_quadrant: dict[int, float] = defaultdict(float)
-    for code in label.visited:
+    for code in sorted(label.visited):
         station = planner.stations.get(code)
         quadrant = planner.quadrant_map.get(code)
         if not station or not quadrant:

@@ -24,6 +24,7 @@ class ILS2Opt(BaseAlgorithm):
     category = "PC-TSP涓绘祦"
 
     def solve(self, planner, origin, depart_time, budget_minutes, *, seed=0):
+        self._set_query_context(origin=origin, depart_time=depart_time)
         rng = random.Random(seed)
         time_limit = depart_time + budget_minutes
         deadline = time.perf_counter() + WALL_CLOCK_LIMIT_SEC
@@ -158,8 +159,11 @@ class ILS2Opt(BaseAlgorithm):
         )
 
     def _score(self, edges, *, budget_minutes: int | None = None):
+        origin_code, query_depart_time = self._query_context()
         return route_score(
             edges,
             objective=getattr(self, "objective", None),
+            origin_code=origin_code,
+            query_depart_time=query_depart_time,
             budget_minutes=budget_minutes,
         )

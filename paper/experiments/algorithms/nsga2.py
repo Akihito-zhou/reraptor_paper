@@ -40,6 +40,7 @@ class NSGA2(BaseAlgorithm):
     category = "鍏冨晸鐧哄紡"
 
     def solve(self, planner, origin, depart_time, budget_minutes, *, seed=0):
+        self._set_query_context(origin=origin, depart_time=depart_time)
         rng = random.Random(seed)
         time_limit = depart_time + budget_minutes
         deadline = time.perf_counter() + WALL_CLOCK_LIMIT_SEC
@@ -281,17 +282,28 @@ class NSGA2(BaseAlgorithm):
         )
 
     def _objectives(self, edges, planner, *, budget_minutes: int | None = None):
+        origin_code, query_depart_time = self._query_context()
         sig = route_signature(edges)
         cached = self._metric_cache.get(sig)
         if cached is None:
             objective = getattr(self, "objective", None)
             cached = compute_route_metrics(edges, planner)
             if objective is not None:
-                cached.update(objective.metrics_from_edges(edges, budget_minutes=budget_minutes))
+                cached.update(objective.metrics_from_edges(
+                    edges,
+                    origin_code=origin_code,
+                    query_depart_time=query_depart_time,
+                    budget_minutes=budget_minutes,
+                ))
             self._metric_cache[sig] = cached
         objective = getattr(self, "objective", None)
         if objective is not None:
-            return objective.objective_vector_from_edges(edges, budget_minutes=budget_minutes)
+            return objective.objective_vector_from_edges(
+                edges,
+                origin_code=origin_code,
+                query_depart_time=query_depart_time,
+                budget_minutes=budget_minutes,
+            )
         return (
             float(cached.get("ride_minutes", 0.0)),
             float(cached.get("unique_stops", 0.0)),
@@ -299,9 +311,12 @@ class NSGA2(BaseAlgorithm):
         )
 
     def _score(self, edges, *, budget_minutes: int | None = None):
+        origin_code, query_depart_time = self._query_context()
         return route_score(
             edges,
             objective=getattr(self, "objective", None),
+            origin_code=origin_code,
+            query_depart_time=query_depart_time,
             budget_minutes=budget_minutes,
         )
 

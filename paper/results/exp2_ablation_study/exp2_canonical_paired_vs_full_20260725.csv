@@ -1,0 +1,9 @@
+"algorithm","config","paired_tasks","mean_score_delta_vs_full","wins_vs_full","ties_vs_full","losses_vs_full"
+"Ours (Full)","Full",600,0,0,600,0
+"Ours (NoNeg)","- Negative",600,0.0333333333333333,6,594,0
+"Ours (NoDom)","- Dominance",600,-84.98,13,214,373
+"Ours (NoBeam)","- Beam",600,-166.721666666667,178,123,299
+"Ours (NoBeam-NoDom)","- Beam - Dominance",600,-572.565,12,63,525
+"Ours (NoDom-NoNeg)","- Dominance - Negative",600,-74.3966666666667,14,226,360
+"Ours (NoBeam-NoNeg)","- Beam - Negative",600,-81.495,249,123,228
+"Ours (NoBeam-NoDom-NoNeg)","No search controls",600,-571.85,13,62,525

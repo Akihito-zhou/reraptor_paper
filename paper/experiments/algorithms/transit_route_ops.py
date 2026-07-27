@@ -37,6 +37,8 @@ def route_score(
     edges: list[Any],
     *,
     objective: Any | None = None,
+    origin_code: str | None = None,
+    query_depart_time: int | None = None,
     budget_minutes: int | None = None,
 ) -> float:
     """
@@ -45,7 +47,14 @@ def route_score(
     Not used as the final paper metric; only for internal search guidance.
     """
     if objective is not None:
-        return float(objective.search_score_from_edges(edges, budget_minutes=budget_minutes))
+        if origin_code is None or query_depart_time is None:
+            raise ValueError("objective route scoring requires origin_code and query_depart_time")
+        return float(objective.search_score_from_edges(
+            edges,
+            origin_code=origin_code,
+            query_depart_time=query_depart_time,
+            budget_minutes=budget_minutes,
+        ))
     if not edges:
         return 0.0
     ride = sum(max(0, e.arrive - e.depart) for e in edges)
@@ -206,11 +215,17 @@ def _edge_priority(
     visits: dict[str, int],
     prev_edge: Any | None,
     *,
+    origin_code: str,
     objective: Any | None = None,
 ) -> float:
     """Heuristic for choosing expansion edges."""
     if objective is not None:
-        return float(objective.edge_priority(edge=edge, visits=visits, prev_edge=prev_edge))
+        return float(objective.edge_priority(
+            edge=edge,
+            origin_code=origin_code,
+            visits=visits,
+            prev_edge=prev_edge,
+        ))
     score = float(max(0, edge.arrive - edge.depart))
     score += min(6.0, max(0.0, float(edge.distance_km)) * 0.8)
 
@@ -228,6 +243,7 @@ def _edge_priority(
 def choose_edge(
     candidates: list[Any],
     *,
+    origin_code: str,
     visits: dict[str, int],
     prev_edge: Any | None,
     rng: Any,
@@ -237,7 +253,19 @@ def choose_edge(
 ) -> Any:
     """Choose one edge from candidates with exploration/exploitation trade-off."""
     ranked = sorted(
-        ((edge, _edge_priority(edge, visits, prev_edge, objective=objective)) for edge in candidates),
+        (
+            (
+                edge,
+                _edge_priority(
+                    edge,
+                    visits,
+                    prev_edge,
+                    origin_code=origin_code,
+                    objective=objective,
+                ),
+            )
+            for edge in candidates
+        ),
         key=lambda item: item[1],
         reverse=True,
     )
@@ -306,6 +334,7 @@ def build_route(
             break
         chosen = choose_edge(
             candidates,
+            origin_code=origin,
             visits=visits,
             prev_edge=prev_edge,
             rng=rng,

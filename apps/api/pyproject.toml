@@ -15,7 +15,7 @@ geopandas = "^1.1.1"
 matplotlib = "^3.10.7"
 python-dotenv = "^1.2.1"
 tqdm = "^4.67.1"
-google-generativeai = "^0.8.6"
+openai = "^1.30"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

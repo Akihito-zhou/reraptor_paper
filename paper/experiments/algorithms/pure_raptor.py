@@ -35,6 +35,7 @@ class PureRaptor(BaseAlgorithm):
         pure RAPTOR will consume hundreds of gigabytes of RAM evaluating
         million-state trees.
         """
+        self._set_query_context(origin=origin, depart_time=depart_time)
         engine = OursFull(
             use_beam=False,
             use_dominance=False,

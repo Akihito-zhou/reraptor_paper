@@ -14,11 +14,11 @@ import os
 from typing import TYPE_CHECKING
 
 try:
-    import google.generativeai as genai
-    GEMINI_AVAILABLE = True
+    from openai import OpenAI as _OpenAI
+    OPENAI_AVAILABLE = True
 except ImportError:
-    GEMINI_AVAILABLE = False
-    genai = None
+    OPENAI_AVAILABLE = False
+    _OpenAI = None
 
 if TYPE_CHECKING:
     from .planner import PlannerService
@@ -111,10 +111,10 @@ USER_PROMPT_TEMPLATE = """
 
 
 def is_gemini_available() -> bool:
-    """Check if Gemini API is available."""
-    if not GEMINI_AVAILABLE:
+    """Check if OpenAI API is available (kept name for backward compat)."""
+    if not OPENAI_AVAILABLE:
         return False
-    api_key = os.environ.get("GEMINI_API_KEY")
+    api_key = os.environ.get("OPENAI_API_KEY")
     return bool(api_key)
 
 
@@ -133,20 +133,16 @@ def generate_route_suggestion(
     Returns:
         Dictionary with route_name, description, stops, or None if failed
     """
-    if not GEMINI_AVAILABLE:
-        logger.warning("Gemini not available: google-generativeai package not installed")
+    if not OPENAI_AVAILABLE:
+        logger.warning("OpenAI not available: openai package not installed")
         return None
     
-    api_key = os.environ.get("GEMINI_API_KEY")
+    api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
-        logger.warning("Gemini API key not found in environment")
+        logger.warning("OpenAI API key not found in environment")
         return None
     
-    try:
-        genai.configure(api_key=api_key)
-    except Exception as e:
-        logger.error(f"Failed to configure Gemini: {e}")
-        return None
+    client = _OpenAI(api_key=api_key)
     
     # Build station list with route information
     # For each station, include which route numbers serve it
@@ -193,27 +189,33 @@ def generate_route_suggestion(
     )
     
     try:
-        model = genai.GenerativeModel("gemini-3-flash-preview")
-        response = model.generate_content([SYSTEM_PROMPT, user_message])
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": user_message},
+            ],
+            temperature=0.7,
+        )
         
         # Parse JSON from response
-        text = response.text
+        text = response.choices[0].message.content or ""
         start = text.find("{")
         end = text.rfind("}") + 1
         
         if start >= 0 and end > start:
             result = json.loads(text[start:end])
-            logger.info(f"Gemini suggested route: {result.get('route_name')}")
+            logger.info(f"OpenAI suggested route: {result.get('route_name')}")
             return result
         else:
-            logger.warning("Gemini response did not contain valid JSON")
+            logger.warning("OpenAI response did not contain valid JSON")
             return None
             
     except json.JSONDecodeError as e:
-        logger.error(f"Failed to parse Gemini response as JSON: {e}")
+        logger.error(f"Failed to parse OpenAI response as JSON: {e}")
         return None
     except Exception as e:
-        logger.error(f"Gemini API error: {e}")
+        logger.error(f"OpenAI API error: {e}")
         return None
 
 
@@ -806,20 +808,16 @@ def generate_route_metadata(route_data: dict) -> dict | None:
     Returns:
         Dictionary with title, tagline, theme_tags, badge, or None if failed
     """
-    if not GEMINI_AVAILABLE:
-        logger.warning("Gemini not available for route naming")
+    if not OPENAI_AVAILABLE:
+        logger.warning("OpenAI not available for route naming")
         return None
     
-    api_key = os.environ.get("GEMINI_API_KEY")
+    api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
-        logger.warning("Gemini API key not found for route naming")
+        logger.warning("OpenAI API key not found for route naming")
         return None
     
-    try:
-        genai.configure(api_key=api_key)
-    except Exception as e:
-        logger.error(f"Failed to configure Gemini for naming: {e}")
-        return None
+    client = _OpenAI(api_key=api_key)
     
     # Extract route characteristics
     ride_minutes = route_data.get("total_ride_minutes", 0)
@@ -863,27 +861,33 @@ def generate_route_metadata(route_data: dict) -> dict | None:
     )
     
     try:
-        model = genai.GenerativeModel("gemini-2.0-flash-exp")
-        response = model.generate_content(prompt)
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "あなたはバス旅行のエキスパートです。JSON形式で回答してください。"},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.7,
+        )
         
         # Parse JSON from response
-        text = response.text
+        text = response.choices[0].message.content or ""
         start = text.find("{")
         end = text.rfind("}") + 1
         
         if start >= 0 and end > start:
             result = json.loads(text[start:end])
-            logger.info(f"Gemini generated route name: {result.get('title')}")
+            logger.info(f"OpenAI generated route name: {result.get('title')}")
             return result
         else:
-            logger.warning("Gemini naming response did not contain valid JSON")
+            logger.warning("OpenAI naming response did not contain valid JSON")
             return None
             
     except json.JSONDecodeError as e:
-        logger.error(f"Failed to parse Gemini naming response: {e}")
+        logger.error(f"Failed to parse OpenAI naming response: {e}")
         return None
     except Exception as e:
-        logger.error(f"Gemini naming API error: {e}")
+        logger.error(f"OpenAI naming API error: {e}")
         return None
 
 

@@ -1,0 +1,13 @@
+name: reroute-paper-r
+channels:
+  - conda-forge
+dependencies:
+  - r-base=4.4
+  - r-dplyr
+  - r-ggplot2
+  - r-ggrepel
+  - r-jsonlite
+  - r-patchwork
+  - r-ragg
+  - r-scales
+  - r-tidyr

@@ -15,7 +15,6 @@ from .vns import VNS
 from .nsga2 import NSGA2
 from .sa import SimulatedAnnealing
 from .zhang2025_dynamic_pref_adapted import Zhang2025DynamicPrefAdapted
-from .li_kim_2024_rtdrt_adapted import LiKim2024HeuristicAStarAdapted
 from .zhou_wang_2025_alns_adapted import ZhouWang2025ALNSAdapted
 
 def _norm_algo_name(value: str) -> str:
@@ -58,7 +57,6 @@ def build_all_algorithms(
         algorithms.extend(
             [
                 Zhang2025DynamicPrefAdapted(),
-                LiKim2024HeuristicAStarAdapted(),
                 ZhouWang2025ALNSAdapted(),
             ]
         )

@@ -30,7 +30,18 @@ from paper.experiments.exp4_route_visualization.exp4_common import (
 )
 
 GEOJSON_PATH = PROJECT_ROOT / "apps" / "api" / "data" / "base" / "fukuoka_city.geojson"
-ROUTE_COLORS = ["#0b6e4f", "#ea7317", "#2b59c3", "#c3423f", "#8f2d56", "#3c6e71"]
+ALGORITHM_COLORS = {
+    "ours": "#0072B2",
+    "nsga2": "#D55E00",
+    "pure_raptor": "#D55E00",
+    "vns": "#009E73",
+    "greedy": "#009E73",
+}
+CASE_DISPLAY_TITLES = {
+    "case_a_clear_score_lead": "Case A: score-time lead",
+    "case_b_quality_speed_balance": "Case B: quality-speed balance",
+    "case_c_contrastive_counterexample": "Case C: counterexample",
+}
 
 
 def _get_ekispert_api_base_url() -> str:
@@ -254,6 +265,7 @@ def render_route_png(
     route_json_path: Path,
     output_png_path: Path,
     *,
+    route_color: str,
     fetcher: PaperEkispertShapeFetcher | None = None,
 ) -> dict[str, int]:
     payload = load_route_json(route_json_path)
@@ -311,18 +323,43 @@ def render_route_png(
             fallback_legs += covered_legs
         idx += 1
 
-    for draw_idx, (coords, _used_fetch, _covered_legs) in enumerate(draw_items):
+    for coords, _used_fetch, _covered_legs in draw_items:
         lons = [pt[0] for pt in coords]
         lats = [pt[1] for pt in coords]
         all_lons.extend(lons)
         all_lats.extend(lats)
-        color = ROUTE_COLORS[draw_idx % len(ROUTE_COLORS)]
-        ax.plot(lons, lats, color=color, linewidth=3.0, alpha=0.88, zorder=3)
-        ax.scatter(lons[0], lats[0], color=color, s=18, zorder=4)
+        ax.plot(lons, lats, color=route_color, linewidth=2.6, alpha=0.92, zorder=3)
+        ax.scatter(
+            lons[0],
+            lats[0],
+            facecolor="white",
+            edgecolor=route_color,
+            linewidth=0.9,
+            s=15,
+            zorder=4,
+        )
 
     if all_lons and all_lats:
-        ax.scatter(all_lons[0], all_lats[0], color="green", marker="D", s=80, zorder=5)
-        ax.scatter(all_lons[-1], all_lats[-1], color="red", marker="X", s=80, zorder=5)
+        ax.scatter(
+            all_lons[0],
+            all_lats[0],
+            facecolor=route_color,
+            edgecolor="white",
+            linewidth=1.2,
+            marker="^",
+            s=72,
+            zorder=5,
+        )
+        ax.scatter(
+            all_lons[-1],
+            all_lats[-1],
+            facecolor=route_color,
+            edgecolor="white",
+            linewidth=1.2,
+            marker="s",
+            s=64,
+            zorder=5,
+        )
         margin_x = max(0.02, (max(all_lons) - min(all_lons)) * 0.45)
         margin_y = max(0.02, (max(all_lats) - min(all_lats)) * 0.45)
         ax.set_xlim(min(all_lons) - margin_x, max(all_lons) + margin_x)
@@ -351,7 +388,13 @@ def build_case_panel(
             continue
         route_json_path = _resolve_project_path(route_json_raw)
         route_png_path = case_dir / f"{case['id']}__{artifact['algorithm_key']}.png"
-        stats = render_route_png(route_json_path, route_png_path, fetcher=fetcher)
+        route_color = ALGORITHM_COLORS.get(str(artifact["algorithm_key"]), "#666666")
+        stats = render_route_png(
+            route_json_path,
+            route_png_path,
+            route_color=route_color,
+            fetcher=fetcher,
+        )
         total_fetched_legs += stats["fetched_legs"]
         total_fallback_legs += stats["fallback_legs"]
         route_png_paths.append((artifact, route_png_path))
@@ -366,22 +409,25 @@ def build_case_panel(
     for ax, (artifact, png_path) in zip(axes, route_png_paths, strict=False):
         img = plt.imread(png_path)
         sm = artifact["summary_metrics"]
+        elapsed_ms = float(artifact["elapsed_ms"])
+        elapsed_label = f"{elapsed_ms / 1000.0:.2f} s" if elapsed_ms >= 1000.0 else f"{elapsed_ms:.1f} ms"
         ax.imshow(img)
         ax.set_title(
             f"{artifact['algorithm_name']}\n"
-            f"Score {float(sm['stop_score_total']):.1f} | Gen {float(artifact['elapsed_ms']):.1f} ms",
+            f"Score {float(sm['stop_score_total']):.0f} | {elapsed_label}",
             fontsize=24,
             pad=24,
         )
         ax.axis("off")
 
     depart_time = int(case["depart_time"])
-    fig.text(0.5, 0.98, f"{case['title']}", ha="center", va="top", fontsize=28)
+    display_title = CASE_DISPLAY_TITLES.get(str(case["id"]), str(case["title"]))
+    fig.text(0.5, 0.98, display_title, ha="center", va="top", fontsize=28)
     fig.text(
         0.5,
         0.92,
         f"{case['origin_name']} | {depart_time // 60:02d}:{depart_time % 60:02d} | "
-        f"{int(case['budget_minutes']) // 60}h | score_seed={case['score_seed']} | seed={case['seed']}",
+        f"{int(case['budget_minutes']) // 60}h | reward seed {case['score_seed']} | run seed {case['seed']}",
         ha="center",
         va="top",
         fontsize=26,

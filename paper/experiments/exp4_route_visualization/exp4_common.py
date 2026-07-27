@@ -19,7 +19,6 @@ if str(APP_API_DIR) not in sys.path:
 
 from paper.experiments.common.config import FIGURES_BASE_DIR, RESULTS_BASE_DIR
 from paper.experiments.exp3_parameter_sensitivity.exp3_balance_common import (
-    DEFAULT_EXP1_RESULTS,
     OURS_NAME,
     REFERENCE_NAME,
     add_tradeoff_metrics,
@@ -33,7 +32,16 @@ from services.planner_models import ChallengePlan, LegPlan
 from services.planner_utils import derive_quadrant_labels, format_minutes
 
 
-EXP1_RESULTS_PATH = DEFAULT_EXP1_RESULTS
+EXP1_RESULTS_PATH = (
+    RESULTS_BASE_DIR
+    / "exp1_algorithm_comparison"
+    / "exp1_results_canonical_final_10alg_manuscript_20260723.json"
+)
+EXP3_RESULTS_PATH = (
+    RESULTS_BASE_DIR
+    / "exp3_parameter_sensitivity"
+    / "exp3_results_canonical_exp1_final_10alg_20260727.json"
+)
 
 EXP4_RESULTS_DIR = RESULTS_BASE_DIR / "exp4_route_visualization"
 EXP4_FIGURES_DIR = FIGURES_BASE_DIR / "exp4"
@@ -450,6 +458,25 @@ def _make_balance_case(ctx: Exp4SelectionContext, *, exclude_query_keys: set[str
     query_row["best_score_gap_ratio"] = float(chosen_query["best_score_gap_ratio"])
 
     query_part = _query_part(ctx.query_df, _query_row_to_lookup(query_row))
+    best_score_row = query_part.sort_values(
+        ["stop_score_total", "elapsed_ms"],
+        ascending=[False, True],
+    ).reset_index(drop=True).iloc[0]
+    faster_lower_quality = query_part[
+        pd.to_numeric(query_part["stop_score_total"], errors="coerce")
+        < float(query_row["stop_score_total"]) - 1e-9
+    ].copy()
+    faster_lower_quality = faster_lower_quality.sort_values(
+        ["elapsed_ms", "stop_score_total"],
+        ascending=[True, False],
+    ).reset_index(drop=True)
+    best_score_key = ALGO_KEY_BY_NAME.get(str(best_score_row["algorithm"]), "nsga2")
+    fast_comparator_key = (
+        ALGO_KEY_BY_NAME.get(str(faster_lower_quality.iloc[0]["algorithm"]), "sa")
+        if not faster_lower_quality.empty
+        else "sa"
+    )
+    comparison_keys = tuple(dict.fromkeys(("ours", best_score_key, fast_comparator_key)))
     chosen_task = _choose_balance_task(ctx.task_df, query_row=query_row)
     task_part = ctx.task_df[
         _score_seed_task_mask(
@@ -487,6 +514,23 @@ def _make_balance_case(ctx: Exp4SelectionContext, *, exclude_query_keys: set[str
             "query_ours_stop_score": float(chosen_query["stop_score_total"]),
             "query_ours_ideal_distance": float(chosen_query["ideal_distance"]),
             "query_best_score": float(chosen_query["best_score"]),
+            "query_best_score_algorithm": str(best_score_row["algorithm"]),
+            "query_best_score_elapsed_ms": float(best_score_row["elapsed_ms"]),
+            "query_fast_lower_quality_algorithm": (
+                str(faster_lower_quality.iloc[0]["algorithm"])
+                if not faster_lower_quality.empty
+                else ""
+            ),
+            "query_fast_lower_quality_score": (
+                float(faster_lower_quality.iloc[0]["stop_score_total"])
+                if not faster_lower_quality.empty
+                else 0.0
+            ),
+            "query_fast_lower_quality_elapsed_ms": (
+                float(faster_lower_quality.iloc[0]["elapsed_ms"])
+                if not faster_lower_quality.empty
+                else 0.0
+            ),
             "task_score_seed": int(chosen_task["score_seed"]),
             "task_ours_stop_score": float(chosen_task["stop_score_total"]),
             "task_best_score": float(task_best),
@@ -515,7 +559,7 @@ def _make_balance_case(ctx: Exp4SelectionContext, *, exclude_query_keys: set[str
         qualitative_focus=(
             "Compare Ours against a slower high-quality baseline and a faster lower-quality heuristic to show why the ideal-point ranking favors Ours."
         ),
-        algorithms=("ours", "nsga2", "sa"),
+        algorithms=comparison_keys,
         selection_evidence=evidence,
     )
 
@@ -705,6 +749,8 @@ def trip_edges_to_route_dict(
         "selection_reason": case.selection_reason,
         "qualitative_focus": case.qualitative_focus,
         "selection_evidence": _json_safe(case.selection_evidence),
+        "timing_provenance": source_payload.get("timing_provenance", ""),
+        "rerun_elapsed_ms": source_payload.get("rerun_elapsed_ms"),
         "metrics": {k: _json_safe(v) for k, v in metrics.items()},
     }
     return payload

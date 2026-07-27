@@ -1,0 +1,250 @@
+{
+  "schema_version": "reraptor-score-interpretability-v1",
+  "generated_utc": "2026-07-23T09:05:05.615128+00:00",
+  "source": {
+    "result_path": "paper/results/exp1_algorithm_comparison/exp1_results_canonical_final_10alg_manuscript_20260723.json",
+    "result_sha256": "abfb08b77256cd8e28cba57b96f82e61872f9435df818b0fea156eb0ad6c7dfa",
+    "manifest_path": "paper/results/manifests/phasea_exp1_final_10alg_manuscript_manifest_20260723.json",
+    "manifest_sha256": "d64376aa15c275f8a9b838b6c24318a5ec61f5c08b6322d07c439a1d923bb72a",
+    "canonical_result_commit": "d37a834b00c8b97a92dc89eaba1540f234b7eb96",
+    "source_integrity_gate_passed": true,
+    "source_canonical_gate_passed": true,
+    "analysis_script": "paper/experiments/exp1_algorithm_comparison/analyze_score_interpretability.py",
+    "analysis_script_sha256": "1ff73d32a13c555d0fe22bf498b9209755cd9132c046923a5119a0becd16ac35"
+  },
+  "analysis_policy": {
+    "paired_unit": [
+      "origin_name",
+      "depart_time",
+      "budget_minutes",
+      "score_seed"
+    ],
+    "primary_estimand": "all-task; NSGA-II failures retain zero score and zero stops",
+    "density_definition": "ratio of task-level aggregate score to aggregate scored-stop count",
+    "decomposition": "exact symmetric two-factor identity on tasks with defined densities",
+    "bootstrap": {
+      "method": "crossed block bootstrap over score_seed and origin-departure scenario",
+      "repetitions": 20000,
+      "seed": 20260723
+    },
+    "language_boundary": "association, not causal attribution"
+  },
+  "invariants": {
+    "paired_tasks": 600,
+    "decomposable_tasks": 581,
+    "all_five_nsga_runs_failed_tasks": 19,
+    "decomposition_max_abs_error": 2.5579538487363607e-13,
+    "score_seed_count": 5,
+    "origin_count": 10,
+    "departure_count": 3,
+    "budget_count": 4
+  },
+  "headline": {
+    "ours_mean_score": 872.4383333333334,
+    "nsga_mean_score": 802.5393333333333,
+    "mean_score_gap": 69.899,
+    "mean_score_gap_ci95_low": 8.054100000000004,
+    "mean_score_gap_ci95_high": 130.91719999999995,
+    "relative_improvement_percent": 8.70972886894848,
+    "relative_improvement_ci95_low": 0.9527673883804513,
+    "relative_improvement_ci95_high": 17.367644038039153,
+    "uniform_reward_min": 1,
+    "uniform_reward_max": 100,
+    "uniform_expected_reward": 50.5,
+    "equivalent_uniform_reward_stops": 1.3841386138613863,
+    "equivalent_uniform_reward_stops_ci95_low": 0.15948712871287135,
+    "equivalent_uniform_reward_stops_ci95_high": 2.592419801980197
+  },
+  "paired_metric_summaries": [
+    {
+      "metric": "Stop Score gap",
+      "column": "score_gap",
+      "task_count": 600,
+      "mean": 69.899,
+      "median": 52.5,
+      "q1": -16.549999999999983,
+      "q3": 198.65,
+      "bootstrap_ci95_low": 8.054099999999991,
+      "bootstrap_ci95_high": 130.91719999999995,
+      "estimand": "all_task_failure_zero"
+    },
+    {
+      "metric": "Scored-stop-count gap",
+      "column": "scored_stop_gap",
+      "task_count": 600,
+      "mean": 1.32,
+      "median": 1.0,
+      "q1": 0.0,
+      "q3": 3.1999999999999993,
+      "bootstrap_ci95_low": 0.5346666666666667,
+      "bootstrap_ci95_high": 2.0920083333333332,
+      "estimand": "all_task_failure_zero"
+    },
+    {
+      "metric": "Selected reward per scored stop gap",
+      "column": "reward_per_scored_stop_gap",
+      "task_count": 581,
+      "mean": -1.913661845486513,
+      "median": -0.7909090909090963,
+      "q1": -4.962962962962962,
+      "q3": 1.5340425531914903,
+      "bootstrap_ci95_low": -3.2468295805003073,
+      "bootstrap_ci95_high": -0.6538136420644175,
+      "estimand": "all_task_failure_zero"
+    },
+    {
+      "metric": "Stop Score gap",
+      "column": "score_gap",
+      "task_count": 452,
+      "mean": 4.708407079646028,
+      "median": 15.0,
+      "q1": -37.150000000000006,
+      "q3": 106.6,
+      "bootstrap_ci95_low": -63.024102767881615,
+      "bootstrap_ci95_high": 67.8745515426931,
+      "estimand": "all_five_nsga_runs_feasible"
+    },
+    {
+      "metric": "Scored-stop-count gap",
+      "column": "scored_stop_gap",
+      "task_count": 452,
+      "mean": 0.45309734513274325,
+      "median": 0.40000000000000036,
+      "q1": -0.1999999999999993,
+      "q3": 2.0,
+      "bootstrap_ci95_low": -0.3897077405997462,
+      "bootstrap_ci95_high": 1.2686325276711095,
+      "estimand": "all_five_nsga_runs_feasible"
+    },
+    {
+      "metric": "Selected reward per scored stop gap",
+      "column": "reward_per_scored_stop_gap",
+      "task_count": 452,
+      "mean": -1.6081399597180919,
+      "median": -0.48863636363635266,
+      "q1": -4.6160232149594265,
+      "q3": 1.537436676798377,
+      "bootstrap_ci95_low": -2.890332444205891,
+      "bootstrap_ci95_high": -0.4329666543783908,
+      "estimand": "all_five_nsga_runs_feasible"
+    },
+    {
+      "metric": "Stop Score gap",
+      "column": "score_gap_feasible_only",
+      "task_count": 581,
+      "mean": -3.0593230063109527,
+      "median": 11.0,
+      "q1": -44.0,
+      "q3": 108.0,
+      "bootstrap_ci95_low": -71.30119988545246,
+      "bootstrap_ci95_high": 62.43982383786839,
+      "estimand": "mean_over_feasible_nsga_runs_only"
+    },
+    {
+      "metric": "Scored-stop-count gap",
+      "column": "scored_stop_gap_feasible_only",
+      "task_count": 581,
+      "mean": 0.3695639701663799,
+      "median": 0.40000000000000036,
+      "q1": -0.25,
+      "q3": 2.0,
+      "bootstrap_ci95_low": -0.43959934176510357,
+      "bootstrap_ci95_high": 1.1516545224307337,
+      "estimand": "mean_over_feasible_nsga_runs_only"
+    },
+    {
+      "metric": "Selected reward per scored stop gap",
+      "column": "reward_per_scored_stop_gap_feasible_only",
+      "task_count": 581,
+      "mean": -1.913661845486513,
+      "median": -0.7909090909090963,
+      "q1": -4.962962962962962,
+      "q3": 1.5340425531914903,
+      "bootstrap_ci95_low": -3.259757594290235,
+      "bootstrap_ci95_high": -0.6528158715999856,
+      "estimand": "mean_over_feasible_nsga_runs_only"
+    }
+  ],
+  "decomposition": [
+    {
+      "metric": "Observed Stop Score gap",
+      "column": "score_gap",
+      "task_count": 581,
+      "mean": 55.045438898450946,
+      "median": 48.799999999999955,
+      "q1": -18.59999999999991,
+      "q3": 183.60000000000002,
+      "bootstrap_ci95_low": -7.975678238943756,
+      "bootstrap_ci95_high": 113.03621699773697,
+      "component": "Observed Stop Score gap"
+    },
+    {
+      "metric": "Scored-stop coverage association",
+      "column": "coverage_association",
+      "task_count": 581,
+      "mean": 81.35659083764182,
+      "median": 73.24621212121212,
+      "q1": 0.0,
+      "q3": 211.17811621368335,
+      "bootstrap_ci95_low": 26.165411122462434,
+      "bootstrap_ci95_high": 135.1387930554647,
+      "component": "Scored-stop coverage association"
+    },
+    {
+      "metric": "Selected reward-density association",
+      "column": "density_association",
+      "task_count": 581,
+      "mean": -26.311151939190857,
+      "median": -9.982643678160985,
+      "q1": -56.201403508771904,
+      "q3": 16.99999999999997,
+      "bootstrap_ci95_low": -44.26501347379201,
+      "bootstrap_ci95_high": -9.575235345905481,
+      "component": "Selected reward-density association"
+    }
+  ],
+  "all_nsga_runs_failed": {
+    "task_count": 19,
+    "mean_score_gap": 524.1052631578947,
+    "mean_ours_score": 524.1052631578947,
+    "nsga_reward_density": null,
+    "classification": "reliability/no-feasible-return difference"
+  },
+  "artifacts": [
+    {
+      "path": "paper/results/exp1_algorithm_comparison/score_interpretability_task_level_20260723.csv",
+      "bytes": 153274,
+      "sha256": "2ce75b63873fc99c7aebee405740b9840ae16251f37bab499e8b59f3a3a14f07"
+    },
+    {
+      "path": "paper/results/exp1_algorithm_comparison/score_interpretability_summary_20260723.csv",
+      "bytes": 2298,
+      "sha256": "a0b33af55d9a525d83a1e1b12930e5773492c2a4edfe8b7a871c503c8e02c6ce"
+    },
+    {
+      "path": "paper/results/exp1_algorithm_comparison/score_interpretability_analysis_20260723.md",
+      "bytes": 4127,
+      "sha256": "a6fcdb96083f0be9b2b826a604b26a92686fa82bdfc404b244eba4c116a6096e"
+    }
+  ],
+  "metadata_snapshot": {
+    "score_seeds": [
+      20260323,
+      20260324,
+      20260325,
+      20260326,
+      20260327
+    ],
+    "stop_score_min": 1,
+    "stop_score_max": 100,
+    "scoring_semantics": {
+      "version": "stop-score-v2-query-elapsed",
+      "scored_stops": "unique_non_origin",
+      "origin_scores": false,
+      "initial_waiting_included": true,
+      "effective_time": "last_arrival-query_departure+dwell_per_unique_non_origin_stop",
+      "budget_boundary_inclusive": true,
+      "empty_route_interpretation": "algorithm_failure_not_query_infeasibility"
+    }
+  }
+}

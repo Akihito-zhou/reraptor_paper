@@ -28,6 +28,7 @@ class McRaptorBaseline(BaseAlgorithm):
         the journey that happens to have the most ride time — showing that
         even the 'best' traditional result is poor at value maximisation.
         """
+        self._set_query_context(origin=origin, depart_time=depart_time)
         time_limit = depart_time + budget_minutes
 
         # Use the existing simple_raptor method toward different destinations
@@ -57,11 +58,21 @@ class McRaptorBaseline(BaseAlgorithm):
                 edges = planner._convert_journey_legs_to_trip_edges(journey_legs)
                 valid = [e for e in edges if e.arrive <= time_limit]
                 if objective is not None:
-                    objective_metrics = objective.metrics_from_edges(valid, budget_minutes=budget_minutes)
+                    objective_metrics = objective.metrics_from_edges(
+                        valid,
+                        origin_code=origin,
+                        query_depart_time=depart_time,
+                        budget_minutes=budget_minutes,
+                    )
                     if objective_metrics.get("effective_budget_feasible") is False:
                         continue
                 score = (
-                    objective.search_score_from_edges(valid, budget_minutes=budget_minutes)
+                    objective.search_score_from_edges(
+                        valid,
+                        origin_code=origin,
+                        query_depart_time=depart_time,
+                        budget_minutes=budget_minutes,
+                    )
                     if objective is not None
                     else sum(e.ride_minutes for e in valid)
                 )

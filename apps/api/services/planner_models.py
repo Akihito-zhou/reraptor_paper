@@ -53,7 +53,21 @@ class StopSchedule:
         """按照出发时间排序固化 / 出発時刻順にソートして確定させる。"""
         if not self.departures:
             return
-        combined = sorted(zip(self.departures, self.edges, strict=False), key=lambda pair: pair[0])
+        # A departure-only stable sort inherits whatever insertion order was
+        # produced upstream. Some upstream collections are sets, so equal-time
+        # edges could change order with PYTHONHASHSEED and alter deterministic
+        # algorithms. Use a complete, stable timetable key instead.
+        combined = sorted(
+            zip(self.departures, self.edges, strict=False),
+            key=lambda pair: (
+                int(pair[0]),
+                int(pair[1].arrive),
+                str(pair[1].line_id),
+                str(pair[1].trip_id),
+                str(pair[1].from_code),
+                str(pair[1].to_code),
+            ),
+        )
         self.departures = [d for d, _ in combined]
         self.edges = [e for _, e in combined]
 

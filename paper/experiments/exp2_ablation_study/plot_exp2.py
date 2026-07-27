@@ -63,6 +63,10 @@ def load_results(*, quick_mode: bool = False, input_path: Path | None = None) ->
         return pd.DataFrame()
     with open(infile, "r", encoding="utf-8") as f:
         data = json.load(f)
+    if isinstance(data, dict):
+        data = data.get("results", [])
+    if not isinstance(data, list):
+        raise ValueError(f"Expected list or wrapped results in {infile}")
 
     rows = []
     for run in data:
@@ -200,11 +204,11 @@ def write_summary(
         noneg_line = (
             f"- `Ours (NoNeg)` is nearly tied on score "
             f"(`{noneg['stop_score']:.2f}`, gap `{noneg_gap:+.2f}`), "
-            f"but is slightly slower and larger, which matches the claim that negative pruning is not the main speedup layer."
+            f"but is slightly slower and larger, which matches the claim that negative down-ranking is not the main speedup component."
         )
     else:
         noneg_line = (
-            f"- Removing negative pruning changes score by `{_score_delta_text(noneg['stop_score'], full['stop_score'])}` "
+            f"- Removing negative down-ranking changes score by `{_score_delta_text(noneg['stop_score'], full['stop_score'])}` "
             f"while runtime changes by `{noneg['time_ms'] - full['time_ms']:+.2f} ms` and label count by "
             f"`{noneg['labels'] - full['labels']:+.0f}`. This supports treating `Negative` as a role-separated constraint layer "
             f"rather than one of the two main search-space control layers."
@@ -355,7 +359,7 @@ def write_summary(
             "## Interpretation",
             "",
             "- `Beam` and `dominance` should be presented as co-core efficiency layers that jointly control search-space growth.",
-            "- `Negative pruning` should be presented as a light constraint / stability layer, not as the main source of score gain.",
+            "- `Negative down-ranking` should be presented as an objective-alignment component, not as the main source of score gain.",
             "- The fairest statement for Experiment 2 is therefore: `Ours (Full)` has the best combined profile across quality, runtime, and search size.",
             "",
         ]

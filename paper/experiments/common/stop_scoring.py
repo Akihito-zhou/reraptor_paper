@@ -44,6 +44,10 @@ class StopScoringProfile:
     stop_scores: dict[str, int]
     dwell_minutes: int = 0
     search_mode: str = "score_guided"
+    reward_coefficient: float = 10000.0
+    score_per_hour_coefficient: float = 5.0
+    effective_time_coefficient: float = 0.1
+    overrun_penalty: float = 50000.0
 
     @cached_property
     def _sorted_scores_desc(self) -> tuple[float, ...]:
@@ -73,6 +77,7 @@ class StopScoringProfile:
             "stop_score_total": 0.0,
             "scored_stop_count": 0,
             "dwell_minutes_total": 0,
+            "query_elapsed_minutes": 0.0,
             "effective_time_minutes": 0.0,
             "effective_budget_overrun_minutes": 0.0,
             "effective_budget_feasible": True,
@@ -103,14 +108,19 @@ class StopScoringProfile:
         self,
         stop_codes: Iterable[Any],
         *,
-        total_time_minutes: float,
+        origin_code: str,
+        query_elapsed_minutes: float,
         budget_minutes: int | None = None,
     ) -> dict[str, float | int | bool]:
-        unique_stops = _unique_preserve_order(str(code) for code in stop_codes)
+        origin = str(origin_code)
+        unique_stops = _unique_preserve_order(
+            str(code) for code in stop_codes if str(code) != origin
+        )
         stop_score_total = float(sum(self.score_for_stop(code) for code in unique_stops))
         scored_stop_count = int(len(unique_stops))
         dwell_total = int(self.dwell_minutes * scored_stop_count)
-        effective_time = float(max(0.0, total_time_minutes) + dwell_total)
+        elapsed = float(max(0.0, query_elapsed_minutes))
+        effective_time = float(elapsed + dwell_total)
         overrun = float(max(0.0, effective_time - float(budget_minutes))) if budget_minutes is not None else 0.0
         feasible = overrun <= 1e-9
         score_per_hour = (stop_score_total * 60.0 / effective_time) if effective_time > 0 else 0.0
@@ -118,6 +128,7 @@ class StopScoringProfile:
             "stop_score_total": round(stop_score_total, 6),
             "scored_stop_count": scored_stop_count,
             "dwell_minutes_total": dwell_total,
+            "query_elapsed_minutes": round(elapsed, 6),
             "effective_time_minutes": round(effective_time, 6),
             "effective_budget_overrun_minutes": round(overrun, 6),
             "effective_budget_feasible": feasible,
@@ -128,15 +139,20 @@ class StopScoringProfile:
         self,
         path_edges: list[Any],
         *,
+        origin_code: str,
+        query_depart_time: int,
         budget_minutes: int | None = None,
     ) -> dict[str, float | int | bool]:
         if not path_edges:
             return self.zero_metrics()
         stop_codes = [str(edge.to_code) for edge in path_edges]
-        total_time_minutes = float(max(0, int(path_edges[-1].arrive) - int(path_edges[0].depart)))
+        query_elapsed_minutes = float(
+            max(0, int(path_edges[-1].arrive) - int(query_depart_time))
+        )
         return self._metrics_from_stop_codes(
             stop_codes,
-            total_time_minutes=total_time_minutes,
+            origin_code=origin_code,
+            query_elapsed_minutes=query_elapsed_minutes,
             budget_minutes=budget_minutes,
         )
 
@@ -144,42 +160,22 @@ class StopScoringProfile:
         self,
         label: Any,
         *,
+        origin_code: str,
+        query_depart_time: int,
         budget_minutes: int | None = None,
     ) -> dict[str, float | int | bool]:
         legs = list(getattr(label, "legs", ()) or ())
         if not legs:
             return self.zero_metrics()
-
-        total_time_minutes = float(max(0, int(legs[-1].arrive) - int(legs[0].depart)))
-        scored_stop_count = int(getattr(label, "objective_scored_count", 0) or 0)
-        stop_score_total = float(getattr(label, "objective_score_total", 0.0) or 0.0)
-        if scored_stop_count <= 0 and stop_score_total <= 0.0:
-            origin_code = str(getattr(legs[0], "from_code", ""))
-            visited = [
-                str(code)
-                for code in (getattr(label, "visited", ()) or ())
-                if str(code) != origin_code
-            ]
-            return self._metrics_from_stop_codes(
-                visited,
-                total_time_minutes=total_time_minutes,
-                budget_minutes=budget_minutes,
-            )
-
-        dwell_total = int(self.dwell_minutes * scored_stop_count)
-        effective_time = float(max(0.0, total_time_minutes) + dwell_total)
-        overrun = float(max(0.0, effective_time - float(budget_minutes))) if budget_minutes is not None else 0.0
-        feasible = overrun <= 1e-9
-        score_per_hour = (stop_score_total * 60.0 / effective_time) if effective_time > 0 else 0.0
-        return {
-            "stop_score_total": round(stop_score_total, 6),
-            "scored_stop_count": scored_stop_count,
-            "dwell_minutes_total": dwell_total,
-            "effective_time_minutes": round(effective_time, 6),
-            "effective_budget_overrun_minutes": round(overrun, 6),
-            "effective_budget_feasible": feasible,
-            "score_per_hour": round(score_per_hour, 6),
-        }
+        query_elapsed_minutes = float(
+            max(0, int(legs[-1].arrive) - int(query_depart_time))
+        )
+        return self._metrics_from_stop_codes(
+            (str(leg.to_code) for leg in legs),
+            origin_code=origin_code,
+            query_elapsed_minutes=query_elapsed_minutes,
+            budget_minutes=budget_minutes,
+        )
 
     def can_append(
         self,
@@ -263,10 +259,10 @@ class StopScoringProfile:
             # Time-related terms are only tie-breakers so they never outweigh
             # even a small gain in total collected score.
             return round(
-                stop_score_total * 10000.0
-                + score_per_hour * 5.0
-                - effective_time * 0.1
-                - overrun * 50000.0,
+                stop_score_total * float(self.reward_coefficient)
+                + score_per_hour * float(self.score_per_hour_coefficient)
+                - effective_time * float(self.effective_time_coefficient)
+                - overrun * float(self.overrun_penalty),
                 6,
             )
         return round(
@@ -282,18 +278,32 @@ class StopScoringProfile:
         self,
         path_edges: list[Any],
         *,
+        origin_code: str,
+        query_depart_time: int,
         budget_minutes: int | None = None,
     ) -> float:
-        metrics = self.metrics_from_edges(path_edges, budget_minutes=budget_minutes)
+        metrics = self.metrics_from_edges(
+            path_edges,
+            origin_code=origin_code,
+            query_depart_time=query_depart_time,
+            budget_minutes=budget_minutes,
+        )
         return self.search_score_from_metrics(metrics)
 
     def objective_vector_from_edges(
         self,
         path_edges: list[Any],
         *,
+        origin_code: str,
+        query_depart_time: int,
         budget_minutes: int | None = None,
     ) -> tuple[float, float, float]:
-        metrics = self.metrics_from_edges(path_edges, budget_minutes=budget_minutes)
+        metrics = self.metrics_from_edges(
+            path_edges,
+            origin_code=origin_code,
+            query_depart_time=query_depart_time,
+            budget_minutes=budget_minutes,
+        )
         if self.search_mode == "score_guided":
             return (
                 float(metrics.get("stop_score_total", 0.0)),
@@ -310,11 +320,13 @@ class StopScoringProfile:
         self,
         *,
         edge: Any,
+        origin_code: str,
         visits: dict[str, int],
         prev_edge: Any | None,
     ) -> float:
         if self.search_mode == "score_guided":
-            raw_score = self.score_for_stop(getattr(edge, "to_code", ""))
+            destination = str(getattr(edge, "to_code", ""))
+            raw_score = 0.0 if destination == str(origin_code) else self.score_for_stop(destination)
             seen = int(visits.get(str(getattr(edge, "to_code", "")), 0))
             ride_minutes = float(max(0, int(edge.arrive) - int(edge.depart)))
             effective_cost = max(1.0, ride_minutes + float(self.dwell_minutes))
@@ -324,7 +336,8 @@ class StopScoringProfile:
             if prev_edge is not None and edge.trip_id == prev_edge.trip_id and edge.line_id == prev_edge.line_id:
                 score += 2.0
             return float(score)
-        score = self.score_for_stop(getattr(edge, "to_code", ""))
+        destination = str(getattr(edge, "to_code", ""))
+        score = 0.0 if destination == str(origin_code) else self.score_for_stop(destination)
         seen = int(visits.get(str(getattr(edge, "to_code", "")), 0))
         if seen > 0:
             score *= 0.25
@@ -342,6 +355,14 @@ class StopScoringProfile:
         score_b: float,
         metrics_b: dict[str, Any],
     ) -> bool:
+        """Heuristic reward-time reduction predicate.
+
+        This is intentionally not described as exact Pareto dominance: the
+        scalar metrics do not encode the visited-stop set or the previous-trip
+        continuation state, both of which can change future feasible rewards.
+        Optional upper-bound fields make the predicate more selective but do
+        not turn it into a proof-safe dominance rule.
+        """
         a_total = float(metrics_a.get("stop_score_total", 0.0))
         b_total = float(metrics_b.get("stop_score_total", 0.0))
         a_time = float(metrics_a.get("effective_time_minutes", metrics_a.get("total_time_minutes", 0.0)))

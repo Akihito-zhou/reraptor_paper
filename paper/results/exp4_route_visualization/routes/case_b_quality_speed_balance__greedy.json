@@ -1,0 +1,434 @@
+{
+  "id": "exp4-case_b_quality_speed_balance-greedy",
+  "title": "Case B: Ours Achieves the Best Quality-Speed Balance - Greedy",
+  "tagline": "Compare Ours against a slower high-quality baseline and a faster lower-quality heuristic to show why the ideal-point ranking favors Ours.",
+  "theme_tags": [
+    "balance",
+    "exp1_exp3_main_task",
+    "quality-speed-balance",
+    "balance_case"
+  ],
+  "start_stop": "kashii",
+  "start_time": "10:00",
+  "total_ride_minutes": 14,
+  "total_distance_km": 5.0,
+  "transfers": 5,
+  "wards": [
+    "福岡市内"
+  ],
+  "badges": [
+    "exp4"
+  ],
+  "legs": [
+    {
+      "sequence": 1,
+      "line_label": "2018",
+      "line_name": "西鉄バス・２１・普通・雁の巣ＲＣ行",
+      "line_id": "2018",
+      "trip_id": "2018-Up-605",
+      "from_stop": "香椎／西鉄バス",
+      "to_stop": "九州産業大学前／西鉄バス",
+      "from_code": "676527",
+      "to_code": "676542",
+      "departure": "10:05",
+      "arrival": "10:08",
+      "ride_minutes": 3,
+      "distance_km": 1.15,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.441849,
+            33.655244
+          ],
+          [
+            130.444931,
+            33.665258
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.655244,
+          "lon": 130.441849
+        },
+        {
+          "lat": 33.665258,
+          "lon": 130.444931
+        }
+      ],
+      "from_coord": {
+        "lat": 33.655244,
+        "lon": 130.441849
+      },
+      "to_coord": {
+        "lat": 33.665258,
+        "lon": 130.444931
+      }
+    },
+    {
+      "sequence": 2,
+      "line_label": "1553",
+      "line_name": "西鉄バス・２６Ａ・普通・福間－都高－昭和通・天神行",
+      "line_id": "1553",
+      "trip_id": "1553-Up-619",
+      "from_stop": "九州産業大学前／西鉄バス",
+      "to_stop": "ＪＲ九産大前駅／西鉄バス",
+      "from_code": "676542",
+      "to_code": "676543",
+      "departure": "10:19",
+      "arrival": "10:20",
+      "ride_minutes": 1,
+      "distance_km": 0.54,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.444931,
+            33.665258
+          ],
+          [
+            130.443449,
+            33.669997
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.665258,
+          "lon": 130.444931
+        },
+        {
+          "lat": 33.669997,
+          "lon": 130.443449
+        }
+      ],
+      "from_coord": {
+        "lat": 33.665258,
+        "lon": 130.444931
+      },
+      "to_coord": {
+        "lat": 33.669997,
+        "lon": 130.443449
+      }
+    },
+    {
+      "sequence": 3,
+      "line_label": "2018",
+      "line_name": "西鉄バス・２１・普通・雁の巣ＲＣ行",
+      "line_id": "2018",
+      "trip_id": "2018-Up-640",
+      "from_stop": "ＪＲ九産大前駅／西鉄バス",
+      "to_stop": "和白／西鉄バス",
+      "from_code": "676543",
+      "to_code": "676546",
+      "departure": "10:40",
+      "arrival": "10:46",
+      "ride_minutes": 6,
+      "distance_km": 1.8,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.443449,
+            33.669997
+          ],
+          [
+            130.436327,
+            33.685022
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.669997,
+          "lon": 130.443449
+        },
+        {
+          "lat": 33.685022,
+          "lon": 130.436327
+        }
+      ],
+      "from_coord": {
+        "lat": 33.669997,
+        "lon": 130.443449
+      },
+      "to_coord": {
+        "lat": 33.685022,
+        "lon": 130.436327
+      }
+    },
+    {
+      "sequence": 4,
+      "line_label": "1553",
+      "line_name": "西鉄バス・２６Ａ・普通・福間－都高－昭和通・天神行",
+      "line_id": "1553",
+      "trip_id": "1553-Down-664",
+      "from_stop": "和白／西鉄バス",
+      "to_stop": "白浜／西鉄バス",
+      "from_code": "676546",
+      "to_code": "676545",
+      "departure": "11:04",
+      "arrival": "11:05",
+      "ride_minutes": 1,
+      "distance_km": 0.52,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.436327,
+            33.685022
+          ],
+          [
+            130.437394,
+            33.680467
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.685022,
+          "lon": 130.436327
+        },
+        {
+          "lat": 33.680467,
+          "lon": 130.437394
+        }
+      ],
+      "from_coord": {
+        "lat": 33.685022,
+        "lon": 130.436327
+      },
+      "to_coord": {
+        "lat": 33.680467,
+        "lon": 130.437394
+      }
+    },
+    {
+      "sequence": 5,
+      "line_label": "1553",
+      "line_name": "西鉄バス・２６Ａ・普通・福間－都高－昭和通・天神行",
+      "line_id": "1553",
+      "trip_id": "1553-Up-668",
+      "from_stop": "白浜／西鉄バス",
+      "to_stop": "和白／西鉄バス",
+      "from_code": "676545",
+      "to_code": "676546",
+      "departure": "11:08",
+      "arrival": "11:10",
+      "ride_minutes": 2,
+      "distance_km": 0.52,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.437394,
+            33.680467
+          ],
+          [
+            130.436327,
+            33.685022
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.680467,
+          "lon": 130.437394
+        },
+        {
+          "lat": 33.685022,
+          "lon": 130.436327
+        }
+      ],
+      "from_coord": {
+        "lat": 33.680467,
+        "lon": 130.437394
+      },
+      "to_coord": {
+        "lat": 33.685022,
+        "lon": 130.436327
+      }
+    },
+    {
+      "sequence": 6,
+      "line_label": "1553",
+      "line_name": "西鉄バス・２６Ａ・普通・福間－都高－昭和通・天神行",
+      "line_id": "1553",
+      "trip_id": "1553-Down-679",
+      "from_stop": "和白／西鉄バス",
+      "to_stop": "白浜／西鉄バス",
+      "from_code": "676546",
+      "to_code": "676545",
+      "departure": "11:19",
+      "arrival": "11:20",
+      "ride_minutes": 1,
+      "distance_km": 0.52,
+      "notes": [
+        "停車数 2"
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.436327,
+            33.685022
+          ],
+          [
+            130.437394,
+            33.680467
+          ]
+        ]
+      },
+      "path": [
+        {
+          "lat": 33.685022,
+          "lon": 130.436327
+        },
+        {
+          "lat": 33.680467,
+          "lon": 130.437394
+        }
+      ],
+      "from_coord": {
+        "lat": 33.685022,
+        "lon": 130.436327
+      },
+      "to_coord": {
+        "lat": 33.680467,
+        "lon": 130.437394
+      }
+    }
+  ],
+  "rest_stops": [
+    {
+      "at": "ＪＲ九産大前駅／西鉄バス",
+      "minutes": 20,
+      "suggestion": "🥐 午前の休憩！CLUB HOUSE（徒歩221m）",
+      "nearby_pois": [
+        {
+          "name": "CLUB HOUSE",
+          "type": "restaurant",
+          "brand": "",
+          "distance_m": 221
+        },
+        {
+          "name": "さか井",
+          "type": "restaurant",
+          "brand": "",
+          "distance_m": 383
+        },
+        {
+          "name": "楽楽",
+          "type": "restaurant",
+          "brand": "",
+          "distance_m": 384
+        }
+      ],
+      "meal_break": null,
+      "time_period": "late_morning",
+      "time": "10:20",
+      "end_time": "10:40",
+      "after_leg": 2
+    }
+  ],
+  "statistics": {
+    "total_unique_stops": 5,
+    "total_stops": 7,
+    "total_unique_lines": 2,
+    "avg_leg_distance_km": 0.84,
+    "max_leg_distance_km": 1.8,
+    "min_leg_distance_km": 0.52,
+    "avg_leg_minutes": 2.3,
+    "max_leg_minutes": 6,
+    "min_leg_minutes": 1,
+    "repeated_stop_count": 2,
+    "unique_lines": 2,
+    "primary_metric_name": "stop_score_total",
+    "primary_metric_label": "Stop Score",
+    "primary_metric_value": 263.0,
+    "elapsed_ms": 0.85,
+    "stop_score_total": 263.0,
+    "score_per_hour": 131.5,
+    "effective_time_minutes": 120.0,
+    "scored_stop_count": 4.0
+  },
+  "exp4": {
+    "case_id": "case_b_quality_speed_balance",
+    "case_title": "Case B: Ours Achieves the Best Quality-Speed Balance",
+    "source_experiment": "exp1_exp3_main_task",
+    "scenario": "quality-speed-balance",
+    "paper_role": "balance_case",
+    "paper_group": "main",
+    "algorithm_key": "greedy",
+    "algorithm_name": "Greedy",
+    "origin_name": "kashii",
+    "origin_code": "676527",
+    "depart_time_minutes": 600,
+    "depart_time_hhmm": "10:00",
+    "budget_minutes": 120,
+    "score_seed": 20260326,
+    "seed": 0,
+    "selection_reason": "Selected as the cleanest balance case where Ours is the closest-to-ideal algorithm without being the top-scoring one. Ours trails the best query-level score by only 0.05% and still ranks first by ideal-point distance on this query.",
+    "qualitative_focus": "Compare Ours against a slower high-quality baseline and a faster lower-quality heuristic to show why the ideal-point ranking favors Ours.",
+    "selection_evidence": {
+      "query_best_score_gap_ratio": 0.0004972650422675004,
+      "query_balance_margin": 0.2567284697470743,
+      "query_ours_stop_score": 402.0,
+      "query_ours_ideal_distance": 0.004414715698733823,
+      "query_best_score": 402.2,
+      "query_best_score_algorithm": "Pure RAPTOR",
+      "query_best_score_elapsed_ms": 13956.670000000002,
+      "query_fast_lower_quality_algorithm": "Greedy (L=3)",
+      "query_fast_lower_quality_score": 249.8,
+      "query_fast_lower_quality_elapsed_ms": 0.682,
+      "task_score_seed": 20260326,
+      "task_ours_stop_score": 375.0,
+      "task_best_score": 376.0,
+      "task_nsga2_stop_score": 356.0,
+      "task_nsga2_elapsed_ms": 24221.841999999997,
+      "representative_seed": 0
+    },
+    "metrics": {
+      "ride_minutes": 14,
+      "distance_km": 5.04,
+      "unique_stops": 5,
+      "legs": 6,
+      "hull_area": 0.8176,
+      "quadrant_coverage": 2,
+      "total_time_minutes": 75,
+      "composite_score": 0.113302,
+      "feasible": true,
+      "violation_reason": "",
+      "raw_violation_reason": "",
+      "algorithm_failure": false,
+      "query_infeasible_proven": false,
+      "objective_metrics_valid": true,
+      "stop_score_total": 263.0,
+      "scored_stop_count": 4,
+      "dwell_minutes_total": 40,
+      "query_elapsed_minutes": 80.0,
+      "effective_time_minutes": 120.0,
+      "effective_budget_overrun_minutes": 0.0,
+      "effective_budget_feasible": true,
+      "score_per_hour": 131.5
+    },
+    "timing_provenance": "exact run from frozen canonical Experiment 1",
+    "rerun_elapsed_ms": 0.475
+  }
+}

@@ -30,8 +30,10 @@ MD_OUT_DEFAULT = PROJECT_ROOT / "paper" / "results" / "exp2_ablation_study" / "e
 def load_rows(path: Path) -> list[dict[str, Any]]:
     with open(path, encoding="utf-8") as f:
         data = json.load(f)
+    if isinstance(data, dict):
+        data = data.get("results", [])
     if not isinstance(data, list):
-        raise ValueError(f"Expected list JSON at {path}, got {type(data)}")
+        raise ValueError(f"Expected list or wrapped result JSON at {path}, got {type(data)}")
     return data
 
 

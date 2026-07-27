@@ -1,0 +1,13 @@
+metric,column,task_count,mean,median,q1,q3,bootstrap_ci95_low,bootstrap_ci95_high,estimand,component
+Stop Score gap,score_gap,600,69.899,52.5,-16.549999999999983,198.65,8.054099999999991,130.91719999999995,all_task_failure_zero,
+Scored-stop-count gap,scored_stop_gap,600,1.32,1.0,0.0,3.1999999999999993,0.5346666666666667,2.0920083333333332,all_task_failure_zero,
+Selected reward per scored stop gap,reward_per_scored_stop_gap,581,-1.913661845486513,-0.7909090909090963,-4.962962962962962,1.5340425531914903,-3.2468295805003073,-0.6538136420644175,all_task_failure_zero,
+Stop Score gap,score_gap,452,4.708407079646028,15.0,-37.150000000000006,106.6,-63.024102767881615,67.8745515426931,all_five_nsga_runs_feasible,
+Scored-stop-count gap,scored_stop_gap,452,0.45309734513274325,0.40000000000000036,-0.1999999999999993,2.0,-0.3897077405997462,1.2686325276711095,all_five_nsga_runs_feasible,
+Selected reward per scored stop gap,reward_per_scored_stop_gap,452,-1.6081399597180919,-0.48863636363635266,-4.6160232149594265,1.537436676798377,-2.890332444205891,-0.4329666543783908,all_five_nsga_runs_feasible,
+Stop Score gap,score_gap_feasible_only,581,-3.0593230063109527,11.0,-44.0,108.0,-71.30119988545246,62.43982383786839,mean_over_feasible_nsga_runs_only,
+Scored-stop-count gap,scored_stop_gap_feasible_only,581,0.3695639701663799,0.40000000000000036,-0.25,2.0,-0.43959934176510357,1.1516545224307337,mean_over_feasible_nsga_runs_only,
+Selected reward per scored stop gap,reward_per_scored_stop_gap_feasible_only,581,-1.913661845486513,-0.7909090909090963,-4.962962962962962,1.5340425531914903,-3.259757594290235,-0.6528158715999856,mean_over_feasible_nsga_runs_only,
+Observed Stop Score gap,score_gap,581,55.045438898450946,48.799999999999955,-18.59999999999991,183.60000000000002,-7.975678238943756,113.03621699773697,decomposable_tasks,Observed Stop Score gap
+Scored-stop coverage association,coverage_association,581,81.35659083764182,73.24621212121212,0.0,211.17811621368335,26.165411122462434,135.1387930554647,decomposable_tasks,Scored-stop coverage association
+Selected reward-density association,density_association,581,-26.311151939190857,-9.982643678160985,-56.201403508771904,16.99999999999997,-44.26501347379201,-9.575235345905481,decomposable_tasks,Selected reward-density association

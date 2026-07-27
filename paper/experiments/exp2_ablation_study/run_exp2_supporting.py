@@ -245,11 +245,13 @@ def _route_health_metrics(path_edges: list[Any]) -> dict[str, Any]:
     }
 
 
-def _unique_scored_stop_codes(path_edges: list[Any]) -> list[str]:
+def _unique_scored_stop_codes(path_edges: list[Any], *, origin_code: str) -> list[str]:
     seen: set[str] = set()
     ordered: list[str] = []
     for edge in path_edges:
         code = str(edge.to_code)
+        if code == str(origin_code):
+            continue
         if code in seen:
             continue
         seen.add(code)
@@ -585,7 +587,11 @@ def evaluate_task(
             planner=planner,
             start_mode=start_mode,
         )
-        scored_stop_count = len(_unique_scored_stop_codes(path_edges)) if task_feasible else 0
+        scored_stop_count = (
+            len(_unique_scored_stop_codes(path_edges, origin_code=origin_code))
+            if task_feasible
+            else 0
+        )
         stop_score_total = float(project_metrics.get("primary_objective_total", 0.0) or 0.0)
         theme_stop_count = int(project_metrics.get("theme_stop_count", 0) or 0)
         theme_score_total = float(project_metrics.get("theme_score_total", 0.0) or 0.0)
@@ -629,12 +635,28 @@ def evaluate_task(
         theme_satisfied = bool(project_metrics.get("theme_satisfied", False))
     else:
         assert objective is not None
-        raw_metrics = objective.metrics_from_edges(path_edges, budget_minutes=budget_minutes) if path_edges else objective.zero_metrics()
-        effective_feasible = bool(raw_metrics.get("effective_budget_feasible", True))
+        raw_metrics = (
+            objective.metrics_from_edges(
+                path_edges,
+                origin_code=origin_code,
+                query_depart_time=depart_time,
+                budget_minutes=budget_minutes,
+            )
+            if path_edges
+            else objective.zero_metrics()
+        )
+        effective_feasible = bool(
+            structural_feasible
+            and raw_metrics.get("effective_budget_feasible", True)
+        )
         task_feasible = bool(structural_feasible and effective_feasible)
 
         stop_metrics = raw_metrics if task_feasible else objective.zero_metrics()
-        scored_stops = _unique_scored_stop_codes(path_edges) if task_feasible else []
+        scored_stops = (
+            _unique_scored_stop_codes(path_edges, origin_code=origin_code)
+            if task_feasible
+            else []
+        )
         condition_metrics = _task_condition_metrics(
             objective=objective,
             theme_profile=theme_profile,
@@ -676,7 +698,10 @@ def evaluate_task(
         "feasible": bool(task_feasible),
         "structural_feasible": bool(structural_feasible),
         "effective_budget_feasible": bool(effective_feasible),
+        "algorithm_failure": not bool(task_feasible),
+        "query_infeasible_proven": False,
         "violation_reason": "" if task_feasible else (violation_reason if not structural_feasible else "effective_budget_exceeded"),
+        "raw_violation_reason": "" if task_feasible else (violation_reason if not structural_feasible else "effective_budget_exceeded"),
         "stop_score_total": round(stop_score_total, 6),
         "scored_stop_count": scored_stop_count,
         "dwell_minutes_total": int(stop_metrics.get("dwell_minutes_total", 0) or 0),

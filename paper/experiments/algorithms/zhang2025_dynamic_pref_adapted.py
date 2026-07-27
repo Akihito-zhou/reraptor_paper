@@ -25,6 +25,7 @@ class Zhang2025DynamicPrefAdapted(BaseAlgorithm):
     category = "Recent-2024+ (adapted)"
 
     def solve(self, planner, origin, depart_time, budget_minutes, *, seed=0):
+        self._set_query_context(origin=origin, depart_time=depart_time)
         rng = random.Random(seed)
         time_limit = depart_time + budget_minutes
         deadline = time.perf_counter() + min(45.0, float(WALL_CLOCK_LIMIT_SEC))
@@ -91,7 +92,8 @@ class Zhang2025DynamicPrefAdapted(BaseAlgorithm):
     def _utilization(self, edges, *, budget_minutes: int) -> float:
         if not edges or budget_minutes <= 0:
             return 0.0
-        route_minutes = max(0.0, float(edges[-1].arrive) - float(edges[0].depart))
+        _, query_depart_time = self._query_context()
+        route_minutes = max(0.0, float(edges[-1].arrive) - float(query_depart_time))
         return max(0.0, min(1.0, route_minutes / float(budget_minutes)))
 
     def _dynamic_score(self, edges, *, budget_minutes: int) -> float:
@@ -99,7 +101,13 @@ class Zhang2025DynamicPrefAdapted(BaseAlgorithm):
         if objective is None:
             return route_score(edges, budget_minutes=budget_minutes)
 
-        metrics = objective.metrics_from_edges(edges, budget_minutes=budget_minutes)
+        origin_code, query_depart_time = self._query_context()
+        metrics = objective.metrics_from_edges(
+            edges,
+            origin_code=origin_code,
+            query_depart_time=query_depart_time,
+            budget_minutes=budget_minutes,
+        )
         stop_score_total = float(metrics.get("stop_score_total", 0.0))
         scored_stop_count = float(metrics.get("scored_stop_count", 0.0))
         score_per_hour = float(metrics.get("score_per_hour", 0.0))

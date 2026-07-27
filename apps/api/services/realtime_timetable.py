@@ -77,17 +77,22 @@ class RealtimeTimetableManager:
         else:
             self.refresh_realtime(line_filter=line_filter, soft=True)
 
-        selected_lines = set(line_filter) if line_filter else None
+        selected_line_ids = sorted(set(line_filter)) if line_filter else None
+        selected_line_set = set(selected_line_ids) if selected_line_ids else None
 
         with self._lock:
             result: list[TripEdge] = []
             candidates = (
-                [edge for lid in selected_lines for edge in self._static_edges_by_line.get(lid, [])]
-                if selected_lines
+                [
+                    edge
+                    for line_id in selected_line_ids
+                    for edge in self._static_edges_by_line.get(line_id, [])
+                ]
+                if selected_line_ids
                 else self._static_edges
             )
             for edge in candidates:
-                if selected_lines and edge.line_id not in selected_lines:
+                if selected_line_set and edge.line_id not in selected_line_set:
                     continue
                 if edge.arrive < start_minutes or edge.depart > end_minutes:
                     continue

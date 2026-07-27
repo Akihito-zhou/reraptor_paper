@@ -61,7 +61,7 @@ DEFAULT_ROUTE_CASES: tuple[RouteCaseSpec, ...] = (
         budget_minutes=480,
         seed=2,
         pressure_name="default",
-        qualitative_focus="Compare how negative pruning firmly adheres to a sparse theme and explicitly outscores unconstrained search via long 16-leg sweeps.",
+        qualitative_focus="Compare how negative down-ranking promotes a sparse theme and explicitly outscores unconstrained search via long 16-leg sweeps.",
         selection_reason="Selected from formal supporting results as a century-ride case where Full solidly outscores NoNeg in ride-minutes without degenerate back-tracking.",
     ),
     RouteCaseSpec(
@@ -73,7 +73,7 @@ DEFAULT_ROUTE_CASES: tuple[RouteCaseSpec, ...] = (
         budget_minutes=240,
         seed=0,
         pressure_name="default",
-        qualitative_focus="Inspect an abundant route-theme query where negative pruning natively aligns with the random available subsets.",
+        qualitative_focus="Inspect an abundant route-theme query where negative down-ranking aligns with the random available subsets.",
         selection_reason="Selected from formal supporting results as a strong random-subset case with massive spatial exploration for Full.",
     ),
 )

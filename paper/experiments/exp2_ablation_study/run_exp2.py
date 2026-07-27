@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Experiment 2: Three-Layer Pruning Ablation Study on the stop-score task.
+Experiment 2: Three-Component Search-Control Ablation on the stop-score task.
 
-Evaluates the contribution of the three pruning strategies under the same
+Evaluates the contribution of the three search-control components under the same
 stop-score objective used in Experiment 1:
-1. Beam Search (width control)
-2. Dominance (label filtering)
-3. Negative-Score Penalty (route-quality rejection)
+1. Two-stage Beam control (candidate and bucket width)
+2. Heuristic Dominance reduction (local label filtering)
+3. Negative-Score Penalty (penalty-guided down-ranking)
 
 The task is to maximize stop-score total under a fixed budget with dwell time.
 """
@@ -40,9 +40,10 @@ from paper.experiments.common.config import (
     QUICK_NUM_REPEATS,
     RESULTS_BASE_DIR,
 )
+import paper.experiments.common.config as experiment_config
+from paper.experiments.common.io_utils import save_results
 from paper.experiments.common.json_list_store import (
     build_resume_state,
-    save_json_rows_atomic,
 )
 from paper.experiments.common.planner_bridge import load_planner, resolve_origin
 from paper.experiments.common.stop_scoring import StopScoringProfile, build_random_stop_score_map
@@ -68,6 +69,43 @@ def parse_csv_ints(raw: str | None) -> list[int]:
     return [int(x) for x in parse_csv_tokens(raw)]
 
 
+def normalize_config_name(value: str) -> str:
+    return "".join(character.lower() for character in str(value) if character.isalnum())
+
+
+CONFIG_ALIASES = {
+    "full": "Ours (Full)",
+    "noneg": "Ours (NoNeg)",
+    "nodom": "Ours (NoDom)",
+    "nobeam": "Ours (NoBeam)",
+    "nobeamnodom": "Ours (NoBeam-NoDom)",
+    "nodomnoneg": "Ours (NoDom-NoNeg)",
+    "nobeamnoneg": "Ours (NoBeam-NoNeg)",
+    "nobeamnodomnoneg": "Ours (NoBeam-NoDom-NoNeg)",
+}
+
+
+def filter_ablation_configs(
+    configs: list[OursFull], requested: list[str] | None
+) -> list[OursFull]:
+    tokens = [normalize_config_name(value) for value in (requested or [])]
+    if not tokens:
+        return configs
+    expected_names = {
+        normalize_config_name(CONFIG_ALIASES.get(token, token)) for token in tokens
+    }
+    selected = [
+        config
+        for config in configs
+        if normalize_config_name(config.name) in expected_names
+    ]
+    found = {normalize_config_name(config.name) for config in selected}
+    missing = sorted(expected_names - found)
+    if missing:
+        raise ValueError(f"Unknown ablation config filter(s): {missing}")
+    return selected
+
+
 def normalize_score_seeds(*, score_seed: int, score_seeds_override: list[int] | None) -> list[int]:
     if score_seeds_override:
         ordered: list[int] = []
@@ -81,6 +119,123 @@ def normalize_score_seeds(*, score_seed: int, score_seeds_override: list[int] | 
         if ordered:
             return ordered
     return [int(score_seed)]
+
+
+def _json_safe(value: Any) -> Any:
+    if value is None or isinstance(value, (bool, int, float, str)):
+        return value
+    if isinstance(value, Path):
+        return str(value)
+    if isinstance(value, dict):
+        return {
+            str(key): converted
+            for key, item in sorted(value.items(), key=lambda pair: str(pair[0]))
+            if (converted := _json_safe(item)) is not None
+        }
+    if isinstance(value, (list, tuple, set, frozenset)):
+        items = [_json_safe(item) for item in value]
+        safe = [item for item in items if item is not None]
+        return sorted(safe, key=str) if isinstance(value, (set, frozenset)) else safe
+    return None
+
+
+def algorithm_parameter_snapshot(algo: Any) -> dict[str, Any]:
+    parameters: dict[str, Any] = {
+        "class": f"{algo.__class__.__module__}.{algo.__class__.__name__}",
+        "name": str(algo.name),
+        "category": str(getattr(algo, "category", "")),
+        "stochastic": bool(getattr(algo, "stochastic", False)),
+    }
+    for key, value in sorted(vars(algo).items()):
+        if key.startswith("_last_") or key == "objective":
+            continue
+        converted = _json_safe(value)
+        if converted is not None:
+            parameters[key] = converted
+    return parameters
+
+
+def shared_config_snapshot() -> dict[str, Any]:
+    snapshot: dict[str, Any] = {}
+    for key in sorted(name for name in dir(experiment_config) if name.isupper()):
+        converted = _json_safe(getattr(experiment_config, key))
+        if converted is not None:
+            snapshot[key] = converted
+    return snapshot
+
+
+def build_experiment_metadata(
+    *,
+    quick_mode: bool,
+    score_seeds: list[int],
+    score_min: int,
+    score_max: int,
+    dwell_minutes: int,
+    objective_mode: str,
+    origins: list[str],
+    depart_times: list[int],
+    budgets: list[int],
+    seeds: list[int],
+    configs: list[OursFull],
+    total_runs: int,
+    output_tag: str,
+    timeout_seconds: float,
+    no_pruning_max_labels: int | None,
+) -> dict[str, Any]:
+    algorithm_seeds = {
+        str(algo.name): [int(seed) for seed in seeds] for algo in configs
+    }
+    return {
+        "experiment": "exp2_ablation_study",
+        "quick_mode": bool(quick_mode),
+        "primary_metric": "stop_score_total",
+        "primary_metric_label": "Stop Score",
+        "score_seeds": [int(value) for value in score_seeds],
+        "score_seed_count": len(score_seeds),
+        "stop_score_min": int(score_min),
+        "stop_score_max": int(score_max),
+        "dwell_minutes": int(dwell_minutes),
+        "objective_mode": str(objective_mode),
+        "origins": [str(value) for value in origins],
+        "depart_times": [int(value) for value in depart_times],
+        "budgets": [int(value) for value in budgets],
+        "seeds": [int(value) for value in seeds],
+        "seed_policy": {
+            "repeat_deterministic_seeds": len(seeds) > 1,
+            "deterministic_repeats": len(seeds),
+            "stochastic_repeats": 0,
+            "algorithm_seed_counts": {
+                name: len(values) for name, values in algorithm_seeds.items()
+            },
+            "algorithm_seeds": algorithm_seeds,
+        },
+        "algorithm_parameters": {
+            str(algo.name): algorithm_parameter_snapshot(algo) for algo in configs
+        },
+        "shared_config": shared_config_snapshot(),
+        "scoring_semantics": {
+            "version": "stop-score-v2-query-elapsed",
+            "scored_stops": "unique_non_origin",
+            "origin_scores": False,
+            "initial_waiting_included": True,
+            "effective_time": "last_arrival-query_departure+dwell_per_unique_non_origin_stop",
+            "budget_boundary_inclusive": True,
+            "empty_route_interpretation": "algorithm_failure_not_query_infeasibility",
+        },
+        "execution_protocol": {
+            "run_order": "score_seed-origin-departure-budget-algorithm_seed-ablation_config",
+            "parallel_execution": False,
+            "planner_loading_in_elapsed_ms": False,
+            "route_validation_in_elapsed_ms": False,
+            "elapsed_timer": "time.perf_counter",
+            "planner_instance": "single_cached_instance_per_process",
+            "timeout_seconds_per_run": float(timeout_seconds),
+            "no_pruning_max_labels": no_pruning_max_labels,
+        },
+        "total_runs": int(total_runs),
+        "output_tag": str(output_tag),
+        "ablation_config_count": len(configs),
+    }
 
 
 def build_ablation_configs(
@@ -142,6 +297,7 @@ def _is_resume_row_compatible(row: dict[str, Any]) -> bool:
     required_fields = {
         "algorithm",
         "origin",
+        "origin_name",
         "depart_time",
         "budget_minutes",
         "seed",
@@ -205,6 +361,22 @@ def main():
         help="Comma-separated algorithm seeds; defaults to only the first seed because ablation variants are deterministic",
     )
     parser.add_argument("--output-tag", type=str, default="", help="Custom suffix for result filename")
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+        help="Explicit output path; useful for smoke validation outside paper results",
+    )
+    parser.add_argument(
+        "--configs",
+        type=str,
+        default="",
+        help=(
+            "Comma-separated exact config names or aliases: full, noneg, nodom, "
+            "nobeam, nobeamnodom, nodomnoneg, nobeamnoneg, "
+            "nobeamnodomnoneg"
+        ),
+    )
     args = parser.parse_args()
 
     # Determine experiment scope
@@ -223,7 +395,9 @@ def main():
     )
 
     out_dir = RESULTS_BASE_DIR / "exp2_ablation_study"
-    if args.output_tag.strip():
+    if args.output is not None:
+        out_file = args.output.resolve()
+    elif args.output_tag.strip():
         safe_tag = "".join(ch if ch.isalnum() or ch in {"-", "_"} else "_" for ch in args.output_tag.strip())
         out_file = out_dir / f"exp2_results_{safe_tag}.json"
     else:
@@ -260,14 +434,34 @@ def main():
         for stop_score_seed in score_seeds
     }
 
-    config_count = len(
+    config_filter = parse_csv_tokens(args.configs)
+    config_prototypes = filter_ablation_configs(
         build_ablation_configs(
             timeout_seconds=args.timeout_seconds,
             no_pruning_label_cap=no_pruning_label_cap,
             objective=next(iter(objectives.values())),
-        )
+        ),
+        config_filter,
     )
+    config_count = len(config_prototypes)
     total_runs = config_count * len(score_seeds) * len(origins) * len(depart_times) * len(budgets) * len(seeds)
+    metadata = build_experiment_metadata(
+        quick_mode=args.quick,
+        score_seeds=score_seeds,
+        score_min=args.score_min,
+        score_max=args.score_max,
+        dwell_minutes=args.dwell_minutes,
+        objective_mode=args.objective_mode,
+        origins=origins,
+        depart_times=depart_times,
+        budgets=budgets,
+        seeds=seeds,
+        configs=config_prototypes,
+        total_runs=total_runs,
+        output_tag=args.output_tag.strip(),
+        timeout_seconds=args.timeout_seconds,
+        no_pruning_max_labels=no_pruning_label_cap,
+    )
 
     results: list[dict[str, Any]] = []
     completed: set[tuple[str, str, int, int, int, int]] = set()
@@ -314,6 +508,7 @@ def main():
                 no_pruning_label_cap=no_pruning_label_cap,
                 objective=objectives[stop_score_seed],
             )
+            configs = filter_ablation_configs(configs, config_filter)
 
             for origin in origins:
                 try:
@@ -354,6 +549,7 @@ def main():
                                         seed=seed,
                                     )
                                     res["origin"] = origin
+                                    res["origin_name"] = origin
                                     res["origin_code"] = origin_code
                                     res["timeout_seconds"] = args.timeout_seconds
                                     res["max_labels_cap"] = getattr(algo, "max_labels", None)
@@ -374,7 +570,7 @@ def main():
                                     )
 
                                     if args.checkpoint_every > 0 and (newly_saved % args.checkpoint_every == 0):
-                                        save_json_rows_atomic(out_file, results)
+                                        save_results(results, out_file, metadata=metadata)
                                         print(f"    [checkpoint] saved {len(results)} rows -> {out_file}")
                                 except Exception as e:
                                     print(f" -> ERROR: {e}")
@@ -394,7 +590,7 @@ def main():
         print(f"All runs completed in {elapsed:.2f} seconds.")
 
     # Save Results
-    save_json_rows_atomic(out_file, results)
+    save_results(results, out_file, metadata=metadata)
 
     print(f"Results saved to {out_file}")
     print("=" * 60)

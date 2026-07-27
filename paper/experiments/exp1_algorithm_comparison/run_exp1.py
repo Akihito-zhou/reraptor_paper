@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
+from typing import Any
 
 # Add experiments root to PYTHONPATH
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -34,6 +35,7 @@ from common.planner_bridge import load_planner, resolve_origin
 from common.io_utils import load_results, save_results
 from common.stop_scoring import StopScoringProfile, build_random_stop_score_map
 from algorithms import build_all_algorithms
+import common.config as experiment_config
 
 
 def parse_csv_tokens(raw: str | None) -> list[str]:
@@ -69,6 +71,63 @@ def normalize_score_seeds(
         if ordered:
             return ordered
     return [int(score_seed)]
+
+
+def _json_safe(value: Any) -> Any:
+    if value is None or isinstance(value, (bool, int, float, str)):
+        return value
+    if isinstance(value, Path):
+        return str(value)
+    if isinstance(value, dict):
+        return {
+            str(key): converted
+            for key, item in sorted(value.items(), key=lambda pair: str(pair[0]))
+            if (converted := _json_safe(item)) is not None
+        }
+    if isinstance(value, (list, tuple, set, frozenset)):
+        items = [_json_safe(item) for item in value]
+        safe_items = [item for item in items if item is not None]
+        return sorted(safe_items, key=str) if isinstance(value, (set, frozenset)) else safe_items
+    return None
+
+
+def algorithm_parameter_snapshot(algo: Any) -> dict[str, Any]:
+    parameters: dict[str, Any] = {
+        "class": f"{algo.__class__.__module__}.{algo.__class__.__name__}",
+        "name": str(algo.name),
+        "category": str(algo.category),
+        "stochastic": bool(getattr(algo, "stochastic", False)),
+    }
+    for key, value in sorted(vars(algo).items()):
+        if key.startswith("_last_") or key == "objective":
+            continue
+        converted = _json_safe(value)
+        if converted is not None:
+            parameters[key] = converted
+    return parameters
+
+
+def shared_config_snapshot() -> dict[str, Any]:
+    snapshot: dict[str, Any] = {}
+    for key in sorted(name for name in dir(experiment_config) if name.isupper()):
+        converted = _json_safe(getattr(experiment_config, key))
+        if converted is not None:
+            snapshot[key] = converted
+    return snapshot
+
+
+def apply_wall_clock_override(algorithms: list[Any], seconds: float | None) -> None:
+    if seconds is None:
+        return
+    safe_seconds = float(seconds)
+    if safe_seconds <= 0:
+        raise ValueError("wall-clock override must be positive")
+    for algo in algorithms:
+        module = sys.modules.get(algo.__class__.__module__)
+        if module is not None and hasattr(module, "WALL_CLOCK_LIMIT_SEC"):
+            setattr(module, "WALL_CLOCK_LIMIT_SEC", safe_seconds)
+        if hasattr(algo, "timeout_seconds"):
+            algo.timeout_seconds = safe_seconds
 
 
 def row_to_key(row: dict, *, default_score_seed: int | None = None) -> tuple[str, str, int, int, int, int] | None:
@@ -178,6 +237,7 @@ def build_experiment_metadata(
     algorithms: list,
     total_runs: int,
     output_tag: str | None,
+    wall_clock_limit_override_seconds: float | None = None,
     include_recent_adapted_baselines: bool = False,
     algorithms_override: list[str] | None = None,
 ) -> dict:
@@ -203,6 +263,31 @@ def build_experiment_metadata(
             "algorithm_seed_counts": {
                 algo.name: len(algorithm_seeds[algo.name]) for algo in algorithms
             },
+            "algorithm_seeds": {
+                algo.name: list(algorithm_seeds[algo.name]) for algo in algorithms
+            },
+        },
+        "algorithm_parameters": {
+            algo.name: algorithm_parameter_snapshot(algo) for algo in algorithms
+        },
+        "shared_config": shared_config_snapshot(),
+        "scoring_semantics": {
+            "version": "stop-score-v2-query-elapsed",
+            "scored_stops": "unique_non_origin",
+            "origin_scores": False,
+            "initial_waiting_included": True,
+            "effective_time": "last_arrival-query_departure+dwell_per_unique_non_origin_stop",
+            "budget_boundary_inclusive": True,
+            "empty_route_interpretation": "algorithm_failure_not_query_infeasibility",
+        },
+        "execution_protocol": {
+            "run_order": "score_seed-origin-departure-budget-algorithm-algorithm_seed",
+            "parallel_execution": False,
+            "planner_loading_in_elapsed_ms": False,
+            "route_validation_in_elapsed_ms": False,
+            "elapsed_timer": "time.perf_counter",
+            "planner_instance": "single_cached_instance_per_process",
+            "wall_clock_limit_override_seconds": wall_clock_limit_override_seconds,
         },
         "total_runs": total_runs,
         "output_tag": output_tag,
@@ -233,6 +318,7 @@ def run_experiment(
     objective_mode: str = "score_guided",
     include_recent_adapted_baselines: bool = False,
     algorithms_override: list[str] | None = None,
+    wall_clock_limit_override_seconds: float | None = None,
 ) -> None:
     print(f"============================================================")
     print(f" STARTING EXPERIMENT 1: Algorithm Comparison")
@@ -273,6 +359,7 @@ def run_experiment(
     )
     if not algorithms:
         raise ValueError("No algorithms selected. Check --algorithms filter.")
+    apply_wall_clock_override(algorithms, wall_clock_limit_override_seconds)
     algorithm_seeds = {
         algo.name: seeds_for_algorithm(algo, seeds, repeat_deterministic_seeds=repeat_deterministic_seeds)
         for algo in algorithms
@@ -330,6 +417,7 @@ def run_experiment(
         algorithms=algorithms,
         total_runs=total_runs,
         output_tag=output_tag,
+        wall_clock_limit_override_seconds=wall_clock_limit_override_seconds,
         include_recent_adapted_baselines=include_recent_adapted_baselines,
         algorithms_override=algorithms_override,
     )
@@ -469,6 +557,12 @@ if __name__ == "__main__":
         default="",
         help="Comma-separated algorithm name filters (case-insensitive token match)",
     )
+    parser.add_argument(
+        "--wall-clock-limit-seconds",
+        type=float,
+        default=None,
+        help="Optional explicit per-algorithm cap for smoke/trade-off runs.",
+    )
     args = parser.parse_args()
     
     run_experiment(
@@ -489,4 +583,5 @@ if __name__ == "__main__":
         objective_mode=args.objective_mode,
         include_recent_adapted_baselines=args.include_recent_adapted_baselines,
         algorithms_override=parse_csv_tokens(args.algorithms),
+        wall_clock_limit_override_seconds=args.wall_clock_limit_seconds,
     )

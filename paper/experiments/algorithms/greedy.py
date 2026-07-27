@@ -22,6 +22,7 @@ class GreedyLookahead(BaseAlgorithm):
         self.lookahead = lookahead
 
     def solve(self, planner, origin, depart_time, budget_minutes, *, seed=0):
+        self._set_query_context(origin=origin, depart_time=depart_time)
         time_limit = depart_time + budget_minutes
         current_stop = origin
         current_time = depart_time
@@ -64,6 +65,7 @@ class GreedyLookahead(BaseAlgorithm):
                     visits = {str(code): 1 for code in visited}
                     score = objective.edge_priority(
                         edge=edge,
+                        origin_code=origin,
                         visits=visits,
                         prev_edge=path_edges[-1] if path_edges else None,
                     )
@@ -82,7 +84,12 @@ class GreedyLookahead(BaseAlgorithm):
                             if objective is not None:
                                 visits = {str(code): 1 for code in visited}
                                 visits[str(edge.to_code)] = visits.get(str(edge.to_code), 0) + 1
-                                la_score = objective.edge_priority(edge=ne, visits=visits, prev_edge=edge)
+                                la_score = objective.edge_priority(
+                                    edge=ne,
+                                    origin_code=origin,
+                                    visits=visits,
+                                    prev_edge=edge,
+                                )
                             else:
                                 la_score = ne.ride_minutes
                                 if ne.to_code not in visited:

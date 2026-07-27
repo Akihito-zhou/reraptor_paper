@@ -66,7 +66,8 @@ class BaseAlgorithm(ABC):
         -------
         list[TripEdge]
             Ordered list of trip edges forming the route.
-            Return an empty list if no feasible route is found.
+            Return an empty list if the algorithm fails to construct a route.
+            This does not establish that the query itself is infeasible.
         """
         ...
 
@@ -85,6 +86,7 @@ class BaseAlgorithm(ABC):
 
         Returns a standardised result dict ready for JSON serialisation.
         """
+        self._set_query_context(origin=origin, depart_time=depart_time)
         t0 = time.perf_counter()
         path_edges = self.solve(
             planner, origin, depart_time, budget_minutes, seed=seed,
@@ -100,42 +102,48 @@ class BaseAlgorithm(ABC):
         )
 
         if not is_feasible:
-            # Penalize invalid routes with 0 scores so they don't corrupt averages
-            metrics = {
-                "ride_minutes": 0,
-                "distance_km": 0.0,
-                "unique_stops": 0,
-                "legs": 0,
-                "hull_area": 0.0,
-                "quadrant_coverage": 0,
-                "total_time_minutes": 0,
-                "composite_score": 0.0,
-                "feasible": False,
-                "violation_reason": violation_reason,
-            }
-            metrics.update(self._objective_metrics([], budget_minutes=budget_minutes))
+            metrics = self._invalid_result_metrics(
+                violation_reason=violation_reason,
+                origin=origin,
+                depart_time=depart_time,
+                budget_minutes=budget_minutes,
+            )
+            metrics["raw_route_edge_count"] = int(len(path_edges))
         else:
             metrics = compute_route_metrics(path_edges, planner)
             metrics["composite_score"] = composite_score(metrics, score_weights)
             metrics["feasible"] = True
             metrics["violation_reason"] = ""
-            metrics.update(self._objective_metrics(path_edges, budget_minutes=budget_minutes))
+            metrics["raw_violation_reason"] = ""
+            metrics["algorithm_failure"] = False
+            metrics["query_infeasible_proven"] = False
+            metrics["objective_metrics_valid"] = True
+            metrics.update(self._objective_metrics(
+                path_edges,
+                origin=origin,
+                depart_time=depart_time,
+                budget_minutes=budget_minutes,
+            ))
             if metrics.get("effective_budget_feasible") is False:
-                metrics.update({
-                    "ride_minutes": 0,
-                    "distance_km": 0.0,
-                    "unique_stops": 0,
-                    "legs": 0,
-                    "hull_area": 0.0,
-                    "quadrant_coverage": 0,
-                    "total_time_minutes": 0,
-                    "composite_score": 0.0,
-                    "stop_score_total": 0.0,
-                    "scored_stop_count": 0,
-                    "score_per_hour": 0.0,
-                    "feasible": False,
-                    "violation_reason": "effective_budget_exceeded",
-                })
+                raw_metrics = {
+                    f"raw_{key}": value
+                    for key, value in metrics.items()
+                    if key not in {
+                        "feasible",
+                        "violation_reason",
+                        "raw_violation_reason",
+                        "algorithm_failure",
+                        "query_infeasible_proven",
+                        "objective_metrics_valid",
+                    }
+                }
+                metrics = self._invalid_result_metrics(
+                    violation_reason="effective_budget_exceeded",
+                    origin=origin,
+                    depart_time=depart_time,
+                    budget_minutes=budget_minutes,
+                )
+                metrics.update(raw_metrics)
 
         return format_result_row(
             algorithm=self.name,
@@ -151,12 +159,68 @@ class BaseAlgorithm(ABC):
         self,
         path_edges: list,
         *,
+        origin: str,
+        depart_time: int,
         budget_minutes: int,
     ) -> dict:
         objective = getattr(self, "objective", None)
         if objective is None:
             return {}
-        return objective.metrics_from_edges(path_edges, budget_minutes=budget_minutes)
+        return objective.metrics_from_edges(
+            path_edges,
+            origin_code=origin,
+            query_depart_time=depart_time,
+            budget_minutes=budget_minutes,
+        )
+
+    def _set_query_context(self, *, origin: str, depart_time: int) -> None:
+        """Store the active query for internal scoring during solve()."""
+        self._active_origin_code = str(origin)
+        self._active_query_depart_time = int(depart_time)
+
+    def _query_context(self) -> tuple[str, int]:
+        try:
+            return self._active_origin_code, self._active_query_depart_time
+        except AttributeError as exc:
+            raise RuntimeError(
+                "Scoring requires an active query context; call solve() or evaluate() first."
+            ) from exc
+
+    def _invalid_result_metrics(
+        self,
+        *,
+        violation_reason: str,
+        origin: str,
+        depart_time: int,
+        budget_minutes: int,
+    ) -> dict:
+        """Return clean zero metrics for an invalid algorithm output."""
+        metrics = {
+            "ride_minutes": 0,
+            "distance_km": 0.0,
+            "unique_stops": 0,
+            "legs": 0,
+            "hull_area": 0.0,
+            "quadrant_coverage": 0,
+            "total_time_minutes": 0,
+            "composite_score": 0.0,
+            "feasible": False,
+            "violation_reason": str(violation_reason),
+            "raw_violation_reason": str(violation_reason),
+            "algorithm_failure": True,
+            "query_infeasible_proven": False,
+            "objective_metrics_valid": False,
+        }
+        objective_metrics = self._objective_metrics(
+            [],
+            origin=origin,
+            depart_time=depart_time,
+            budget_minutes=budget_minutes,
+        )
+        if objective_metrics:
+            objective_metrics["effective_budget_feasible"] = False
+        metrics.update(objective_metrics)
+        return metrics
 
     def _validate_path_edges(
         self,

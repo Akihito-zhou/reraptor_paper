@@ -1,5 +1,5 @@
 """
-Ours (Full): Reverse-Objective RAPTOR + Three-Layer Hybrid Pruning + Geometry-Aware Scoring.
+Ours (Full): Reverse-Objective RAPTOR with three search-control components.
 
 This algorithm directly implements the multi-objective label-setting approach
 described in the paper. It decouples the core routing logic from the PlannerService's
@@ -79,6 +79,8 @@ class OursFull(BaseAlgorithm):
         objective_candidate_cap_short: int | None = 30,
         objective_candidate_cap_long: int | None = 20,
         objective_candidate_short_budget_max: int = 4 * 60,
+        negative_repeat_penalty: float = 50000.0,
+        negative_short_hop_penalty: float = 20000.0,
     ):
         """
         Supports ablation studies by toggling pruning layers.
@@ -124,6 +126,8 @@ class OursFull(BaseAlgorithm):
             else None
         )
         self.objective_candidate_short_budget_max = int(max(0, objective_candidate_short_budget_max))
+        self.negative_repeat_penalty = float(max(0.0, negative_repeat_penalty))
+        self.negative_short_hop_penalty = float(max(0.0, negative_short_hop_penalty))
 
         # Optional objective-weight sensitivity for search scoring.
         # Defaults reproduce the historical coefficients exactly.
@@ -221,9 +225,31 @@ class OursFull(BaseAlgorithm):
         result["global_trimmed_labels"] = self._last_global_trimmed_labels
         result["candidate_trim_events"] = self._last_candidate_trim_events
         result["candidate_trimmed_edges"] = self._last_candidate_trimmed_edges
+        objective = getattr(self, "objective", None)
+        if not self.use_dominance:
+            dominance_mode = "disabled"
+        elif objective is None:
+            dominance_mode = "geometry_heuristic"
+        elif self.use_bound_dominance:
+            dominance_mode = "reward_time_upper_bound_heuristic"
+        else:
+            dominance_mode = "reward_time_heuristic"
+        result["dominance_mode"] = dominance_mode
+        result["bound_dominance_enabled"] = bool(self.use_bound_dominance)
+        result["upper_bound_pruning_enabled"] = bool(self.use_upper_bound_pruning)
+        result["potential_aware_beam_enabled"] = bool(self.use_potential_aware_beam)
+        result["beam_width"] = int(self.beam_width)
+        result["candidate_cap_short"] = self.objective_candidate_cap_short
+        result["candidate_cap_long"] = self.objective_candidate_cap_long
+        result["negative_repeat_penalty"] = self.negative_repeat_penalty
+        result["negative_short_hop_penalty"] = self.negative_short_hop_penalty
+        result["negative_layer_mode"] = (
+            "penalty_guided_down_ranking" if self.use_negative_score else "disabled"
+        )
         return result
 
     def solve(self, planner, origin, depart_time, budget_minutes, *, seed=0):
+        self._set_query_context(origin=origin, depart_time=depart_time)
         time_limit = depart_time + budget_minutes
         objective = getattr(self, "objective", None)
         self._last_termination_reason = "completed"
@@ -277,14 +303,14 @@ class OursFull(BaseAlgorithm):
                 line_theme_hits = sum(1 for lid in line_ids if lid in self.theme_target_lines)
                 base_score += line_theme_hits * self.theme_line_bonus_per_hit
 
-            # Rule / Negative-Score Pruning
+            # Rule/theme penalties down-rank labels; they do not reject them.
             penalty = 0
             if self.use_negative_score:
                 if metrics["stop_repeat_max"] > 2:
-                    penalty -= 50000
+                    penalty -= self.negative_repeat_penalty
                     self._last_negative_repeat_hits += 1
                 if metrics["unique_stops"] > 0 and (label.ride_minutes / metrics["unique_stops"]) < 2:
-                    penalty -= 20000
+                    penalty -= self.negative_short_hop_penalty
                     self._last_negative_ratio_hits += 1
                 if self.theme_target_stops and metrics["unique_stops"] >= self.theme_min_stops_apply:
                     hit_ratio = theme_hits / metrics["unique_stops"] if metrics["unique_stops"] > 0 else 0.0
@@ -363,7 +389,12 @@ class OursFull(BaseAlgorithm):
                 else:
                     metrics = self._calculate_metrics(planner, label)
                     if objective is not None:
-                        metrics.update(objective.metrics_from_label(label, budget_minutes=budget_minutes))
+                        metrics.update(objective.metrics_from_label(
+                            label,
+                            origin_code=origin,
+                            query_depart_time=depart_time,
+                            budget_minutes=budget_minutes,
+                        ))
                         if self.use_bound_dominance or self.use_upper_bound_pruning or self.use_potential_aware_beam:
                             current_stop_code = label.legs[-1].to_code if label.legs else origin
                             metrics["score_upper_bound_total"] = objective.optimistic_total_upper_bound_from_metrics(
@@ -508,6 +539,7 @@ class OursFull(BaseAlgorithm):
                         candidates = self._trim_objective_candidates(
                             candidates=candidate_pool,
                             objective=objective,
+                            origin_code=origin_code,
                             visits=base_visits,
                             prev_leg=prev_leg,
                             budget_minutes=budget_minutes,
@@ -680,7 +712,7 @@ class OursFull(BaseAlgorithm):
                 "stop_repeat_max": float(repeat_max),
             }
         coords = []
-        for code in label.visited:
+        for code in sorted(label.visited):
             station = planner.stations.get(code)
             if station: coords.append((station.lat, station.lon))
             
@@ -894,6 +926,7 @@ class OursFull(BaseAlgorithm):
         *,
         candidates: list[TripEdge],
         objective,
+        origin_code: str,
         visits: dict[str, int],
         prev_leg: JourneyLeg | None,
         budget_minutes: int,
@@ -914,7 +947,12 @@ class OursFull(BaseAlgorithm):
                 and edge.trip_id == prev_leg.trip_id
                 and edge.line_id == prev_leg.line_id
             )
-            priority = float(objective.edge_priority(edge=edge, visits=visits, prev_edge=prev_leg))
+            priority = float(objective.edge_priority(
+                edge=edge,
+                origin_code=origin_code,
+                visits=visits,
+                prev_edge=prev_leg,
+            ))
             return (
                 same_trip,
                 round(priority, 6),

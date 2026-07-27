@@ -1,9 +1,9 @@
 """
-Helpers for raw-list experiment result files.
+Helpers for legacy raw-list and metadata-wrapped result files.
 
 Several experiment runners store results as a plain JSON list instead of the
 metadata-wrapped payload used by Exp1. These helpers centralize the common
-resume/checkpoint logic so schema checks stay consistent across experiments.
+resume/checkpoint logic while runners migrate to the canonical wrapped format.
 """
 from __future__ import annotations
 
@@ -24,7 +24,11 @@ def load_json_rows(path: Path) -> list[dict[str, Any]]:
             data = json.load(f)
     except Exception:
         return []
-    return data if isinstance(data, list) else []
+    if isinstance(data, list):
+        return [row for row in data if isinstance(row, dict)]
+    if isinstance(data, dict) and isinstance(data.get("results"), list):
+        return [row for row in data["results"] if isinstance(row, dict)]
+    return []
 
 
 def save_json_rows_atomic(path: Path, rows: list[dict[str, Any]]) -> None:

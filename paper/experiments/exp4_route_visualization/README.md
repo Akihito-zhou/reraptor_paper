@@ -14,8 +14,10 @@ The goal is to visualize three representative situations:
 ## Scripts
 
 - `run_exp4.py`
-  - selects representative cases from `Exp1` and `Exp3`
+  - selects representative cases from the frozen canonical `Exp1` and balance data
   - rebuilds the selected routes under the corresponding `score_seed`
+  - verifies replayed route scores against the exact canonical rows
+  - reports the frozen canonical generation time, while retaining replay time as provenance
   - exports route JSON files in the project route format
 - `plot_exp4.py`
   - renders per-algorithm route maps from the exported JSON files
@@ -63,7 +65,10 @@ python paper\experiments\exp4_route_visualization\run_exp4.py --algorithms ours,
 - `paper/results/exp4_route_visualization/exp4_cases.json`
 - `paper/results/exp4_route_visualization/routes/*.json`
 - `paper/figures/exp4/exp4_*_panel.png`
+- `paper/figures/exp4/exp4_*_panel.pdf`
 - `paper/figures/exp4/exp4_main_cases.png`
+- `paper/figures/exp4/exp4_main_cases.pdf`
 - `paper/figures/exp4/exp4_appendix_cases.png`
+- `paper/figures/exp4/exp4_appendix_cases.pdf`
 - `paper/figures/exp4/exp4_case_summary.md`
 - `paper/results/exp4_route_visualization/exp4_full_text_analysis.md`

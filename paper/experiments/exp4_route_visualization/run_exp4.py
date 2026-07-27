@@ -24,10 +24,12 @@ from paper.experiments.common.config import (
 from paper.experiments.common.planner_bridge import load_planner
 from paper.experiments.common.stop_scoring import StopScoringProfile, build_random_stop_score_map
 from paper.experiments.common.utils import composite_score, compute_route_metrics
+from paper.experiments.exp3_parameter_sensitivity.exp3_balance_common import load_exp1_frame
 from paper.experiments.exp4_route_visualization.exp4_common import (
     DISPLAY_NAME_BY_KEY,
     EXP1_ALGO_NAME_BY_KEY,
     EXP1_RESULTS_PATH,
+    EXP3_RESULTS_PATH,
     EXP4_CASES_PATH,
     EXP4_ROUTES_DIR,
     Exp4Case,
@@ -52,6 +54,82 @@ def make_exp1_algorithm(algo_key: str, *, objective: StopScoringProfile) -> Any:
     raise ValueError(f"Could not build Exp1 algorithm for key={algo_key}")
 
 
+def canonical_result_for_case(canonical_df: Any, *, case: Exp4Case, algo_key: str) -> dict[str, Any]:
+    target_name = EXP1_ALGO_NAME_BY_KEY[algo_key]
+    subset = canonical_df[
+        (canonical_df["algorithm"].astype(str) == target_name)
+        & (canonical_df["origin_code"].astype(str) == str(case.origin_code))
+        & (canonical_df["depart_time"].astype(int) == int(case.depart_time))
+        & (canonical_df["budget_minutes"].astype(int) == int(case.budget_minutes))
+        & (canonical_df["score_seed"].astype(int) == int(case.score_seed))
+        & (canonical_df["seed"].astype(int) == int(case.seed))
+    ].copy()
+    if len(subset) != 1:
+        raise ValueError(
+            f"Expected one canonical row for case={case.id}, algorithm={target_name}, seed={case.seed}; "
+            f"found {len(subset)}"
+        )
+    row = subset.iloc[0]
+    return {
+        "algorithm": target_name,
+        "elapsed_ms": float(row["elapsed_ms"]),
+        "stop_score_total": float(row["stop_score_total"]),
+        "feasible": bool(row["feasible"]),
+        "algorithm_failure": bool(row.get("algorithm_failure", False)),
+    }
+
+
+def canonicalize_existing_manifest(canonical_df: Any) -> None:
+    manifest = load_manifest(EXP4_CASES_PATH)
+    for case_payload in manifest.get("cases", []):
+        case = Exp4Case(
+            **{
+                name: case_payload[name]
+                for name in Exp4Case.__dataclass_fields__
+            }
+        )
+        for artifact in case_payload.get("artifacts", []):
+            canonical_result = canonical_result_for_case(
+                canonical_df,
+                case=case,
+                algo_key=str(artifact["algorithm_key"]),
+            )
+            artifact_score = float(artifact["summary_metrics"]["stop_score_total"])
+            if abs(artifact_score - float(canonical_result["stop_score_total"])) > 1e-9:
+                raise ValueError(
+                    f"Canonical/replay score mismatch for {case.id}/{artifact['algorithm_key']}: "
+                    f"{canonical_result['stop_score_total']} vs {artifact_score}"
+                )
+            artifact["rerun_elapsed_ms"] = float(
+                artifact.get("rerun_elapsed_ms", artifact["elapsed_ms"])
+            )
+            artifact["elapsed_ms"] = float(canonical_result["elapsed_ms"])
+            artifact["canonical_elapsed_ms"] = float(canonical_result["elapsed_ms"])
+            artifact["timing_provenance"] = "exact run from frozen canonical Experiment 1"
+            route_json_raw = str(artifact.get("route_json_path", "")).strip()
+            if route_json_raw:
+                route_json_path = Path(route_json_raw)
+                if not route_json_path.is_absolute():
+                    route_json_path = PROJECT_ROOT / route_json_path
+                route_payload = load_manifest(route_json_path)
+                route_payload.setdefault("statistics", {})["elapsed_ms"] = float(
+                    canonical_result["elapsed_ms"]
+                )
+                route_payload.setdefault("exp4", {})["timing_provenance"] = (
+                    "exact run from frozen canonical Experiment 1"
+                )
+                route_payload["exp4"]["rerun_elapsed_ms"] = float(
+                    artifact["rerun_elapsed_ms"]
+                )
+                save_json(route_json_path, route_payload)
+    manifest.setdefault("generated_from", {})["timing_note"] = (
+        "Scores and route geometries were replay-verified; displayed generation times "
+        "are the exact matching rows from frozen canonical Experiment 1."
+    )
+    save_json(EXP4_CASES_PATH, manifest)
+    print(f"Canonicalized existing Exp4 manifest: {EXP4_CASES_PATH}")
+
+
 def invalid_metrics(*, violation_reason: str, objective: StopScoringProfile) -> dict[str, Any]:
     metrics: dict[str, Any] = {
         "ride_minutes": 0,
@@ -64,8 +142,13 @@ def invalid_metrics(*, violation_reason: str, objective: StopScoringProfile) -> 
         "composite_score": 0.0,
         "feasible": False,
         "violation_reason": str(violation_reason),
+        "raw_violation_reason": str(violation_reason),
+        "algorithm_failure": True,
+        "query_infeasible_proven": False,
+        "objective_metrics_valid": False,
     }
     metrics.update(objective.zero_metrics())
+    metrics["effective_budget_feasible"] = False
     return metrics
 
 
@@ -114,7 +197,16 @@ def evaluate_exp1_case(
     metrics["composite_score"] = composite_score(metrics, SCORE_WEIGHTS)
     metrics["feasible"] = True
     metrics["violation_reason"] = ""
-    metrics.update(objective.metrics_from_edges(path_edges, budget_minutes=case.budget_minutes))
+    metrics["raw_violation_reason"] = ""
+    metrics["algorithm_failure"] = False
+    metrics["query_infeasible_proven"] = False
+    metrics["objective_metrics_valid"] = True
+    metrics.update(objective.metrics_from_edges(
+        path_edges,
+        origin_code=case.origin_code,
+        query_depart_time=case.depart_time,
+        budget_minutes=case.budget_minutes,
+    ))
     if metrics.get("effective_budget_feasible") is False:
         metrics = invalid_metrics(violation_reason="effective_budget_exceeded", objective=objective)
         return (
@@ -151,6 +243,7 @@ def run_case(
     case: Exp4Case,
     planner: Any,
     objective: StopScoringProfile,
+    canonical_df: Any,
     algorithm_keys: list[str],
     run_idx: int,
     total_runs: int,
@@ -172,6 +265,26 @@ def run_case(
                 planner=planner,
                 objective=objective,
             )
+            canonical_result = canonical_result_for_case(
+                canonical_df,
+                case=case,
+                algo_key=algo_key,
+            )
+            rerun_score = float(source_payload["primary_metric_value"])
+            if bool(source_payload["feasible"]) != bool(canonical_result["feasible"]):
+                raise ValueError(
+                    f"Canonical/replay feasibility mismatch for {case.id}/{algo_key}: "
+                    f"{canonical_result['feasible']} vs {source_payload['feasible']}"
+                )
+            if abs(rerun_score - float(canonical_result["stop_score_total"])) > 1e-9:
+                raise ValueError(
+                    f"Canonical/replay score mismatch for {case.id}/{algo_key}: "
+                    f"{canonical_result['stop_score_total']} vs {rerun_score}"
+                )
+            rerun_elapsed_ms = float(source_payload["elapsed_ms"])
+            source_payload["rerun_elapsed_ms"] = rerun_elapsed_ms
+            source_payload["elapsed_ms"] = float(canonical_result["elapsed_ms"])
+            source_payload["timing_provenance"] = "exact run from frozen canonical Experiment 1"
             route_json_path = None
             if source_payload["feasible"] and path_edges:
                 route_payload = trip_edges_to_route_dict(
@@ -192,6 +305,9 @@ def run_case(
                     "algorithm_key": algo_key,
                     "algorithm_name": source_payload["algorithm_name"],
                     "elapsed_ms": source_payload["elapsed_ms"],
+                    "canonical_elapsed_ms": source_payload["elapsed_ms"],
+                    "rerun_elapsed_ms": rerun_elapsed_ms,
+                    "timing_provenance": source_payload["timing_provenance"],
                     "feasible": source_payload["feasible"],
                     "violation_reason": source_payload["violation_reason"],
                     "primary_metric_name": source_payload["primary_metric_name"],
@@ -213,7 +329,7 @@ def run_case(
             print(
                 f" -> OK ({source_payload['elapsed_ms']:.1f} ms, "
                 f"score={float(source_payload['primary_metric_value']):.1f}, "
-                f"feasible={source_payload['feasible']})"
+                f"feasible={source_payload['feasible']}; replay={rerun_elapsed_ms:.1f} ms)"
             )
         except Exception as exc:
             print(f" -> ERROR: {exc}")
@@ -233,6 +349,11 @@ def main() -> None:
         help="Optional comma-separated algorithm subset. Defaults to each case's own algorithm list.",
     )
     parser.add_argument("--select-only", action="store_true", help="Only select and save case metadata without rerunning routes.")
+    parser.add_argument(
+        "--canonicalize-existing",
+        action="store_true",
+        help="Verify replayed scores and replace displayed timings with exact frozen Experiment 1 rows.",
+    )
     args = parser.parse_args()
 
     selected_cases = select_representative_cases()
@@ -251,7 +372,7 @@ def main() -> None:
         "positioning": "case-based qualitative visualization study for the score-guided main task",
         "generated_from": {
             "exp1_results": str(EXP1_RESULTS_PATH.relative_to(PROJECT_ROOT)),
-            "exp3_results": "paper/results/exp3_parameter_sensitivity/exp3_results.json",
+            "exp3_results": str(EXP3_RESULTS_PATH.relative_to(PROJECT_ROOT)),
             "primary_metric": "stop_score_total",
             "runtime_metric": "elapsed_ms",
             "selection_note": "Cases are chosen from Exp1/Exp3 main-task results, not from the legacy multi-objective scenario experiment.",
@@ -262,6 +383,11 @@ def main() -> None:
     if args.select_only:
         save_json(EXP4_CASES_PATH, base_manifest)
         print(f"Saved Exp4 case manifest: {EXP4_CASES_PATH}")
+        return
+
+    _, canonical_df = load_exp1_frame(EXP1_RESULTS_PATH)
+    if args.canonicalize_existing:
+        canonicalize_existing_manifest(canonical_df)
         return
 
     total_runs = 0
@@ -316,6 +442,7 @@ def main() -> None:
             case=case,
             planner=planner,
             objective=objective_cache[int(case.score_seed)],
+            canonical_df=canonical_df,
             algorithm_keys=chosen_algorithms,
             run_idx=run_idx,
             total_runs=total_runs,
