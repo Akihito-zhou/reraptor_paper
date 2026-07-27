@@ -296,7 +296,8 @@ draw_framework <- function() {
 
   # Accepted output: a route, not another formula panel.
   polyline_arrow(c(0.822, 0.845), c(0.605, 0.605), col = fig$blue, lwd = 1.0)
-  txt("Yes", 0.834, 0.635, fontsize = 7.5, col = fig$blue)
+  # Keep the branch label clear of both the arrow and the section divider.
+  txt("Yes", 0.854, 0.655, fontsize = 7.5, col = fig$blue)
   txt("Selected itinerary", 0.915, 0.720, fontsize = 9.2, fontface = "bold")
   route_schematic()
   txt("origin", 0.857, 0.505, fontsize = 7.0, col = fig$muted)
