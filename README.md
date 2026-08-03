@@ -4,12 +4,12 @@ This repository contains the manuscript, experiment scripts, generated figures, 
 
 `ReRAPTOR: Reverse-Objective RAPTOR for Time-Budgeted Value-Maximizing Transit Itinerary Planning`
 
-It is a paper-focused extraction from the original `reroute_fukuoka` project. The goal of this repository is to provide a clean supplementary-materials entry point for readers, reviewers, and future reuse.
+It is a paper-focused extraction from the original `reroute_fukuoka` project. The goal of this repository is to provide a clean supplementary-materials entry point for readers, researchers, and future reuse.
 
 ## Contents
 
 - `paper/document/`
-  - `its_symposium_ijit_draft.tex`: the final nine-page ITS Symposium major-revision manuscript
+  - `its_symposium_ijit_draft.tex`: the final nine-page ITS Symposium manuscript
   - the checked manuscript PDF, bibliography, and required Springer class/style files
 - `paper/experiments/`
   - experiment pipelines for Exp1 to Exp4
@@ -62,7 +62,7 @@ The manuscript relies on the bundled Springer class and bibliography files
 already included in the same directory.
 Run `latexmk -pdf its_symposium_ijit_draft.tex` from `paper/document/` to
 rebuild the nine-page A4 manuscript. The repository PDF is a checked preview;
-the journal revision should be uploaded as editable LaTeX source.
+journal submissions should use the editable LaTeX source.
 
 ### 2. Reuse the released outputs directly
 
@@ -71,7 +71,7 @@ The simplest way to inspect the released results is to use the generated files u
 - `paper/results/`
 - `paper/figures/`
 
-These are the frozen canonical outputs used for the major-revision manuscript.
+These are the frozen canonical outputs used for the manuscript.
 See `paper/SUPPLEMENTARY_MATERIALS.md` for the public supplementary-material
 index and `paper/results/README.md` for the released file set's relationship to
 the four experiments.

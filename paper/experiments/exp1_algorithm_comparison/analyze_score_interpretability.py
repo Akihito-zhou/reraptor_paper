@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Interpret the canonical Ours-vs-NSGA-II Stop Score difference.
 
-This Reviewer 2.1 analysis reports paired differences in score, scored-stop
+This analysis reports paired differences in score, scored-stop
 count, and selected reward per scored stop.  For tasks where both algorithms
 have a defined reward density, the exact symmetric identity
 

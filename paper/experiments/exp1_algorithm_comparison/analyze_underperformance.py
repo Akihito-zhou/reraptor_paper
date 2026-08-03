@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Canonical Ours-vs-NSGA-II underperformance analysis for Reviewer 1.1.
+"""Canonical Ours-vs-NSGA-II underperformance analysis.
 
 The paired analysis unit is
 ``(origin, departure, budget, reward/score seed)``.  NSGA-II's five

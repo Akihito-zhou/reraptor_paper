@@ -3,7 +3,7 @@
 This folder contains two linked analyses:
 
 1. the post-Exp1 quality-speed balance analysis; and
-2. the canonical Stop Score hyperparameter sensitivity requested by Reviewer 1.
+2. the canonical Stop Score hyperparameter sensitivity analysis.
 
 The sensitivity runner changes the actual Stop Score search coefficients,
 candidate cap, and bucket beam width. It does not reuse the older
