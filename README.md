@@ -9,8 +9,9 @@ It is a paper-focused extraction from the original `reroute_fukuoka` project. Th
 ## Contents
 
 - `paper/document/`
-  - `its_symposium_ijit_draft.tex`: the final nine-page ITS Symposium manuscript
-  - the checked manuscript PDF, bibliography, and required Springer class/style files
+  - `its_symposium_ijit_draft.tex` and `.pdf`: the revised ten-page manuscript
+  - `supplementary_materials.tex` and `.pdf`: the typeset supplementary tables and figure
+  - bibliography and required Springer class/style files
 - `paper/experiments/`
   - experiment pipelines for Exp1 to Exp4
   - canonical result-merging and reliability/sensitivity analyses
@@ -22,6 +23,8 @@ It is a paper-focused extraction from the original `reroute_fukuoka` project. Th
   - frozen canonical outputs and the derived tables used by the manuscript
 - `paper/SUPPLEMENTARY_MATERIALS.md`
   - direct index to the additional tables, source data, and supplementary images promised in the manuscript
+- `paper/REPRODUCIBILITY.md`
+  - claim-to-artifact map, environment record, verification commands, and the raw-data availability boundary
 - `apps/api/services/` and `apps/api/clients/`
   - the planner and service-layer code reused by the paper experiments
 
@@ -33,7 +36,7 @@ The expected data location is:
 
 - `apps/api/data/`
 
-See [apps/api/data/README.md](apps/api/data/README.md) for the expected directory layout and the current release policy.
+See [apps/api/data/README.md](apps/api/data/README.md) for the expected directory layout and release policy. Exact service-date metadata, SHA-256, and inventory counts are recorded in [`paper/results/timetable_provenance.json`](paper/results/timetable_provenance.json).
 
 What is included here:
 
@@ -57,12 +60,15 @@ The manuscript files are under `paper/document/`.
 Main submission version:
 
 - `paper/document/its_symposium_ijit_draft.tex`
+- `paper/document/supplementary_materials.tex`
 
 The manuscript relies on the bundled Springer class and bibliography files
 already included in the same directory.
 Run `latexmk -pdf its_symposium_ijit_draft.tex` from `paper/document/` to
-rebuild the nine-page A4 manuscript. The repository PDF is a checked preview;
-journal submissions should use the editable LaTeX source.
+rebuild the ten-page A4 manuscript. Run
+`latexmk -pdf supplementary_materials.tex` from the same directory to rebuild
+the six-page A4 supplement. The repository PDFs are checked previews; journal
+submissions should use the editable LaTeX sources.
 
 ### 2. Reuse the released outputs directly
 
@@ -80,10 +86,13 @@ the four experiments.
 
 The experiment scripts expect the original directory layout to remain intact. This repository preserves that layout deliberately.
 
-The scripts depend on:
+The canonical analyses were recorded with Python 3.12.7. Install their pinned
+packages with `python -m pip install -r paper/requirements.txt`. The API
+application has a separate Poetry environment declared in
+`apps/api/pyproject.toml` and `apps/api/poetry.lock`.
 
-- Python 3.11
-- the dependencies declared in `apps/api/pyproject.toml`
+Full solver reruns also require:
+
 - timetable and station data placed under `apps/api/data/`
 
 Typical entry points:
@@ -97,8 +106,16 @@ Typical entry points:
 The repository test suite can be checked with:
 
 ```text
+python -m paper.experiments.verify_manuscript_claims
 python -m pytest paper/experiments/tests -q
+git lfs fsck
 ```
+
+The first command verifies the manuscript's displayed numerical claims against
+the released canonical artifacts. When the proprietary timetable is absent,
+it validates the released provenance metadata instead of treating the withheld
+file as publicly downloadable. See
+[`paper/REPRODUCIBILITY.md`](paper/REPRODUCIBILITY.md) for the complete mapping.
 
 ## Repository Layout
 

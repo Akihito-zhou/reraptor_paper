@@ -1,11 +1,14 @@
 param(
-    [string]$DateTag = "20260725"
+    [string]$DateTag = "20260725",
+    [string]$PythonExe = ""
 )
 
 $ErrorActionPreference = "Stop"
 
 $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..\..")).Path
-$PythonExe = "C:\Users\12730\anaconda3\envs\research\python.exe"
+if ([string]::IsNullOrWhiteSpace($PythonExe)) {
+    $PythonExe = (Get-Command python -ErrorAction Stop).Source
+}
 $ResultDir = Join-Path $RepoRoot "paper\results\exp3_parameter_sensitivity"
 $LogDir = Join-Path $ResultDir "logs"
 $QueueLog = Join-Path $LogDir "sensitivity_queue_$DateTag.log"

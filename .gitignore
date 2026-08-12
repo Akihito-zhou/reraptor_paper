@@ -27,6 +27,7 @@ Thumbs.db
 *.lot
 *.nav
 *.snm
+paper/document/example.eps
 
 # Local data and secrets
 .env

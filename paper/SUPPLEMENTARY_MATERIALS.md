@@ -3,6 +3,18 @@
 This page is the index for the additional tables, source data files, and
 supplementary images announced in the manuscript.
 
+The checked, typeset supplement is available as
+[`document/supplementary_materials.pdf`](document/supplementary_materials.pdf),
+with editable source at
+[`document/supplementary_materials.tex`](document/supplementary_materials.tex).
+Its numbered evidence is organized as follows:
+
+- S1--S3: Experiment 1 score interpretation, comparison detail, and failure modes
+- S4: Experiment 2 ablation results
+- S5: Experiment 3 parameter sensitivity
+- S6 and Fig. S1: Experiment 4 route cases
+- S7: scoring and baseline configuration definitions
+
 ## Additional Tables
 
 - Experiment 1 overall summary:
@@ -57,4 +69,8 @@ browser preview where appropriate.
 The released JSON and CSV files are the source data behind the paper's reported
 results. Raw Fukuoka timetable files obtained through Ekispert are not
 redistributed because they are proprietary. Their expected local layout is
-documented in [`../apps/api/data/README.md`](../apps/api/data/README.md).
+documented in [`../apps/api/data/README.md`](../apps/api/data/README.md), and
+their service-date checksum and inventory are recorded in
+[`results/timetable_provenance.json`](results/timetable_provenance.json).
+The full claim-to-artifact mapping and verification commands are in
+[`REPRODUCIBILITY.md`](REPRODUCIBILITY.md).

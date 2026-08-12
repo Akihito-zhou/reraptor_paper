@@ -3,7 +3,7 @@
 This folder contains two linked analyses:
 
 1. the post-Exp1 quality-speed balance analysis; and
-2. the canonical Stop Score hyperparameter sensitivity analysis.
+2. the canonical Stop Score hyperparameter sensitivity requested by Reviewer 1.
 
 The sensitivity runner changes the actual Stop Score search coefficients,
 candidate cap, and bucket beam width. It does not reuse the older
@@ -26,7 +26,8 @@ geometry-objective weight experiment.
     checkpoint/resume and complete parameter metadata
 - `run_sensitivity_queue.ps1`
   - Runs all 18 OAT configurations and four new interaction corner cells
-    serially in the Python 3.10 `research` environment
+    serially in the active Python environment (the canonical runs used Python
+    3.12.7); `-PythonExe` can select a different interpreter explicitly
 - `../common/merge_sensitivity_shards.py`
   - Strictly validates the frozen configuration snapshots, shared metadata,
     exact panel task grids, source hashes, and global task-key uniqueness
@@ -68,13 +69,17 @@ OAT/default results after filtering to the same task subset.
 ## Output Paths
 
 - Results:
-  - `paper/results/exp3_parameter_sensitivity/exp3_results_canonical_exp1_final_10alg_20260727.json`
+  - `paper/results/exp3_parameter_sensitivity/exp3_results.json`
+  - `paper/results/exp3_parameter_sensitivity/exp3_results_quick.json`
+  - `paper/results/exp3_parameter_sensitivity/exp3_analysis_stats.json`
+  - `paper/results/exp3_parameter_sensitivity/exp3_full_text_analysis.md`
   - `paper/results/exp3_parameter_sensitivity/sensitivity_results_canonical_oat_18config_20260727.json`
   - `paper/results/exp3_parameter_sensitivity/sensitivity_results_canonical_interaction_4corner_20260727.json`
   - `paper/results/exp3_parameter_sensitivity/sensitivity_canonical_analysis_20260727.json`
   - `paper/results/exp3_parameter_sensitivity/sensitivity_canonical_*.csv`
 - Figures / tables:
   - `paper/figures/exp3/exp3_quality_speed_scatter.png`
+  - `paper/figures/exp3/exp3_pareto_front_rate.png`
   - `paper/figures/exp3/exp3_ideal_distance.png`
   - `paper/figures/exp3/exp3_tradeoff_summary.md`
   - `paper/figures/exp3/exp3_ours_vs_nsga_tradeoff.md`
@@ -85,22 +90,30 @@ OAT/default results after filtering to the same task subset.
 ## Typical Usage
 
 ```bash
-# 1) rebuild the full balance analysis
+# 1) quick smoke subset
+python paper/experiments/exp3_parameter_sensitivity/run_exp3.py --quick
+python paper/experiments/exp3_parameter_sensitivity/plot_exp3.py --quick
+python paper/experiments/exp3_parameter_sensitivity/generate_exp3_full_analysis.py \
+  --results paper/results/exp3_parameter_sensitivity/exp3_results_quick.json \
+  --stats-out paper/results/exp3_parameter_sensitivity/exp3_analysis_stats_quick.json \
+  --md-out paper/results/exp3_parameter_sensitivity/exp3_full_text_analysis_quick.md
+
+# 2) full analysis
 python paper/experiments/exp3_parameter_sensitivity/run_exp3.py
 python paper/experiments/exp3_parameter_sensitivity/plot_exp3.py
 python paper/experiments/exp3_parameter_sensitivity/generate_exp3_full_analysis.py
 
-# 2) validate one sensitivity configuration before a full run
+# 3) one sensitivity smoke configuration
 python -m paper.experiments.exp3_parameter_sensitivity.run_sensitivity \
   --panel oat --include-default --configs default \
   --origins hakata --depart-times 420 --budgets 120 \
-  --score-seeds 20260323 --output tmp/sensitivity_default_check.json
+  --score-seeds 20260323 --output tmp/sensitivity_default_smoke.json
 
-# 3) canonical serial queue (PowerShell)
+# 4) canonical serial queue (PowerShell)
 powershell -ExecutionPolicy Bypass -File \
   paper/experiments/exp3_parameter_sensitivity/run_sensitivity_queue.ps1
 
-# 4) after all 22 shards finish, merge each panel with the strict merger,
+# 5) after all 22 shards finish, merge each panel with the strict merger,
 # then analyze and render (the exact --input list is recorded in the merged
 # payload's source_shards metadata)
 python -m paper.experiments.exp3_parameter_sensitivity.analyze_sensitivity

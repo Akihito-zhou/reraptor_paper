@@ -1,0 +1,20 @@
+{
+  "schema_version": "reraptor-timetable-provenance-v1",
+  "provider": "Ekispert",
+  "service_date": "20251224",
+  "weekday": "Wednesday",
+  "local_snapshot": "apps/api/data/timetables/segments_fukuoka_20251224.csv",
+  "sha256": "319d443ac097f8964f8774d38fc63c6c8f7ef90e505eb167ffd38bc317727c82",
+  "inventory": {
+    "scheduled_segments": 304344,
+    "unique_stops": 1032,
+    "unique_lines": 302
+  },
+  "transfer_buffer_minutes": 3,
+  "effective_time_charge_minutes_per_unique_scored_non_origin_stop": 10,
+  "public_release": {
+    "raw_snapshot_redistributed": false,
+    "reason": "The public paper companion does not redistribute provider-derived raw timetable data.",
+    "authorized_retrieval_note": "Exact raw-input reproduction requires licensed Ekispert access and the authors' input-edge inventory. These prerequisites are not redistributed; authorized researchers should obtain equivalent data under the provider's terms and place it at local_snapshot."
+  }
+}
