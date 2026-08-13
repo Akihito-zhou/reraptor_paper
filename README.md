@@ -1,6 +1,6 @@
 # ReRAPTOR Paper Repository
 
-This repository contains the manuscript, experiment scripts, generated figures, and released result files for the ReRAPTOR paper:
+This repository contains the supplementary materials, experiment scripts, generated figures, and released result files for the ReRAPTOR paper:
 
 `ReRAPTOR: Reverse-Objective RAPTOR for Time-Budgeted Value-Maximizing Transit Itinerary Planning`
 
@@ -9,9 +9,7 @@ It is a paper-focused extraction from the original `reroute_fukuoka` project. Th
 ## Contents
 
 - `paper/document/`
-  - `its_symposium_ijit_draft.tex` and `.pdf`: the revised ten-page manuscript
   - `supplementary_materials.tex` and `.pdf`: the typeset supplementary tables and figure
-  - bibliography and required Springer class/style files
 - `paper/experiments/`
   - experiment pipelines for Exp1 to Exp4
   - canonical result-merging and reliability/sensitivity analyses
@@ -40,35 +38,30 @@ See [apps/api/data/README.md](apps/api/data/README.md) for the expected director
 
 What is included here:
 
-- manuscript source
+- supplementary-material source
 - generated figures
 - released experiment outputs
 - experiment and planner code
 
 What is not included here:
 
+- the article manuscript itself (submitted separately to the journal)
 - proprietary raw timetable files from Ekispert
 - private credentials or API keys
 - unrelated web frontend and infrastructure files from the original project
 
 ## Reproducing the Paper Assets
 
-### 1. Compile the manuscript
+### 1. Compile the supplementary materials
 
-The manuscript files are under `paper/document/`.
+The supplementary-material source is under `paper/document/`:
 
-Main submission version:
-
-- `paper/document/its_symposium_ijit_draft.tex`
 - `paper/document/supplementary_materials.tex`
 
-The manuscript relies on the bundled Springer class and bibliography files
-already included in the same directory.
-Run `latexmk -pdf its_symposium_ijit_draft.tex` from `paper/document/` to
-rebuild the ten-page A4 manuscript. Run
-`latexmk -pdf supplementary_materials.tex` from the same directory to rebuild
-the six-page A4 supplement. The repository PDFs are checked previews; journal
-submissions should use the editable LaTeX sources.
+Run `latexmk -pdf supplementary_materials.tex` from that directory to rebuild
+the six-page A4 supplement. The repository PDF is a checked preview; the
+manuscript itself is not distributed in this repository (see the journal
+submission for the article text).
 
 ### 2. Reuse the released outputs directly
 
