@@ -47,3 +47,10 @@ paper/experiments/archive/
 paper/ijit_major_revision_plan.md
 paper/reference_audit_*.md
 paper/reviewer_comment_audit_*.md
+
+# Reproduction environments, local outputs, and credentials
+.venv*/
+tmp/
+.env.*
+*.pem
+*.key

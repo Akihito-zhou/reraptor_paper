@@ -43,6 +43,12 @@ def load_planner(*, force_reload: bool = False):
 
     planner = PlannerService(data_dir=PLANNER_DATA_DIR, enable_realtime=False)
     planner.ensure_data_loaded()
+    if not planner.stations or not planner.static_edges:
+        raise RuntimeError(
+            "Planner inputs are missing or yielded an empty network. "
+            "Install the six authorized files described in apps/api/data/README.md "
+            "and run python -m paper.experiments.check_reproduction --require-data."
+        )
 
     _planner_instance = planner
     return planner

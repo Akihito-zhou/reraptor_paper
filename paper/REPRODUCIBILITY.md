@@ -1,3 +1,7 @@
+# Reader quickstart
+
+See [REPRODUCTION_TUTORIAL.md](REPRODUCTION_TUTORIAL.md) for the tested public-clone workflow and [the corrected six-file input layout](../apps/api/data/README.md). The original source manifest is not distributed; public analyses mark its provenance gates as unavailable.
+
 # ReRAPTOR manuscript reproducibility record
 
 This record maps the manuscript claims to the exact input, code, canonical
@@ -22,8 +26,9 @@ Exact raw-input reproduction requires licensed Ekispert access and the
 authors' input-edge inventory; those prerequisites cannot be redistributed.
 Researchers with equivalent authorization can obtain the same service date
 under the provider's terms and place the snapshot at the authorized local path
-above. The released canonical outputs allow every displayed numerical claim to
-be checked without that proprietary file.
+above, together with the other five inputs listed in the data README. The
+released canonical outputs support the numerical checks encoded by the verifier
+without private inputs.
 
 ## Environment
 
@@ -95,21 +100,9 @@ only on a clean copy or after preserving the released files. Full solver reruns
 are expensive; the experiment-specific READMEs document the queue commands and
 frozen configuration grids.
 
-## Public-release gate
+## Public release maintenance
 
-The package is not ready to be described as publicly available until all of the
-following are true:
-
-1. Anonymous access to the repository URL succeeds.
-2. Git LFS objects download successfully in a fresh clone.
-3. `paper/document/supplementary_materials.tex`, its PDF, and this
-   reproducibility record are committed. Editorial response and marked-review
-   files remain outside the public paper companion.
-4. Timetable redistribution permission is documented, or provider-derived raw
-   data are excluded and their provenance, checksum, inventory, and access
-   boundary are documented without claiming an unavailable public command.
-5. The three verification commands above pass in a fresh environment.
-6. The authors confirm and add any declarations required by the target venue,
-   including funding, conflicts of interest, author contributions, and use of
-   generative AI. These statements require author knowledge and must not be
-   inferred from the code or manuscript.
+The companion is publicly available. For subsequent code releases, use a fresh
+clone and isolated environment, run the tutorial's public-only checks, and
+inspect the staged file list to keep private inputs and credentials excluded.
+Git LFS checks apply only when LFS-managed objects are present.

@@ -642,7 +642,8 @@ def main() -> None:
         description="Analyze canonical Ours-vs-NSGA-II underperformance"
     )
     parser.add_argument("--input", type=Path, default=DEFAULT_RESULT)
-    parser.add_argument("--source-manifest", type=Path, default=DEFAULT_MANIFEST)
+    parser.add_argument("--source-manifest", type=Path, default=None,
+                        help="Optional original manifest; an explicit missing path is an error.")
     parser.add_argument("--results-dir", type=Path, default=DEFAULT_RESULTS_DIR)
     parser.add_argument("--figures-dir", type=Path, default=DEFAULT_FIGURES_DIR)
     parser.add_argument("--suffix", default="20260723")
@@ -652,13 +653,17 @@ def main() -> None:
     args = parser.parse_args()
 
     result_path = args.input.resolve()
-    manifest_path = args.source_manifest.resolve()
+    manifest_path = (args.source_manifest or DEFAULT_MANIFEST).resolve()
+    if args.source_manifest is not None and not manifest_path.is_file():
+        raise FileNotFoundError(manifest_path)
+    if not manifest_path.is_file():
+        print("INFO original source manifest unavailable; provenance gates will be null")
     results_dir = args.results_dir.resolve()
     figures_dir = args.figures_dir.resolve()
     if args.bootstrap_reps < 1000:
         raise ValueError("--bootstrap-reps must be at least 1000 for a formal analysis")
-    if not result_path.exists() or not manifest_path.exists():
-        raise FileNotFoundError("Canonical result and source manifest must both exist")
+    if not result_path.is_file():
+        raise FileNotFoundError(result_path)
     results_dir.mkdir(parents=True, exist_ok=True)
     figures_dir.mkdir(parents=True, exist_ok=True)
 
@@ -764,7 +769,8 @@ def main() -> None:
         bootstrap_seed=args.bootstrap_seed,
     )
 
-    source_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    source_manifest = (json.loads(manifest_path.read_text(encoding="utf-8"))
+                       if manifest_path.is_file() else {})
     artifacts = [
         task_csv,
         summary_csv,
@@ -780,8 +786,8 @@ def main() -> None:
         "source": {
             "result_path": display_path(result_path),
             "result_sha256": sha256_file(result_path),
-            "manifest_path": display_path(manifest_path),
-            "manifest_sha256": sha256_file(manifest_path),
+            "manifest_path": display_path(manifest_path) if manifest_path.is_file() else None,
+            "manifest_sha256": sha256_file(manifest_path) if manifest_path.is_file() else None,
             "canonical_result_commit": source_manifest.get("git", {}).get("commit"),
             "source_integrity_gate_passed": source_manifest.get(
                 "integrity_gate_passed"

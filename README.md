@@ -6,6 +6,12 @@ This repository contains the supplementary materials, experiment scripts, genera
 
 It is a paper-focused extraction from the original `reroute_fukuoka` project. The goal of this repository is to provide a clean supplementary-materials entry point for readers, researchers, and future reuse.
 
+## Start here
+
+Follow the [step-by-step reproduction tutorial](paper/REPRODUCTION_TUTORIAL.md)
+for clean installation, public-only checks, authorized input preparation, all
+four experiments, and troubleshooting. Private data is never included.
+
 ## Contents
 
 - `paper/document/`

@@ -19,7 +19,7 @@ scripts <- c(
 for (script in scripts) {
   message("Rendering ", script)
   status <- system2(
-    command = file.path(R.home("bin"), "Rscript.exe"),
+    command = file.path(R.home("bin"), if (.Platform$OS.type == "windows") "Rscript.exe" else "Rscript"),
     args = shQuote(file.path(script_dir, script))
   )
   if (!identical(status, 0L)) {
