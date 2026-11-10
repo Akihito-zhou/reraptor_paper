@@ -1,144 +1,107 @@
-# ReRAPTOR Paper Repository
+<h1 align="center">ReRAPTOR</h1>
 
-This repository contains the supplementary materials, experiment scripts, generated figures, and released result files for the ReRAPTOR paper:
+<p align="center">
+  <strong>Reverse-Objective RAPTOR for Time-Budgeted Value-Maximizing Transit Itinerary Planning</strong>
+</p>
 
-`ReRAPTOR: Reverse-Objective RAPTOR for Time-Budgeted Value-Maximizing Transit Itinerary Planning`
+<p align="center">
+  <a href="paper/REPRODUCTION_TUTORIAL.md">Reproduction tutorial</a> &middot;
+  <a href="paper/SUPPLEMENTARY_MATERIALS.md">Supplementary materials</a> &middot;
+  <a href="paper/results/README.md">Results</a> &middot;
+  <a href="paper/REPRODUCIBILITY.md">Reproducibility record</a>
+</p>
 
-It is a paper-focused extraction from the original `reroute_fukuoka` project. The goal of this repository is to provide a clean supplementary-materials entry point for readers, researchers, and future reuse.
+<p align="center">
+  <a href="assets/reraptor-overview.png">
+    <img src="assets/reraptor-overview.png" width="1200" alt="ReRAPTOR overview: an illustrative three-hour transit itinerary visits stops A, B and C for 90 points while following scheduled rides. The Fukuoka benchmark compares stop value and generation time with NSGA-II.">
+  </a>
+</p>
+
+ReRAPTOR chooses stops and scheduled transit rides to maximize collected stop
+value within a time budget. This paper companion provides the planner, ten
+comparison methods, four experiment pipelines, and the released results used
+in the manuscript.
 
 ## Start here
 
-Follow the [step-by-step reproduction tutorial](paper/REPRODUCTION_TUTORIAL.md)
-for clean installation, public-only checks, authorized input preparation, all
-four experiments, and troubleshooting. Private data is never included.
+| I want to | Go to |
+| --- | --- |
+| Install the code and reproduce the experiments | [Step-by-step tutorial](paper/REPRODUCTION_TUTORIAL.md) |
+| Check reported results without private inputs | [Result verification](paper/REPRODUCTION_TUTORIAL.md#2-clone-and-create-an-isolated-python-environment) |
+| Read supplementary tables and figures | [Supplementary materials](paper/SUPPLEMENTARY_MATERIALS.md) |
+| Prepare authorized inputs for a solver rerun | [Data layout and schemas](apps/api/data/README.md) |
 
-## Contents
+### Quick check (no private inputs required)
 
-- `paper/document/`
-  - `supplementary_materials.tex` and `.pdf`: the typeset supplementary tables and figure
-- `paper/experiments/`
-  - experiment pipelines for Exp1 to Exp4
-  - canonical result-merging and reliability/sensitivity analyses
-  - R scripts used to produce the manuscript's vector PDF figures
-  - common utilities and algorithm implementations used in the paper
-- `paper/figures/`
-  - generated figures used in the manuscript and supplementary materials
-- `paper/results/`
-  - frozen canonical outputs and the derived tables used by the manuscript
-- `paper/SUPPLEMENTARY_MATERIALS.md`
-  - direct index to the additional tables, source data, and supplementary images promised in the manuscript
-- `paper/REPRODUCIBILITY.md`
-  - claim-to-artifact map, environment record, verification commands, and the raw-data availability boundary
-- `apps/api/services/` and `apps/api/clients/`
-  - the planner and service-layer code reused by the paper experiments
+Use Python **3.12** from the repository root. Create and activate a virtual
+environment first; the [tutorial](paper/REPRODUCTION_TUTORIAL.md#2-clone-and-create-an-isolated-python-environment)
+has Windows, Linux, and macOS instructions.
 
-## Data Availability
-
-The experiments depend on Fukuoka transit schedule data provided through Ekispert services. Those raw timetable files are not redistributed in this repository.
-
-The expected data location is:
-
-- `apps/api/data/`
-
-See [apps/api/data/README.md](apps/api/data/README.md) for the expected directory layout and release policy. Exact service-date metadata, SHA-256, and inventory counts are recorded in [`paper/results/timetable_provenance.json`](paper/results/timetable_provenance.json).
-
-What is included here:
-
-- supplementary-material source
-- generated figures
-- released experiment outputs
-- experiment and planner code
-
-What is not included here:
-
-- the article manuscript itself (submitted separately to the journal)
-- proprietary raw timetable files from Ekispert
-- private credentials or API keys
-- unrelated web frontend and infrastructure files from the original project
-
-## Reproducing the Paper Assets
-
-### 1. Compile the supplementary materials
-
-The supplementary-material source is under `paper/document/`:
-
-- `paper/document/supplementary_materials.tex`
-
-Run `latexmk -pdf supplementary_materials.tex` from that directory to rebuild
-the six-page A4 supplement. The repository PDF is a checked preview; the
-manuscript itself is not distributed in this repository (see the journal
-submission for the article text).
-
-### 2. Reuse the released outputs directly
-
-The simplest way to inspect the released results is to use the generated files under:
-
-- `paper/results/`
-- `paper/figures/`
-
-These are the frozen canonical outputs used for the manuscript.
-See `paper/SUPPLEMENTARY_MATERIALS.md` for the public supplementary-material
-index and `paper/results/README.md` for the released file set's relationship to
-the four experiments.
-
-### 3. Re-run experiments
-
-The experiment scripts expect the original directory layout to remain intact. This repository preserves that layout deliberately.
-
-The canonical analyses were recorded with Python 3.12.7. Install their pinned
-packages with `python -m pip install -r paper/requirements.txt`. The API
-application has a separate Poetry environment declared in
-`apps/api/pyproject.toml` and `apps/api/poetry.lock`.
-
-Full solver reruns also require:
-
-- timetable and station data placed under `apps/api/data/`
-
-Typical entry points:
-
-- `paper/experiments/exp1_algorithm_comparison/run_exp1.py`
-- `paper/experiments/exp2_ablation_study/run_exp2.py`
-- `paper/experiments/exp3_parameter_sensitivity/run_exp3.py`
-- `paper/experiments/exp3_parameter_sensitivity/run_sensitivity.py`
-- `paper/experiments/exp4_route_visualization/run_exp4.py`
-
-The repository test suite can be checked with:
-
-```text
+```sh
+python -m pip install -r paper/requirements.txt
+python -m paper.experiments.check_reproduction
+python -m pytest -q paper/experiments/tests
 python -m paper.experiments.verify_manuscript_claims
-python -m pytest paper/experiments/tests -q
-git lfs fsck
 ```
 
-The first command verifies the manuscript's displayed numerical claims against
-the released canonical artifacts. When the proprietary timetable is absent,
-it validates the released provenance metadata instead of treating the withheld
-file as publicly downloadable. See
-[`paper/REPRODUCIBILITY.md`](paper/REPRODUCIBILITY.md) for the complete mapping.
+These commands check installation, scoring/protocol tests, and released result
+claims. An end-to-end solver rerun requires the six authorized private inputs.
 
-## Repository Layout
+## How it works
 
-```text
-reraptor_paper/
-|- apps/
-|  |- api/
-|  |  |- clients/
-|  |  |- data/
-|  |  |- services/
-|  |  |- poetry.lock
-|  |  `- pyproject.toml
-`- paper/
-   |- document/
-   |- experiments/
-   |- figures/
-   `- results/
-```
+<p align="center">
+  <a href="paper/figures/method/ours_framework_flow.pdf">
+    <img src="paper/figures/method/ours_framework_flow.png" width="1200" alt="ReRAPTOR workflow: a travel request and transit network feed initialization, timetable expansion, candidate updates and pruning; task-specific scoring and search controls guide the selected itinerary.">
+  </a>
+</p>
 
-## Notes
+Scheduled services define feasible expansions. Task-specific scoring evaluates
+candidate routes, while a beam layer, heuristic dominance, and optional penalties
+control the search. The output is a selected itinerary with its score and travel
+time. Click the workflow to open the vector PDF.
 
-- The repository is intended as a paper companion, not as a production application.
-- Editorial correspondence, response letters, internal revision notes, pilot
-  runs, smoke tests, and superseded intermediate outputs are intentionally
-  excluded.
-- Some experiment scripts assume access to the original planner data and therefore will not run end-to-end without the withheld timetable files.
-- Generated result JSON and figure files are included so the paper remains inspectable even without redistributing the raw data.
+## Experiments
+
+| Experiment | Focus | Instructions |
+| --- | --- | --- |
+| **Exp1** | Ten algorithms / 22,800 records | [Algorithm comparison](paper/experiments/exp1_algorithm_comparison/README.md) |
+| **Exp2** | Eight configurations / 4,800 records | [Pruning ablation](paper/experiments/exp2_ablation_study/README.md) |
+| **Exp3** | 18 OAT configurations and four interaction corners / 11,088 runs | [Parameter sensitivity](paper/experiments/exp3_parameter_sensitivity/README.md) |
+| **Exp4** | Representative successes, tradeoffs, and a counterexample | [Route case studies](paper/experiments/exp4_route_visualization/README.md) |
+
+The overview's benchmark figures summarize 600 tasks with synthetic stop rewards;
+failed routes receive zero score. See the [released results](paper/results/README.md)
+and [claim-to-artifact map](paper/REPRODUCIBILITY.md) for the underlying evidence.
+
+## Data availability
+
+**Private transit inputs and credentials are not distributed.** The public
+results support auditing and statistical analysis; full solver reproduction
+requires authorized copies of all six planner inputs. Follow the
+[input guide](apps/api/data/README.md) and run the exact-snapshot check before
+rerunning the solvers.
+
+The frozen timetable is for **24 December 2025**. Its checksum and inventory are
+recorded in [the provenance record](paper/results/timetable_provenance.json).
+The submitted article, editorial correspondence, and unrelated application
+frontend are outside this companion repository.
+
+<details>
+<summary><strong>Repository guide</strong></summary>
+
+| Location | Contents |
+| --- | --- |
+| [apps/api/services](apps/api/services/) | Planner and timetable services |
+| [paper/experiments](paper/experiments/) | Algorithms, experiment runners, analyses, and tests |
+| [paper/experiments/r_visualization](paper/experiments/r_visualization/README.md) | R figure rendering pipeline |
+| [paper/results](paper/results/README.md) | Frozen canonical outputs and derived tables |
+| [paper/figures](paper/figures/) | Manuscript and supplementary figures |
+| [paper/document](paper/document/) | Supplementary document source and PDF |
+
+To rebuild the supplement, run `latexmk -pdf supplementary_materials.tex` from
+`paper/document/` with a TeX distribution installed. Figure rendering and full
+experiment commands are documented in the reproduction tutorial.
+
+</details>
+
+<sub>Overview visual: exported from the authors' 3-C-03 presentation. Workflow: the paper's ReRAPTOR method figure. Code license: <a href="LICENSE">MIT</a>.</sub>
